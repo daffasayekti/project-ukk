@@ -17,10 +17,10 @@
                         </li>
                         <li class="dropdown">
                             <a href="#" data-toggle="dropdown" class="nav-link nav-link-lg nav-link-user">
-                                <img alt="image" src="/assets/images/resource_berita/home_4.jpg" class="rounded-circle mr-1" width="40" height="40">
+                                <img alt="image" src="/assets/images/profile_users/default.png" class="rounded-circle mr-1" width="30" height="30">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a href="features-profile.html" class="dropdown-item has-icon">
+                                <a href="<?= base_url('/login'); ?>" class="dropdown-item has-icon">
                                     <i class="fas fa-sign-in-alt"></i> Login
                                 </a>
                                 <a href="features-activities.html" class="dropdown-item has-icon">
@@ -33,7 +33,7 @@
                                     <i class="fas fa-money-bill"></i> Menu Berlangganan
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item has-icon text-danger">
+                                <a href="<?= base_url('/logout'); ?>" class="dropdown-item has-icon text-danger">
                                     <i class="fas fa-sign-out-alt"></i> Logout
                                 </a>
                             </div>

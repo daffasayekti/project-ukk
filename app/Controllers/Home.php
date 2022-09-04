@@ -16,6 +16,7 @@ class Home extends BaseController
 
     public function index()
     {
+        // dd(session());
         helper(['tanggal_helper']);
 
         $data = [

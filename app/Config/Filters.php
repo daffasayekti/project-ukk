@@ -23,6 +23,11 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        \CodeIgniter\Validation\Rules::class,
+        \CodeIgniter\Validation\FormatRules::class,
+        \CodeIgniter\Validation\FileRules::class,
+        \CodeIgniter\Validation\CreditCardRules::class,
+        \Myth\Auth\Authentication\Passwords\ValidationRules::class,
     ];
 
     /**
@@ -33,7 +38,7 @@ class Filters extends BaseConfig
      */
     public $globals = [
         'before' => [
-            // 'honeypot',
+            'honeypot',
             // 'csrf',
             // 'invalidchars',
         ],
