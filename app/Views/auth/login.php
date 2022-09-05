@@ -13,6 +13,7 @@
             </div>
 
             <div class="card-body">
+                <?= view('Myth\Auth\Views\_message_block') ?>
                 <form action="<?= route_to('login') ?>" method="post" class="needs-validation">
                     <?= csrf_field() ?>
                     <?php if ($config->validFields === ['email']) : ?>

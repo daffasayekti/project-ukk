@@ -13,6 +13,7 @@
             </div>
 
             <div class="card-body">
+                <?= view('Myth\Auth\Views\_message_block') ?>
                 <form action="<?= route_to('reset-password') ?>" method="post" class="needs-validation">
                     <?= csrf_field() ?>
                     <div class="form-group">

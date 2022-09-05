@@ -13,6 +13,7 @@
             </div>
 
             <div class="card-body">
+                <?= view('Myth\Auth\Views\_message_block') ?>
                 <form action="<?= route_to('register') ?>" method="post">
                     <?= csrf_field() ?>
                     <div class="form-group">

@@ -11,8 +11,8 @@
             <div class="card-header">
                 <h4><?= lang('Auth.forgotPassword') ?></h4>
             </div>
-            <?= view('Myth\Auth\Views\_message_block') ?>
             <div class="card-body">
+                <?= view('Myth\Auth\Views\_message_block') ?>
                 <form action="<?= route_to('forgot') ?>" method="post">
                     <?= csrf_field() ?>
                     <div class="form-group">
