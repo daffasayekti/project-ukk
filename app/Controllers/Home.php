@@ -7,7 +7,7 @@ use App\Models\BeritaModel;
 class Home extends BaseController
 {
     protected $beritaModel;
-    protected $helpers = ['tanggal_helper'];
+    protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
     {
@@ -16,8 +16,8 @@ class Home extends BaseController
 
     public function index()
     {
-        // dd(session());
         helper(['tanggal_helper']);
+        helper(['auth']);
 
         $data = [
             'title' => 'World Time',
