@@ -75,7 +75,7 @@
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>
-                                    <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item">
+                                    <a href="<?= base_url('/admin/dashboard'); ?>" class="dropdown-item">
                                         <i class="fa-solid fa-user-tie fa-sm fa-fw mr-2 text-gray-400"></i>
                                         My Admin
                                     </a>
