@@ -1,10 +1,10 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="<?= site_url(); ?>">E-News</a>
+            <a href="<?= base_url('/admin/dashboard'); ?>">My-Admin</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="<?= site_url(); ?>">NW</a>
+            <a href="<?= base_url('/admin/dashboard'); ?>">MA</a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Berita Terbaru</li>
@@ -63,10 +63,5 @@
                 </li>
             <?php endif; ?>
         </ul>
-        <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-            <a href="https://getstisla.com/docs" class="btn btn-primary btn-lg btn-block btn-icon-split">
-                <i class="fas fa-rocket"></i> Berlangganan
-            </a>
-        </div>
     </aside>
 </div>

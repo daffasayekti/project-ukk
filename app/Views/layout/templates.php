@@ -15,12 +15,12 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- My CSS -->
-    <link rel="stylesheet" href="<?= base_url('/css/style.css'); ?>">
-    <link rel="stylesheet" href="<?= base_url('/css/components.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('/assets/css/style.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('/assets/css/components.css'); ?>">
 
     <!-- Trix Editor -->
-    <link rel="stylesheet" type="text/css" href="<?= base_url('/css/trix.css'); ?>">
-    <script type="text/javascript" src="<?= base_url('/js/trix.js'); ?>"></script>
+    <link rel="stylesheet" type="text/css" href="<?= base_url('/assets/css/trix.css'); ?>">
+    <script type="text/javascript" src="<?= base_url('/assets/js/trix.js'); ?>"></script>
 
     <style>
         trix-toolbar [data-trix-button-group="file-tools"] {
@@ -33,10 +33,10 @@
     <div id="app">
         <div class="main-wrapper">
 
-            <?= $this->include('/layouts/navbars') ?>
-            <?= $this->include('/layouts/sidebar') ?>
+            <?= $this->include('/layout/navbars') ?>
+            <?= $this->include('/layout/sidebar') ?>
             <?= $this->renderSection('content'); ?>
-            <?= $this->include('/layouts/footer'); ?>
+            <?= $this->include('/layout/footer'); ?>
 
         </div>
     </div>
@@ -51,9 +51,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
     <!-- My JS -->
-    <script src="<?= base_url('/js/stisla.js'); ?>"></script>
-    <script src="<?= base_url('/js/scripts.js'); ?>"></script>
-    <script src="<?= base_url('/js/custom.js'); ?>"></script>
+    <script src="<?= base_url('/assets/js/stisla.js'); ?>"></script>
+    <script src="<?= base_url('/assets/js/scripts.js'); ?>"></script>
+    <script src="<?= base_url('/assets/js/custom.js'); ?>"></script>
     <script>
         function previewImg() {
             const gambar = document.querySelector('#image-upload');
