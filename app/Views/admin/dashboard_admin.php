@@ -76,20 +76,21 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive-sm table-striped">
-                        <table class="table table-bordered table-md" id="TableUserslogin">
+                        <table class="table table-bordered table-md" id="table">
                             <tr class="text-center">
                                 <th>No</th>
                                 <th>Email</th>
                                 <th>Waktu Login</th>
                             </tr>
+
                             <?php
                             $no = 1;
                             foreach ($data_users_login as $value) :
                             ?>
-                                <tr>
-                                    <td class="text-center"><?= $no++; ?></td>
-                                    <td class="text-center"><?= $value['email']; ?></td>
-                                    <td class="text-center"><?= $value['date']; ?></td>
+                                <tr class="text-center">
+                                    <td><?= $no++; ?></td>
+                                    <td><?= $value['email']; ?></td>
+                                    <td><?= $value['date']; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
