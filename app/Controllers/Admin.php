@@ -23,10 +23,23 @@ class Admin extends BaseController
 
     public function dashboard()
     {
+        helper(['tanggal_helper']);
+
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->loginsModel->searchDataUsers($keyword);
+        } else {
+            $data_users_login = $this->loginsModel;
+        }
+
         $data = [
             'title' => 'Dashboard',
-            'data_users_login' => $this->loginsModel->getLoginUsers(),
+            'data_users_login' => $this->loginsModel->where('success', 1)->orderBy('id', 'DESC')->paginate(10, 'auth_logins'),
+            'pager' => $this->loginsModel->pager,
+            'currentPage' => $this->request->getVar('page_auth_logins') ? $this->request->getVar('page_auth_logins') : 1,
             'count_users' => $this->usersModel->countUsers(),
+            'keyword' => $keyword,
             'count_politik' => $this->beritaModel->countPolitik(),
             'count_kecelakaan' => $this->beritaModel->countKecelakaan(),
             'count_ekonomi' => $this->beritaModel->countEkonomi()

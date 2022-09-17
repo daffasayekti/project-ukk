@@ -8,12 +8,8 @@ class LoginsModel extends Model
 {
     protected $table = 'auth_logins';
 
-    public function getLoginUsers()
+    public function searchDataUsers($keyword)
     {
-        $sql = "SELECT * FROM auth_logins WHERE success = 1 ORDER BY id DESC LIMIT 30";
-
-        $execute = $this->db->query($sql);
-
-        return $execute->getResultArray();
+        return $this->table('auth_logins')->like('email', $keyword);
     }
 }

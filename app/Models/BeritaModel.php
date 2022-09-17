@@ -168,21 +168,21 @@ class BeritaModel extends Model
 
     public function countPolitik()
     {
-        $query = $this->db->query("SELECT * FROM tb_berita WHERE kategori_id = 3");
+        $query = $this->db->query("SELECT * FROM tb_berita WHERE kategori_id = 3 AND status_berita = 1");
         $countUsers = $query->getNumRows();
         return $countUsers;
     }
 
     public function countKecelakaan()
     {
-        $query = $this->db->query("SELECT * FROM tb_berita WHERE kategori_id = 1");
+        $query = $this->db->query("SELECT * FROM tb_berita WHERE kategori_id = 1 AND status_berita = 1");
         $countUsers = $query->getNumRows();
         return $countUsers;
     }
 
     public function countEkonomi()
     {
-        $query = $this->db->query("SELECT * FROM tb_berita WHERE kategori_id = 2");
+        $query = $this->db->query("SELECT * FROM tb_berita WHERE kategori_id = 2 AND status_berita = 1");
         $countUsers = $query->getNumRows();
         return $countUsers;
     }
