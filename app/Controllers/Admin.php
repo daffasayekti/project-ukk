@@ -3,29 +3,35 @@
 namespace App\Controllers;
 
 use App\Models\BeritaModel;
-use App\Models\LoginModel;
+use App\Models\LoginsModel;
+use App\Models\UsersModel;
+
 
 class Admin extends BaseController
 {
     protected $beritaModel;
-    protected $loginModel;
+    protected $loginsModel;
+    protected $usersModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
     {
         $this->beritaModel = new BeritaModel();
-        $this->loginModel = new LoginModel();
+        $this->loginsModel = new LoginsModel();
+        $this->usersModel = new UsersModel();
     }
 
     public function dashboard()
     {
         $data = [
             'title' => 'Dashboard',
-            'data_users_login' => $this->loginModel->getLoginUsers(),
+            'data_users_login' => $this->loginsModel->getLoginUsers(),
+            'count_users' => $this->usersModel->countUsers(),
+            'count_politik' => $this->beritaModel->countPolitik(),
+            'count_kecelakaan' => $this->beritaModel->countKecelakaan(),
+            'count_ekonomi' => $this->beritaModel->countEkonomi()
         ];
 
-        // dd($data['data_users_login']);
-
-        return view('/admin/data_siswa', $data);
+        return view('/admin/dashboard_admin', $data);
     }
 }

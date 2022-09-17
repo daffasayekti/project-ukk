@@ -165,4 +165,25 @@ class BeritaModel extends Model
 
         return;
     }
+
+    public function countPolitik()
+    {
+        $query = $this->db->query("SELECT * FROM tb_berita WHERE kategori_id = 3");
+        $countUsers = $query->getNumRows();
+        return $countUsers;
+    }
+
+    public function countKecelakaan()
+    {
+        $query = $this->db->query("SELECT * FROM tb_berita WHERE kategori_id = 1");
+        $countUsers = $query->getNumRows();
+        return $countUsers;
+    }
+
+    public function countEkonomi()
+    {
+        $query = $this->db->query("SELECT * FROM tb_berita WHERE kategori_id = 2");
+        $countUsers = $query->getNumRows();
+        return $countUsers;
+    }
 }

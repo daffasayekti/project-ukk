@@ -19,7 +19,7 @@
                                 <h4>Total Users</h4>
                             </div>
                             <div class="card-body" style="font-size: 16px;">
-                                1
+                                <?= $count_users; ?>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                                 <h4>Berita Politik</h4>
                             </div>
                             <div class="card-body" style="font-size: 16px;">
-                                1
+                                <?= $count_politik; ?>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                                 <h4>Kecelakaan</h4>
                             </div>
                             <div class="card-body" style="font-size: 16px;">
-                                1
+                                <?= $count_kecelakaan; ?>
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                                 <h4>Berita Ekonomi</h4>
                             </div>
                             <div class="card-body" style="font-size: 16px;">
-                                1
+                                <?= $count_ekonomi; ?>
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive-sm table-striped">
-                        <table class="table table-bordered table-md" id="table">
+                        <table class="table table-bordered table-md" id="TableUserslogin">
                             <tr class="text-center">
                                 <th>No</th>
                                 <th>Email</th>
