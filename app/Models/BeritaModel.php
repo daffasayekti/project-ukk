@@ -186,4 +186,9 @@ class BeritaModel extends Model
         $countUsers = $query->getNumRows();
         return $countUsers;
     }
+
+    public function searchDataBerita($keyword1)
+    {
+        return $this->table('tb_berita')->like('judul_berita', $keyword1);
+    }
 }
