@@ -6,7 +6,16 @@
         <div class="section-header">
             <h1>Dashboard</h1>
         </div>
-
+        <?php if (session()->getFlashdata('success')) : ?>
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    <?= session()->getFlashData('success'); ?>
+                </div>
+            </div>
+        <?php endif; ?>
         <div class="section-body">
             <div class="row">
                 <div class="col-md-3">
@@ -148,7 +157,7 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="" class="btn btn-warning"><i class="fas fa-info-circle"></i></a>
-                                        <a href="" class="btn btn-success ml-1"><i class="fas fa-check-circle"></i></a>
+                                        <a href="/admin/proses_moderasi/<?= $value['id_berita']; ?>" class="btn btn-success ml-1"><i class="fas fa-check-circle"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

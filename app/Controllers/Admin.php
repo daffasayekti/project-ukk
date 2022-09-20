@@ -58,4 +58,22 @@ class Admin extends BaseController
 
         return view('/admin/dashboard_admin', $data);
     }
+
+    public function proses_moderasi($id_berita)
+    {
+        $builder = $this->beritaModel->table('tb_berita');
+
+        $data = [
+            'status_berita' => 1,
+        ];
+
+        $where = ['id_berita' => $id_berita];
+
+        $builder->set($data)
+            ->where($where)
+            ->update();
+
+        session()->setFlashdata('success', 'Sukses!, Data Berita Berhasil Disetujui');
+        return redirect()->to('/admin/dashboard');
+    }
 }
