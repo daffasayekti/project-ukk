@@ -1,10 +1,10 @@
-<?= $this->extend('/layouts/templates'); ?>
+<?= $this->extend('/layout/template'); ?>
 
 <?= $this->section('content') ?>
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Edit Post Ekonomi</h1>
+            <h1>Berita Kecelakaan</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="/ekonomi/create" class="badge badge-primary">Add Post</a></div>
                 <div class="breadcrumb-item"><a href="/ekonomi/export" class="badge badge-info">Export Excel</a></div>
@@ -24,8 +24,15 @@
 
         <div class="section-body">
             <div class="card">
-                <div class="card-header">
-                    <h4>My Post Ekonomi</h4>
+                <div class="card-header justify-content-end">
+                    <form action="" method="get" autocomplete="off">
+                        <div class="float-left">
+                            <input type="text" name="keyword" value="<?= $keyword; ?>" class="form-control" style="width:159pt" placeholder="Masukkan Judul Berita" autocomplete="off">
+                        </div>
+                        <div class="float-right ml-2">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        </div>
+                    </form>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive-sm table-striped">
@@ -38,20 +45,27 @@
                                 <th>Aksi</th>
                             </tr>
                             <?php
-                            $no = 1;
-                            foreach ($beritaEkonomi as $value) :
+                            $no = 1 + (10 * ($currentPage - 1));
+                            foreach ($data_berita as $value) :
                             ?>
                                 <tr>
                                     <td class="text-center"><?= $no++; ?></td>
                                     <td><?= $value['judul_berita']; ?></td>
-                                    <td class="text-center"><?= $value['penulis_berita']; ?></td>
-                                    <td class="text-center"><?= $value['kategori_berita']; ?></td>
+                                    <td class="text-center"><?= $value['created_by']; ?></td>
+                                    <td class="text-center">
+                                        <?php
+                                        if ($value['kategori_id'] == 1) {
+                                            echo 'Kecelakaan';
+                                        }
+                                        ?>
+                                    </td>
                                     <td style="width: 15%;" class="text-center">
-                                        <a href="/ekonomi/detail/<?= $value['slug']; ?>" class="btn btn-success btn-sm"><i class="fas fa-info-circle"></i></a>
+                                        <a href="/ekonomi/detail/<?= $value['slug']; ?>" class="btn btn-success"><i class="fas fa-info-circle"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
+                        <?= $pager->links('tb_berita', 'pagination_data_kecelakaan'); ?>
                     </div>
                 </div>
             </div>

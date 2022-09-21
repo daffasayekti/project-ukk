@@ -26,6 +26,10 @@ class Pager extends BaseConfig
         'default_head'   => 'CodeIgniter\Pager\Views\default_head',
         'pagination_users_login' => 'App\Views\Pagers\pagination_users_login',
         'pagination_data_moderasi' => 'App\Views\Pagers\pagination_data_moderasi',
+        'pagination_data_kecelakaan' => 'App\Views\Pagers\pagination_data_kecelakaan',
+        'pagination_data_ekonomi' => 'App\Views\Pagers\pagination_data_ekonomi',
+        'pagination_data_politik' => 'App\Views\Pagers\pagination_data_politik',
+        'pagination_data_olahraga' => 'App\Views\Pagers\pagination_data_olahraga',
     ];
 
     /**

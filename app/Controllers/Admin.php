@@ -86,4 +86,71 @@ class Admin extends BaseController
 
         return view('/admin/detail_berita_moderasi', $data);
     }
+
+    public function data_kecelakaan()
+    {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->beritaModel->searchDataBeritaKecelakaan($keyword);
+        } else {
+            $data_berita_kecelakaan = $this->beritaModel;
+        }
+
+        $data = [
+            'title' => 'Data Berita Kecelakaan',
+            'data_berita' => $this->beritaModel->where('kategori_id', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
+            'pager' => $this->beritaModel->pager,
+            'keyword' => $keyword,
+        ];
+
+        return view('/admin/data_kecelakaan', $data);
+    }
+
+    public function data_politik()
+    {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->beritaModel->searchDataBeritaPolitik($keyword);
+        } else {
+            $data_berita_Politik = $this->beritaModel;
+        }
+
+        $data = [
+            'title' => 'Data Berita Politik',
+            'data_berita' => $this->beritaModel->where('kategori_id', 3)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
+            'pager' => $this->beritaModel->pager,
+            'keyword' => $keyword,
+        ];
+
+        return view('/admin/data_politik', $data);
+    }
+
+    public function data_ekonomi()
+    {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->beritaModel->searchDataBeritaEkonomi($keyword);
+        } else {
+            $data_berita_ekonomi = $this->beritaModel;
+        }
+
+        $data = [
+            'title' => 'Data Berita Ekonomi',
+            'data_berita' => $this->beritaModel->where('kategori_id', 2)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
+            'pager' => $this->beritaModel->pager,
+            'keyword' => $keyword,
+        ];
+
+        return view('/admin/data_ekonomi', $data);
+    }
+
+    public function data_olahraga()
+    {
+    }
 }

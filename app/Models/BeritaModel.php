@@ -191,4 +191,24 @@ class BeritaModel extends Model
     {
         return $this->table('tb_berita')->like('judul_berita', $keyword1);
     }
+
+    public function searchDataBeritaKecelakaan($keyword)
+    {
+        return $this->table('tb_berita')->like('judul_berita', $keyword);
+    }
+
+    public function searchDataBeritaEkonomi($keyword)
+    {
+        return $this->table('tb_berita')->like('judul_berita', $keyword);
+    }
+
+    public function searchDataBeritaPolitik($keyword)
+    {
+        return $this->table('tb_berita')->like('judul_berita', $keyword);
+    }
+
+    public function searchDataBeritaOlahraga($keyword)
+    {
+        return $this->table('tb_berita')->like('judul_berita', $keyword);
+    }
 }

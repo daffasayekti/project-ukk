@@ -4,7 +4,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Dashboard</h1>
+            <h1>Dashboard Admin</h1>
         </div>
         <?php if (session()->getFlashdata('success')) : ?>
             <div class="alert alert-success alert-dismissible show fade">

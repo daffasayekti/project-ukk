@@ -15,25 +15,31 @@
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-car-crash"></i> <span>Data Berita</span></a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="nav-link" href="<?= site_url('/kecelakaan/lalu_lintas'); ?>">Kecelakaan</a>
+                        <a class="nav-link" href="<?= base_url('/admin/data_kecelakaan'); ?>">Kecelakaan</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="<?= site_url('/kecelakaan/lalu_lintas'); ?>">Politik</a>
+                        <a class="nav-link" href="<?= base_url('/admin/data_politik'); ?>">Politik</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="<?= site_url('/kecelakaan/lalu_lintas'); ?>">Ekonomi</a>
+                        <a class="nav-link" href="<?= base_url('/admin/data_ekonomi'); ?>">Ekonomi</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="<?= site_url('/kecelakaan/lalu_lintas'); ?>">Olahraga</a>
+                        <a class="nav-link" href="<?= base_url('/admin/data_olahraga'); ?>">Olahraga</a>
                     </li>
                 </ul>
             </li>
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-money-bill"></i> <span>Data Pengguna</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="<?= site_url('/ekonomi/kemiskinan'); ?>">Users Free</a></li>
-                    <li><a class="nav-link" href="<?= site_url('/ekonomi/kemiskinan'); ?>">Users Premium</a></li>
-                    <li><a class="nav-link" href="<?= site_url('/ekonomi/kemiskinan'); ?>">Admin</a></li>
+                    <li>
+                        <a class="nav-link" href="<?= base_url('/ekonomi/kemiskinan'); ?>">Users Free</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="<?= base_url('/ekonomi/kemiskinan'); ?>">Users Premium</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="<?= base_url('/ekonomi/kemiskinan'); ?>">Admin</a>
+                    </li>
                 </ul>
             </li>
         </ul>
