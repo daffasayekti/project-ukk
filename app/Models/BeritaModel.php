@@ -13,9 +13,9 @@ class BeritaModel extends Model
     protected $createdField  = 'tanggal_buat';
     protected $updatedField  = 'tanggal_update';
 
-    public function getBeritaKecelakaanBySlug($slug)
+    public function getBeritaBySlug($slug)
     {
-        $sql = "SELECT tb_kecelakaan.id_berita, tb_kecelakaan.judul_berita, tb_kecelakaan.slug, tb_kecelakaan.created_by, tb_kecelakaan.penulis_berita, tb_kecelakaan.isi_berita, tb_kecelakaan.gambar_berita, tb_kecelakaan.created_at, tb_kecelakaan.updated_at, kategori_berita.kategori_berita FROM tb_kecelakaan INNER JOIN kategori_berita ON kategori_berita.id_kategori = tb_kecelakaan.kategori_id WHERE slug = '$slug'";
+        $sql = "SELECT * FROM tb_berita WHERE slug = '$slug'";
 
         $execute = $this->db->query($sql);
 

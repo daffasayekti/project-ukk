@@ -156,7 +156,7 @@
                                         ?>
                                     </td>
                                     <td class="text-center">
-                                        <a href="" class="btn btn-warning"><i class="fas fa-info-circle"></i></a>
+                                        <a href="/admin/detail_berita_moderasi/<?= $value['slug']; ?>" class="btn btn-warning"><i class="fas fa-info-circle"></i></a>
                                         <a href="/admin/proses_moderasi/<?= $value['id_berita']; ?>" class="btn btn-success ml-1"><i class="fas fa-check-circle"></i></a>
                                     </td>
                                 </tr>

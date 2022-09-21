@@ -76,4 +76,14 @@ class Admin extends BaseController
         session()->setFlashdata('success', 'Sukses!, Data Berita Berhasil Disetujui');
         return redirect()->to('/admin/dashboard');
     }
+
+    public function detail_berita_moderasi($slug)
+    {
+        $data = [
+            'title' => 'Detail Berita',
+            'detail_berita' => $this->beritaModel->getBeritaBySlug($slug),
+        ];
+
+        return view('/admin/detail_berita_moderasi', $data);
+    }
 }
