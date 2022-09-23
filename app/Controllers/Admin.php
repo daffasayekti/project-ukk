@@ -99,7 +99,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Data Berita Kecelakaan',
-            'data_berita' => $this->beritaModel->where('kategori_id', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'data_berita' => $this->beritaModel->where('kategori_id', 1)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
             'pager' => $this->beritaModel->pager,
             'keyword' => $keyword,
@@ -120,7 +120,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Data Berita Politik',
-            'data_berita' => $this->beritaModel->where('kategori_id', 3)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'data_berita' => $this->beritaModel->where('kategori_id', 3)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
             'pager' => $this->beritaModel->pager,
             'keyword' => $keyword,
@@ -141,7 +141,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Data Berita Ekonomi',
-            'data_berita' => $this->beritaModel->where('kategori_id', 2)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'data_berita' => $this->beritaModel->where('kategori_id', 2)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
             'pager' => $this->beritaModel->pager,
             'keyword' => $keyword,
