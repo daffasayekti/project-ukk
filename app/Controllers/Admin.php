@@ -3,9 +3,14 @@
 namespace App\Controllers;
 
 use App\Models\BeritaModel;
+
 use App\Models\LoginsModel;
+
 use App\Models\UsersModel;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Admin extends BaseController
 {
@@ -18,7 +23,7 @@ class Admin extends BaseController
     {
         $this->beritaModel = new BeritaModel();
         $this->loginsModel = new LoginsModel();
-        $this->usersModel = new UsersModel();
+        $this->usersModel  = new UsersModel();
     }
 
     public function dashboard()
@@ -41,22 +46,40 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Dashboard',
+            'title' => 'Dashboard Admin',
             'data_users_login' => $this->loginsModel->where('success', 1)->orderBy('id', 'DESC')->paginate(10, 'auth_logins'),
             'pager' => $this->loginsModel->pager,
-            'pager1' => $this->beritaModel->pager,
             'currentPage' => $this->request->getVar('page_auth_logins') ? $this->request->getVar('page_auth_logins') : 1,
-            'currentPage1' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
-            'count_users' => $this->usersModel->countUsers(),
             'keyword' => $keyword,
-            'keyword1' => $keyword1,
             'count_politik' => $this->beritaModel->countPolitik(),
+            'count_olahraga' => $this->beritaModel->countOlahraga(),
             'count_kecelakaan' => $this->beritaModel->countKecelakaan(),
             'count_ekonomi' => $this->beritaModel->countEkonomi(),
-            'data_berita_moderasi' => $this->beritaModel->where('status_berita', 0)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita')
+
         ];
 
         return view('/admin/dashboard_admin', $data);
+    }
+
+    public function moderasi_berita()
+    {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->beritaModel->searchDataBerita($keyword);
+        } else {
+            $data_berita_moderasi = $this->beritaModel;
+        }
+
+        $data = [
+            'title' => 'Moderasi Berita',
+            'data_berita_moderasi' => $this->beritaModel->where('status_berita', 0)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
+            'keyword' => $keyword,
+            'pager' => $this->beritaModel->pager,
+        ];
+
+        return view('/admin/moderasi_data', $data);
     }
 
     public function proses_moderasi($id_berita)
@@ -74,7 +97,7 @@ class Admin extends BaseController
             ->update();
 
         session()->setFlashdata('success', 'Sukses!, Data Berita Berhasil Disetujui');
-        return redirect()->to('/admin/dashboard');
+        return redirect()->to('/admin/moderasi_data');
     }
 
     public function detail_berita_moderasi($slug)
@@ -152,6 +175,23 @@ class Admin extends BaseController
 
     public function data_olahraga()
     {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->beritaModel->searchDataBeritaOlahraga($keyword);
+        } else {
+            $data_berita_olahraga = $this->beritaModel;
+        }
+
+        $data = [
+            'title' => 'Data Berita Olahraga',
+            'data_berita' => $this->beritaModel->where('kategori_id', 4)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
+            'pager' => $this->beritaModel->pager,
+            'keyword' => $keyword,
+        ];
+
+        return view('/admin/data_olahraga', $data);
     }
 
     public function user_free()
@@ -173,5 +213,273 @@ class Admin extends BaseController
         ];
 
         return view('/admin/data_users_free', $data);
+    }
+
+    public function export_berita_kecelakaan()
+    {
+        $beritaKecelakaan = $this->beritaModel->getBeritaKecelakaanExport();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'No.');
+        $sheet->setCellValue('B1', 'Judul Berita');
+        $sheet->setCellValue('C1', 'Penulis Berita');
+        $sheet->setCellValue('D1', 'Kategori Berita');
+        $sheet->setCellValue('E1', 'Gambar Berita');
+        $sheet->setCellValue('F1', 'Jumlah View');
+        $sheet->setCellValue('G1', 'Created At');
+
+        $column = 2;
+        foreach ($beritaKecelakaan as $value) {
+            $sheet->setCellValue('A' . $column, ($column - 1));
+            $sheet->setCellValue('B' . $column, $value['judul_berita']);
+            $sheet->setCellValue('C' . $column, $value['created_by']);
+            $sheet->setCellValue('D' . $column, $value['nama_kategori']);
+            $sheet->setCellValue('E' . $column, $value['gambar_berita']);
+            $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
+            $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
+            $column++;
+        };
+
+        $sheet->getStyle('A1:G1')->getFont()->setBold(true);
+        $styleArray1 = [
+            'borders' => [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'],
+                ],
+                'inside' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'],
+                ]
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+        ];
+        $styleArray2 = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+            ],
+        ];
+
+        $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
+        $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
+
+        $sheet->getColumnDimension('A')->setAutoSize(true);
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setAutoSize(true);
+        $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
+        $sheet->getColumnDimension('G')->setAutoSize(true);
+
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-disposition: attachment;filename=data_berita_kecelakaan.xlsx');
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
+        exit();
+    }
+
+    public function export_berita_ekonomi()
+    {
+        $beritaEkonomi = $this->beritaModel->getBeritaEkonomiExport();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'No.');
+        $sheet->setCellValue('B1', 'Judul Berita');
+        $sheet->setCellValue('C1', 'Penulis Berita');
+        $sheet->setCellValue('D1', 'Kategori Berita');
+        $sheet->setCellValue('E1', 'Gambar Berita');
+        $sheet->setCellValue('F1', 'Jumlah View');
+        $sheet->setCellValue('G1', 'Created At');
+
+        $column = 2;
+        foreach ($beritaEkonomi as $value) {
+            $sheet->setCellValue('A' . $column, ($column - 1));
+            $sheet->setCellValue('B' . $column, $value['judul_berita']);
+            $sheet->setCellValue('C' . $column, $value['created_by']);
+            $sheet->setCellValue('D' . $column, $value['nama_kategori']);
+            $sheet->setCellValue('E' . $column, $value['gambar_berita']);
+            $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
+            $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
+            $column++;
+        };
+
+        $sheet->getStyle('A1:G1')->getFont()->setBold(true);
+        $styleArray1 = [
+            'borders' => [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'],
+                ],
+                'inside' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'],
+                ]
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+        ];
+        $styleArray2 = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+            ],
+        ];
+
+        $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
+        $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
+
+        $sheet->getColumnDimension('A')->setAutoSize(true);
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setAutoSize(true);
+        $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
+        $sheet->getColumnDimension('G')->setAutoSize(true);
+
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-disposition: attachment;filename=data_berita_ekonomi.xlsx');
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
+        exit();
+    }
+
+    public function export_berita_politik()
+    {
+        $beritaPolitik = $this->beritaModel->getBeritaPolitikExport();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'No.');
+        $sheet->setCellValue('B1', 'Judul Berita');
+        $sheet->setCellValue('C1', 'Penulis Berita');
+        $sheet->setCellValue('D1', 'Kategori Berita');
+        $sheet->setCellValue('E1', 'Gambar Berita');
+        $sheet->setCellValue('F1', 'Jumlah View');
+        $sheet->setCellValue('G1', 'Created At');
+
+        $column = 2;
+        foreach ($beritaPolitik as $value) {
+            $sheet->setCellValue('A' . $column, ($column - 1));
+            $sheet->setCellValue('B' . $column, $value['judul_berita']);
+            $sheet->setCellValue('C' . $column, $value['created_by']);
+            $sheet->setCellValue('D' . $column, $value['nama_kategori']);
+            $sheet->setCellValue('E' . $column, $value['gambar_berita']);
+            $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
+            $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
+            $column++;
+        };
+
+        $sheet->getStyle('A1:G1')->getFont()->setBold(true);
+        $styleArray1 = [
+            'borders' => [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'],
+                ],
+                'inside' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'],
+                ]
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+        ];
+        $styleArray2 = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+            ],
+        ];
+
+        $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
+        $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
+
+        $sheet->getColumnDimension('A')->setAutoSize(true);
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setAutoSize(true);
+        $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
+        $sheet->getColumnDimension('G')->setAutoSize(true);
+
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-disposition: attachment;filename=data_berita_politik.xlsx');
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
+        exit();
+    }
+
+    public function export_berita_olahraga()
+    {
+        $beritaOlahraga = $this->beritaModel->getBeritaOlahragaExport();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'No.');
+        $sheet->setCellValue('B1', 'Judul Berita');
+        $sheet->setCellValue('C1', 'Penulis Berita');
+        $sheet->setCellValue('D1', 'Kategori Berita');
+        $sheet->setCellValue('E1', 'Gambar Berita');
+        $sheet->setCellValue('F1', 'Jumlah View');
+        $sheet->setCellValue('G1', 'Created At');
+
+        $column = 2;
+        foreach ($beritaOlahraga as $value) {
+            $sheet->setCellValue('A' . $column, ($column - 1));
+            $sheet->setCellValue('B' . $column, $value['judul_berita']);
+            $sheet->setCellValue('C' . $column, $value['created_by']);
+            $sheet->setCellValue('D' . $column, $value['nama_kategori']);
+            $sheet->setCellValue('E' . $column, $value['gambar_berita']);
+            $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
+            $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
+            $column++;
+        };
+
+        $sheet->getStyle('A1:G1')->getFont()->setBold(true);
+        $styleArray1 = [
+            'borders' => [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'],
+                ],
+                'inside' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'],
+                ]
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+        ];
+        $styleArray2 = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+            ],
+        ];
+
+        $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
+        $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
+
+        $sheet->getColumnDimension('A')->setAutoSize(true);
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setAutoSize(true);
+        $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
+        $sheet->getColumnDimension('G')->setAutoSize(true);
+
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-disposition: attachment;filename=data_berita_olahraga.xlsx');
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
+        exit();
     }
 }

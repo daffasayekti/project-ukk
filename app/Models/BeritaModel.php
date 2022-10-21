@@ -241,9 +241,16 @@ class BeritaModel extends Model
         return $countUsers;
     }
 
-    public function searchDataBerita($keyword1)
+    public function countOlahraga()
     {
-        return $this->table('tb_berita')->like('judul_berita', $keyword1);
+        $query = $this->db->query("SELECT * FROM tb_berita WHERE kategori_id = 4 AND status_berita = 1");
+        $countOlahraga = $query->getNumRows();
+        return $countOlahraga;
+    }
+
+    public function searchDataBerita($keyword)
+    {
+        return $this->table('tb_berita')->like('judul_berita', $keyword);
     }
 
     public function searchDataBeritaKecelakaan($keyword)
@@ -264,5 +271,41 @@ class BeritaModel extends Model
     public function searchDataBeritaOlahraga($keyword)
     {
         return $this->table('tb_berita')->like('judul_berita', $keyword);
+    }
+
+    public function getBeritaKecelakaanExport()
+    {
+        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Kecelakaan' AND status_berita = '1' ORDER BY id_berita DESC";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
+
+    public function getBeritaEkonomiExport()
+    {
+        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Ekonomi' AND status_berita = '1' ORDER BY id_berita DESC";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
+
+    public function getBeritaPolitikExport()
+    {
+        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Politik' AND status_berita = '1' ORDER BY id_berita DESC";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
+
+    public function getBeritaOlahragaExport()
+    {
+        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Olahraga' AND status_berita = '1' ORDER BY id_berita DESC";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
     }
 }

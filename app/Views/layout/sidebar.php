@@ -26,6 +26,9 @@
                     <li>
                         <a class="nav-link" href="<?= base_url('/admin/data_olahraga'); ?>">Olahraga</a>
                     </li>
+                    <li>
+                        <a class="nav-link" href="<?= base_url('/admin/moderasi_berita'); ?>">Moderasi Berita</a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item dropdown">

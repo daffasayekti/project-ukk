@@ -7,7 +7,7 @@
             <h1>Berita Ekonomi</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="/ekonomi/create" class="badge badge-primary">Add Post</a></div>
-                <div class="breadcrumb-item"><a href="/ekonomi/export" class="badge badge-info">Export Excel</a></div>
+                <div class="breadcrumb-item"><a href="/admin/export_berita_ekonomi" class="badge badge-info">Export Excel</a></div>
             </div>
         </div>
 
@@ -60,7 +60,9 @@
                                         ?>
                                     </td>
                                     <td style="width: 15%;" class="text-center">
-                                        <a href="/ekonomi/detail/<?= $value['slug']; ?>" class="btn btn-success"><i class="fas fa-info-circle"></i></a>
+                                        <a href="/ekonomi/detail/<?= $value['slug']; ?>" class="btn btn-success btn-sm"><i class="fas fa-info-circle"></i></a>
+                                        <a href="/ekonomi/detail/<?= $value['slug']; ?>" class="btn btn-warning btn-sm ml-1"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="/ekonomi/detail/<?= $value['slug']; ?>" class="btn btn-danger btn-sm ml-1"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
