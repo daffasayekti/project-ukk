@@ -148,6 +148,42 @@ class BeritaModel extends Model
         return $execute->getResultArray();
     }
 
+    public function getBeritaEkonomiTrending()
+    {
+        $sql = "SELECT * FROM tb_berita WHERE kategori_id = '2' AND status_berita = '1' ORDER BY banyak_dilihat DESC LIMIT 3";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
+
+    public function getBeritaPolitikTrending()
+    {
+        $sql = "SELECT * FROM tb_berita WHERE kategori_id = '3' AND status_berita = '1' ORDER BY banyak_dilihat DESC LIMIT 3";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
+
+    public function getBeritaKecelakaanTrending()
+    {
+        $sql = "SELECT * FROM tb_berita WHERE kategori_id = '1' AND status_berita = '1' ORDER BY banyak_dilihat DESC LIMIT 3";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
+
+    public function getBeritaOlahragaTrending()
+    {
+        $sql = "SELECT * FROM tb_berita WHERE kategori_id = '4' AND status_berita = '1' ORDER BY banyak_dilihat DESC LIMIT 3";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
+
     public function getBeritaOlahraga()
     {
         $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Olahraga' AND status_berita = '1' ORDER BY id_berita DESC LIMIT 6";

@@ -73,7 +73,7 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="rotate-img">
-                                                        <img src="../assets/images/resource_berita/<?= $value['gambar_berita']; ?>" alt="banner" class="img-fluid" />
+                                                        <img src="/assets/images/resource_berita/<?= $value['gambar_berita']; ?>" alt="banner" class="img-fluid" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -83,41 +83,21 @@
                             <?php } ?>
                             <div class="trending">
                                 <h2 class="mb-4 text-primary font-weight-600">
-                                    Trending
+                                    Berita Trending
                                 </h2>
-                                <div class="mb-4">
-                                    <div class="rotate-img">
-                                        <img src="../assets/images/magazine/Magzine_4.jpg" alt="banner" class="img-fluid" />
+                                <?php foreach ($berita_politik_trending as $value) { ?>
+                                    <div class="mb-4">
+                                        <div class="rotate-img">
+                                            <img src="/assets/images/resource_berita/<?= $value['gambar_berita']; ?>" alt="banner" class="img-fluid" />
+                                        </div>
+                                        <h3 class="mt-3 font-weight-600">
+                                            <?= $value['judul_berita']; ?>
+                                        </h3>
+                                        <p class="fs-13 text-muted mb-0">
+                                            <span class="mr-2"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_2(date($value['tanggal_buat'])); ?>
+                                        </p>
                                     </div>
-                                    <h3 class="mt-3 font-weight-600">
-                                        Virus Kills Member Of Advising Iran’s Supreme
-                                    </h3>
-                                    <p class="fs-13 text-muted mb-0">
-                                        <span class="mr-2">Photo </span>10 Minutes ago
-                                    </p>
-                                </div>
-                                <div class="mb-4">
-                                    <div class="rotate-img">
-                                        <img src="../assets/images/magazine/Magzine_5.jpg" alt="banner" class="img-fluid" />
-                                    </div>
-                                    <h3 class="mt-3 font-weight-600">
-                                        Virus Kills Member Of Advising Iran’s Supreme
-                                    </h3>
-                                    <p class="fs-13 text-muted mb-0">
-                                        <span class="mr-2">Photo </span>10 Minutes ago
-                                    </p>
-                                </div>
-                                <div class="mb-4">
-                                    <div class="rotate-img">
-                                        <img src="../assets/images/magazine/Magzine_6.jpg" alt="banner" class="img-fluid" />
-                                    </div>
-                                    <h3 class="mt-3 font-weight-600">
-                                        Virus Kills Member Of Advising Iran’s Supreme
-                                    </h3>
-                                    <p class="fs-13 text-muted mb-0">
-                                        <span class="mr-2">Photo </span>10 Minutes ago
-                                    </p>
-                                </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

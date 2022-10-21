@@ -45,120 +45,59 @@
                                         <p class="fs-13 text-muted mb-0">
                                             <span class="mr-2"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_1(date($value['tanggal_buat'])); ?>
                                         </p>
-                                        <p class="fs-15">
-                                            Lorem Ipsum has been the industry's standard dummy
-                                            text ever since the 1500s, when an unknown printer
-                                            took a galley of type and scrambled it to make a
-                                            type specimen book.
-                                        </p>
+                                        <?php
+                                        $data_excerpt = $value['isi_berita'];
+                                        $excerpt = substr($data_excerpt, 0, 200) . "...";
+                                        echo "<p class='fs-15' style='text-align: justify'><?php $excerpt </p>";
+                                        ?>
                                     </div>
                                 </div>
                             <?php } ?>
                         </div>
                         <div class="col-lg-4">
                             <h2 class="mb-4 text-primary font-weight-600">
-                                Latest news
+                                Berita Terbaru
                             </h2>
                             <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="border-bottom pb-4 pt-4">
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <h5 class="font-weight-600 mb-1">
-                                                    Ways to stay social online while in self..
-                                                </h5>
-                                                <p class="fs-13 text-muted mb-0">
-                                                    <span class="mr-2">Photo </span>10 Minutes ago
-                                                </p>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="rotate-img">
-                                                    <img src="../assets/images/magazine/Magzine_1.jpg" alt="banner" class="img-fluid" />
+                                <?php foreach ($berita_olahraga_terbaru as $value) { ?>
+                                    <div class="col-sm-12">
+                                        <div class="border-bottom pb-4 pt-4">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h5 class="font-weight-600 mb-1">
+                                                        <?= $value['judul_berita']; ?>
+                                                    </h5>
+                                                    <p class="fs-13 text-muted mb-0">
+                                                        <span class="mr-2"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_2(date($value['tanggal_buat'])); ?>
+                                                    </p>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="rotate-img">
+                                                        <img src="/assets/images/resource_berita/<?= $value['gambar_berita']; ?>" alt="banner" class="img-fluid" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="border-bottom pb-4 pt-4">
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <h5 class="font-weight-600 mb-1">
-                                                    Premier League players join charity..
-                                                </h5>
-                                                <p class="fs-13 text-muted mb-0">
-                                                    <span class="mr-2">Photo </span>10 Minutes ago
-                                                </p>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="rotate-img">
-                                                    <img src="../assets/images/magazine/Magzine_2.jpg" alt="banner" class="img-fluid" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="pt-4">
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <h5 class="font-weight-600 mb-1">
-                                                    UK Athletics board changed stance on..
-                                                </h5>
-                                                <p class="fs-13 text-muted mb-0">
-                                                    <span class="mr-2">Photo </span>10 Minutes ago
-                                                </p>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="rotate-img">
-                                                    <img src="../assets/images/magazine/Magzine_3.jpg" alt="banner" class="img-fluid" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php } ?>
                             </div>
                             <div class="trending">
                                 <h2 class="mb-4 text-primary font-weight-600">
-                                    Trending
+                                    Berita Trending
                                 </h2>
-                                <div class="mb-4">
-                                    <div class="rotate-img">
-                                        <img src="../assets/images/magazine/Magzine_4.jpg" alt="banner" class="img-fluid" />
+                                <?php foreach ($berita_olahraga_trending as $value) { ?>
+                                    <div class="mb-4">
+                                        <div class="rotate-img">
+                                            <img src="/assets/images/resource_berita/<?= $value['gambar_berita']; ?>" alt="banner" class="img-fluid" />
+                                        </div>
+                                        <h3 class="mt-3 font-weight-600">
+                                            <?= $value['judul_berita']; ?>
+                                        </h3>
+                                        <p class="fs-13 text-muted mb-0">
+                                            <span class="mr-2"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_2(date($value['tanggal_buat'])); ?>
+                                        </p>
                                     </div>
-                                    <h3 class="mt-3 font-weight-600">
-                                        Virus Kills Member Of Advising Iran’s Supreme
-                                    </h3>
-                                    <p class="fs-13 text-muted mb-0">
-                                        <span class="mr-2">Photo </span>10 Minutes ago
-                                    </p>
-                                </div>
-                                <div class="mb-4">
-                                    <div class="rotate-img">
-                                        <img src="../assets/images/magazine/Magzine_5.jpg" alt="banner" class="img-fluid" />
-                                    </div>
-                                    <h3 class="mt-3 font-weight-600">
-                                        Virus Kills Member Of Advising Iran’s Supreme
-                                    </h3>
-                                    <p class="fs-13 text-muted mb-0">
-                                        <span class="mr-2">Photo </span>10 Minutes ago
-                                    </p>
-                                </div>
-                                <div class="mb-4">
-                                    <div class="rotate-img">
-                                        <img src="../assets/images/magazine/Magzine_6.jpg" alt="banner" class="img-fluid" />
-                                    </div>
-                                    <h3 class="mt-3 font-weight-600">
-                                        Virus Kills Member Of Advising Iran’s Supreme
-                                    </h3>
-                                    <p class="fs-13 text-muted mb-0">
-                                        <span class="mr-2">Photo </span>10 Minutes ago
-                                    </p>
-                                </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

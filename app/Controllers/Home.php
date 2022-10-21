@@ -53,6 +53,7 @@ class Home extends BaseController
             'title' => 'Berita Ekonomi',
             'berita_ekonomi' => $this->beritaModel->getBeritaEkonomi(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'berita_ekonomi_trending' => $this->beritaModel->getBeritaEkonomiTrending(),
         ];
 
         return view('/pages/ekonomi', $data);
@@ -67,6 +68,7 @@ class Home extends BaseController
             'berita_politik' => $this->beritaModel->getBeritaPolitik(),
             'berita_politik_terbaru' => $this->beritaModel->getBeritaPolitikTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'berita_politik_trending' => $this->beritaModel->getBeritaPolitikTrending(),
         ];
 
         return view('/pages/politik', $data);
@@ -81,6 +83,7 @@ class Home extends BaseController
             'berita_kecelakaan' => $this->beritaModel->getBeritaKecelakaan(),
             'berita_kecelakaan_terbaru' => $this->beritaModel->getBeritaKecelakaanTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'berita_kecelakaan_trending' => $this->beritaModel->getBeritaKecelakaanTrending(),
         ];
 
         return view('/pages/kecelakaan', $data);
@@ -95,6 +98,7 @@ class Home extends BaseController
             'berita_olahraga' => $this->beritaModel->getBeritaOlahraga(),
             'berita_olahraga_terbaru' => $this->beritaModel->getBeritaOlahragaTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'berita_olahraga_trending' => $this->beritaModel->getBeritaOlahragaTerbaru(),
         ];
 
         return view('/pages/olahraga', $data);
