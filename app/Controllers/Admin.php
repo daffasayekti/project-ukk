@@ -153,4 +153,25 @@ class Admin extends BaseController
     public function data_olahraga()
     {
     }
+
+    public function user_free()
+    {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->beritaModel->searchDataBeritaEkonomi($keyword);
+        } else {
+            $data_berita_ekonomi = $this->beritaModel;
+        }
+
+        $data = [
+            'title' => 'Data Users Free',
+            'data_users_free' => $this->beritaModel->where('kategori_id', 2)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
+            'pager' => $this->beritaModel->pager,
+            'keyword' => $keyword,
+        ];
+
+        return view('/admin/data_users_free', $data);
+    }
 }

@@ -32,7 +32,7 @@
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-money-bill"></i> <span>Data Pengguna</span></a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="nav-link" href="<?= base_url('/ekonomi/kemiskinan'); ?>">Users Free</a>
+                        <a class="nav-link" href="<?= base_url('/admin/user_free'); ?>">Users Free</a>
                     </li>
                     <li>
                         <a class="nav-link" href="<?= base_url('/ekonomi/kemiskinan'); ?>">Users Premium</a>
