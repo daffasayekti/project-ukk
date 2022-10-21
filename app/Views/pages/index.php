@@ -22,7 +22,7 @@
         <div class="row" data-aos="fade-up">
             <div class="col-xl-8 stretch-card grid-margin">
                 <div class="position-relative">
-                    <img src="/assets/images/dashboard/banner.jpg" alt="banner" class="img-fluid" />
+                    <img src="/assets/images/resource_berita/banner.jpg" alt="banner" class="img-fluid" />
                     <div class="banner-content">
                         <div class="badge badge-danger fs-12 font-weight-bold mb-3">
                             Global News

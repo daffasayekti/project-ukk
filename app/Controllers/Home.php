@@ -92,6 +92,8 @@ class Home extends BaseController
 
         $data = [
             'title' => 'Berita Olahraga',
+            'berita_olahraga' => $this->beritaModel->getBeritaOlahraga(),
+            'berita_olahraga_terbaru' => $this->beritaModel->getBeritaOlahragaTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
         ];
 
