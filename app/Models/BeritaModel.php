@@ -211,15 +211,6 @@ class BeritaModel extends Model
         return $execute->getRowArray();
     }
 
-    public function delete_berita($slug)
-    {
-        $sql = "DELETE FROM tb_kecelakaan WHERE slug = '$slug'";
-
-        $this->db->query($sql);
-
-        return;
-    }
-
     public function countPolitik()
     {
         $query = $this->db->query("SELECT * FROM tb_berita WHERE kategori_id = 3 AND status_berita = 1");
@@ -307,5 +298,14 @@ class BeritaModel extends Model
         $execute = $this->db->query($sql);
 
         return $execute->getResultArray();
+    }
+
+    public function delete_berita($slug)
+    {
+        $sql = "DELETE FROM tb_berita WHERE slug = '$slug'";
+
+        $this->db->query($sql);
+
+        return;
     }
 }

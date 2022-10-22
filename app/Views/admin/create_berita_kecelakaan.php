@@ -1,24 +1,20 @@
-<?= $this->extend('/layouts/template'); ?>
+<?= $this->extend('/layout/template'); ?>
 
 <?= $this->section('content') ?>
 <div class="main-content">
     <section class="section">
         <div class="section-header">
             <div class="section-header-back">
-                <a href="/kecelakaan/edit_post_kecelakaan" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+                <a href="/admin/data_kecelakaan" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
             </div>
-            <h1>Create New Post</h1>
+            <h1>Create Berita Kecelakaan</h1>
         </div>
 
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h4>Write Your Post</h4>
-                        </div>
-                        <form action="/kecelakaan/proses_create" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="created_by" value="<?= user()->username; ?>">
+                        <form action="/admin/proses_create_kecelakaan" method="post" enctype="multipart/form-data" class="mt-3">
                             <?= csrf_field(); ?>
                             <div class="card-body">
                                 <div class="form-group row mb-4">
@@ -33,9 +29,9 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Penulis Berita</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <input type="text" class="form-control <?= ($validation->hasError('penulis_berita')) ? 'is-invalid' : ''; ?>" name="penulis_berita" value="<?= old('penulis_berita'); ?>" required>
+                                        <input type="text" class="form-control <?= ($validation->hasError('created_by')) ? 'is-invalid' : ''; ?>" name="created_by" value="<?= user()->username; ?>" required>
                                         <div class="invalid-feedback">
-                                            <?= $validation->getError('penulis_berita'); ?>
+                                            <?= $validation->getError('created_by'); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -44,7 +40,10 @@
                                     <div class="col-sm-12 col-md-7">
                                         <select class="form-control selectric" name="kategori_id">
                                             <option selected>-- Pilih Kategori Berita --</option>
-                                            <option value="2">Lalu Lintas</option>
+                                            <option value="1">Kecelakaan</option>
+                                            <option value="2">Ekonomi</option>
+                                            <option value="3">Politik</option>
+                                            <option value="4">Olahraga</option>
                                         </select>
                                     </div>
                                 </div>
@@ -59,7 +58,7 @@
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Gambar Berita</label>
                                     <div class="col-sm-12 col-md-7">
                                         <div id="image-preview" class="image-preview h-100">
-                                            <img src="/images/resource_berita/default.png" class="img-thumbnail preview-img" />
+                                            <img src="/assets/images/default.jpg" class="img-thumbnail preview-img" />
                                             <label for="image-upload" id="image-label">Pilih Gambar</label>
                                             <input type="file" class="form-control" name="gambar_berita" id="image-upload" onchange="previewImg()" style="position:fixed;" required />
                                         </div>
@@ -68,7 +67,7 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                                     <div class="col-sm-12 col-md-7">
-                                        <button class="btn btn-primary" type="submit">Create Post</button>
+                                        <button class="btn btn-primary" type="submit">Create Berita</button>
                                     </div>
                                 </div>
                             </div>
