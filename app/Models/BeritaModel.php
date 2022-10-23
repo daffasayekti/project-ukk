@@ -22,6 +22,15 @@ class BeritaModel extends Model
         return $execute->getRowArray();
     }
 
+    public function getBeritaBySlugAndAuthor($slug)
+    {
+        $sql = "SELECT tb_berita.*, users.* FROM tb_berita INNER JOIN users ON tb_berita.created_by = users.username WHERE slug = '$slug' AND status_berita = '1'";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getRowArray();
+    }
+
     public function getBeritaKecelakaanByUsername($username)
     {
         $sql = "SELECT tb_kecelakaan.id_berita, tb_kecelakaan.judul_berita, tb_kecelakaan.slug, tb_kecelakaan.created_by, tb_kecelakaan.penulis_berita, tb_kecelakaan.isi_berita, tb_kecelakaan.gambar_berita, tb_kecelakaan.created_at, tb_kecelakaan.updated_at, kategori_berita.kategori_berita FROM tb_kecelakaan INNER JOIN kategori_berita ON kategori_berita.id_kategori = tb_kecelakaan.kategori_id WHERE created_by = '$username' order by id_berita desc ";

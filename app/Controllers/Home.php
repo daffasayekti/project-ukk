@@ -59,6 +59,20 @@ class Home extends BaseController
         return view('/pages/ekonomi', $data);
     }
 
+    public function detail_berita_ekonomi($slug)
+    {
+        helper(['tanggal_helper']);
+
+        $data = [
+            'title' => 'Detail Berita Ekonomi',
+            'detailEkonomi' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
+            'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'berita_ekonomi_trending' => $this->beritaModel->getBeritaEkonomiTrending()
+        ];
+
+        return view('/pages/detail_berita_ekonomi', $data);
+    }
+
     public function politik()
     {
         helper(['tanggal_helper']);
@@ -72,6 +86,21 @@ class Home extends BaseController
         ];
 
         return view('/pages/politik', $data);
+    }
+
+    public function detail_berita_politik($slug)
+    {
+        helper(['tanggal_helper']);
+
+        $data = [
+            'title' => 'Detail Berita Politik',
+            'detailPolitik' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
+            'berita_politik_terbaru' => $this->beritaModel->getBeritaPolitikTerbaru(),
+            'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'berita_politik_trending' => $this->beritaModel->getBeritaPolitikTrending(),
+        ];
+
+        return view('/pages/detail_berita_politik', $data);
     }
 
     public function kecelakaan()
@@ -89,6 +118,21 @@ class Home extends BaseController
         return view('/pages/kecelakaan', $data);
     }
 
+    public function detail_berita_kecelakaan($slug)
+    {
+        helper(['tanggal_helper']);
+
+        $data = [
+            'title' => 'Detail Berita Kecelakaan',
+            'detailKecelakaan' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
+            'berita_kecelakaan_terbaru' => $this->beritaModel->getBeritaKecelakaanTerbaru(),
+            'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'berita_kecelakaan_trending' => $this->beritaModel->getBeritaKecelakaanTrending(),
+        ];
+
+        return view('/pages/detail_berita_kecelakaan', $data);
+    }
+
     public function olahraga()
     {
         helper(['tanggal_helper']);
@@ -102,6 +146,21 @@ class Home extends BaseController
         ];
 
         return view('/pages/olahraga', $data);
+    }
+
+    public function detail_berita_olahraga($slug)
+    {
+        helper(['tanggal_helper']);
+
+        $data = [
+            'title' => 'Detail Berita Olahraga',
+            'detailOlahraga' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
+            'berita_olahraga_terbaru' => $this->beritaModel->getBeritaOlahragaTerbaru(),
+            'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'berita_olahraga_trending' => $this->beritaModel->getBeritaOlahragaTerbaru(),
+        ];
+
+        return view('/pages/detail_berita_olahraga', $data);
     }
 
     public function kontak()

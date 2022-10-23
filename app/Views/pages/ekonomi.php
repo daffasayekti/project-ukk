@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="col-sm-8 grid-margin">
                                         <h2 class="font-weight-600 mb-2">
-                                            <?= $value['judul_berita']; ?>
+                                            <a href="/home/detail_berita_ekonomi/<?= $value['slug']; ?>" style="text-decoration: none; color: #434a54"><?= $value['judul_berita']; ?></a>
                                         </h2>
                                         <p class="fs-13 text-muted mb-0">
                                             <span class="mr-2"><i class="fa-solid fa-clock"></i> </span>
@@ -66,7 +66,7 @@
                                             <div class="row">
                                                 <div class="col-sm-8">
                                                     <h5 class="font-weight-600 mb-1">
-                                                        <?= $value['judul_berita']; ?>
+                                                        <a href="/home/detail_berita_ekonomi/<?= $value['slug']; ?>" style="text-decoration: none; color: #434a54"><?= $value['judul_berita']; ?></a>
                                                     </h5>
                                                     <p class="fs-13 text-muted mb-0">
                                                         <span class="mr-2"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_2(date($value['tanggal_buat'])); ?>
@@ -92,7 +92,7 @@
                                             <img src="/assets/images/resource_berita/<?= $value['gambar_berita']; ?>" alt="banner" class="img-fluid" />
                                         </div>
                                         <h3 class="mt-3 font-weight-600">
-                                            <?= $value['judul_berita']; ?>
+                                            <a href="/home/detail_berita_ekonomi/<?= $value['slug']; ?>" style="text-decoration: none; color: #434a54"><?= $value['judul_berita']; ?></a>e
                                         </h3>
                                         <p class="fs-13 text-muted mb-0">
                                             <span class="mr-2"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_2(date($value['tanggal_buat'])); ?>
