@@ -39,7 +39,7 @@
                                         </div>
                                         <div class="col-9">
                                             <h5 class="font-weight-600">
-                                                <?= $value['judul_berita'] ?>
+                                                <a href="/home/detail_berita_ekonomi/<?= $value['slug']; ?>" style="text-decoration: none; color: white"><?= $value['judul_berita']; ?></a>
                                             </h5>
                                         </div>
                                     </div>

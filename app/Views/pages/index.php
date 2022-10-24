@@ -28,7 +28,7 @@
                             Global News
                         </div>
                         <h1 class="mb-2">
-                            <?= $global_berita['judul_berita']; ?>
+                            <a href="/home/detail_berita_kecelakaan/<?= $global_berita['slug']; ?>" style="text-decoration: none; color: white"><?= $global_berita['judul_berita']; ?></a>
                         </h1>
                         <div class="fs-12 mb-4">
                             <span class="mr-2"><i class="fa-solid fa-clock"></i> </span>
@@ -44,7 +44,9 @@
 
                         <div class="d-flex border-bottom-blue pt-3 pb-4 align-items-center justify-content-between">
                             <div class="pr-3">
-                                <h5><?= $berita_terbaru_kecelakaan['judul_berita']; ?></h5>
+                                <h5>
+                                    <a href="/home/detail_berita_kecelakaan/<?= $berita_terbaru_kecelakaan['slug']; ?>" style="text-decoration: none; color: white"><?= $berita_terbaru_kecelakaan['judul_berita']; ?></a>
+                                </h5>
                                 <div class="fs-12">
                                     <span class="mr-2"><i class="fa-solid fa-clock"></i> </span>
                                     <?= tgl_indo_model_2(date($berita_terbaru_kecelakaan['tanggal_buat'])); ?>
@@ -57,7 +59,9 @@
 
                         <div class="d-flex border-bottom-blue pb-4 pt-4 align-items-center justify-content-between">
                             <div class="pr-3">
-                                <h5><?= $berita_terbaru_ekonomi['judul_berita']; ?></h5>
+                                <h5>
+                                    <a href="/home/detail_berita_ekonomi/<?= $berita_terbaru_ekonomi['slug']; ?>" style="text-decoration: none; color: white"><?= $berita_terbaru_ekonomi['judul_berita']; ?></a>
+                                </h5>
                                 <div class="fs-12">
                                     <span class="mr-2"><i class="fa-solid fa-clock"></i> </span>
                                     <?= tgl_indo_model_2(date($berita_terbaru_ekonomi['tanggal_buat'])); ?>
@@ -70,7 +74,9 @@
 
                         <div class="d-flex pt-4 align-items-center justify-content-between">
                             <div class="pr-3">
-                                <h5><?= $berita_terbaru_politik['judul_berita']; ?></h5>
+                                <h5>
+                                    <a href="/home/detail_berita_ekonomi/<?= $berita_terbaru_politik['slug']; ?>" style="text-decoration: none; color: white"><?= $berita_terbaru_politik['judul_berita']; ?></a>
+                                </h5>
                                 <div class="fs-12">
                                     <span class="mr-2"><i class="fa-solid fa-clock"></i> </span>
                                     <?= tgl_indo_model_2(date($berita_terbaru_politik['tanggal_buat'])); ?>
@@ -117,7 +123,7 @@
                                 </div>
                                 <div class="col-sm-8  grid-margin">
                                     <h2 class="mb-2 font-weight-600">
-                                        <?= $value['judul_berita'] ?>
+                                        <a href="/home/detail_berita_politik/<?= $value['slug']; ?>" style="text-decoration: none; color: #434a54"><?= $value['judul_berita'] ?></a>
                                     </h2>
                                     <div class="fs-13 mb-2">
                                         <span class="mr-2"><i class="fa-solid fa-clock"></i> </span>
@@ -150,7 +156,7 @@
                                             <img src="/assets/images/resource_berita/<?= $berita_terbaru_ekonomi['gambar_berita']; ?>" alt="thumb" class="img-fluid" />
                                         </div>
                                         <h2 class="mt-3 text-primary mb-2">
-                                            <?= $berita_terbaru_ekonomi['judul_berita']; ?>
+                                            <a href="/home/detail_berita_ekonomi/<?= $berita_terbaru_ekonomi['slug']; ?>" style="text-decoration: none; color: #434a54"><?= $berita_terbaru_ekonomi['judul_berita']; ?></a>
                                         </h2>
                                         <p class="fs-13 mb-1 text-muted">
                                             <span class="mr-2"><i class="fa-solid fa-clock"></i> </span>
@@ -166,7 +172,7 @@
                                         <?php foreach ($berita_ekonomi as $value) { ?>
                                             <div class="border-bottom pb-3 mb-3">
                                                 <h3 class="font-weight-600 mb-0">
-                                                    <?= $value['judul_berita']; ?>
+                                                    <a href="/home/detail_berita_ekonomi/<?= $value['slug']; ?>" style="text-decoration: none; color: #434a54"><?= $value['judul_berita']; ?></a>
                                                 </h3>
                                                 <p class="fs-13 text-muted mb-0">
                                                     <span class="mr-2"><i class="fa-solid fa-clock"></i> </span>
@@ -194,7 +200,7 @@
                                                     <img src="/assets/images/resource_berita/<?= $value['gambar_berita']; ?>" alt="thumb" class="img-fluid" />
                                                 </div>
                                                 <p class="fs-16 font-weight-600 mb-0 mt-3">
-                                                    <?= $value['judul_berita']; ?>
+                                                    <a href="/home/detail_berita_politik/<?= $value['slug']; ?>" style="text-decoration: none; color: #434a54"><?= $value['judul_berita']; ?></a>
                                                 </p>
                                                 <p class="fs-13 text-muted mb-0">
                                                     <span class="mr-2"><i class="fa-solid fa-clock"></i> </span>
@@ -219,7 +225,7 @@
                                                             </div>
                                                             <div class="col-sm-7 pl-2">
                                                                 <p class="fs-16 font-weight-600 mb-0">
-                                                                    <?= $value['judul_berita']; ?>
+                                                                    <a href="/home/detail_berita_kecelakaan/<?= $value['slug']; ?>" style="text-decoration: none; color: #434a54"><?= $value['judul_berita']; ?></a>
                                                                 </p>
                                                                 <p class="fs-13 text-muted mb-0">
                                                                     <span class="mr-2"><i class="fa-solid fa-clock"></i> </span>

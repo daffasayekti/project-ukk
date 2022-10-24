@@ -18,9 +18,9 @@
                                 <div class="rotate-img">
                                     <img src="/assets/images/resource_berita/<?= $detailEkonomi['gambar_berita']; ?>" alt="banner" class="img-fluid mt-4 mb-4" />
                                 </div>
-                                <p class="mb-4 fs-15">
-                                    <?= $detailEkonomi['isi_berita']; ?>
-                                </p>
+                                <div style="text-align: justify; line-height: 1.7;">
+                                    <p class="mb-4 fs-15"><?= $detailEkonomi['isi_berita']; ?></p>
+                                </div>
                             </div>
                             <div class="d-lg-flex mt-3">
                                 <span class="fs-16 font-weight-600 mr-2 mb-1">Tags</span>
