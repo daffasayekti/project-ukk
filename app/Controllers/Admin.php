@@ -1146,4 +1146,17 @@ class Admin extends BaseController
 
         return redirect()->to('/admin/data_olahraga');
     }
+
+    public function gagal_moderasi($slug)
+    {
+        $beritaGagalModerasi = $this->beritaModel->getBeritaBySlug($slug);
+
+        unlink('assets/images/resource_berita/' . $beritaGagalModerasi['gambar_berita']);
+
+        $this->beritaModel->delete_berita($slug);
+
+        session()->setFlashdata('success', 'Data Gagal Dimoderasi.');
+
+        return redirect()->to('/admin/moderasi_berita');
+    }
 }

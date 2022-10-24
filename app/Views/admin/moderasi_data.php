@@ -71,7 +71,7 @@
                                     <td class="text-center">
                                         <a href="/admin/detail_berita_moderasi/<?= $value['slug']; ?>" class="btn btn-warning btn-sm"><i class="fas fa-info-circle"></i></a>
                                         <a href="/admin/proses_moderasi/<?= $value['id_berita']; ?>" class="btn btn-success ml-1 btn-sm"><i class="fas fa-check-circle"></i></a>
-                                        <a href="/admin/gagal_moderasi/<?= $value['id_berita']; ?>" class="btn btn-danger ml-1 btn-sm"><i class="fa-sharp fa-solid fa-circle-xmark"></i></a>
+                                        <a href="/admin/gagal_moderasi/<?= $value['slug']; ?>" class="btn btn-danger ml-1 btn-sm"><i class="fa-sharp fa-solid fa-circle-xmark"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
