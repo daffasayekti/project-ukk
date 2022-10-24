@@ -70,6 +70,17 @@ class Home extends BaseController
             'berita_ekonomi_trending' => $this->beritaModel->getBeritaEkonomiTrending()
         ];
 
+        $builder = $this->beritaModel->table('tb_berita');
+
+        $dataBerita = $data['detailEkonomi'];
+        $dataUpdate = ['banyak_dilihat' => 1];
+
+        $where = ['id_berita' => $dataBerita['id_berita']];
+
+        $builder->set($dataUpdate)
+            ->where($where)
+            ->update();
+
         return view('/pages/detail_berita_ekonomi', $data);
     }
 
@@ -99,6 +110,17 @@ class Home extends BaseController
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_politik_trending' => $this->beritaModel->getBeritaPolitikTrending(),
         ];
+
+        $builder = $this->beritaModel->table('tb_berita');
+
+        $dataBerita = $data['detailPolitik'];
+        $dataUpdate = ['banyak_dilihat' => 1];
+
+        $where = ['id_berita' => $dataBerita['id_berita']];
+
+        $builder->set($dataUpdate)
+            ->where($where)
+            ->update();
 
         return view('/pages/detail_berita_politik', $data);
     }
@@ -130,6 +152,17 @@ class Home extends BaseController
             'berita_kecelakaan_trending' => $this->beritaModel->getBeritaKecelakaanTrending(),
         ];
 
+        $builder = $this->beritaModel->table('tb_berita');
+
+        $dataBerita = $data['detailKecelakaan'];
+        $dataUpdate = ['banyak_dilihat' => 1];
+
+        $where = ['id_berita' => $dataBerita['id_berita']];
+
+        $builder->set($dataUpdate)
+            ->where($where)
+            ->update();
+
         return view('/pages/detail_berita_kecelakaan', $data);
     }
 
@@ -159,6 +192,17 @@ class Home extends BaseController
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_olahraga_trending' => $this->beritaModel->getBeritaOlahragaTerbaru(),
         ];
+
+        $builder = $this->beritaModel->table('tb_berita');
+
+        $dataBerita = $data['detailOlahraga'];
+        $dataUpdate = ['banyak_dilihat' => 1];
+
+        $where = ['id_berita' => $dataBerita['id_berita']];
+
+        $builder->set($dataUpdate)
+            ->where($where)
+            ->update();
 
         return view('/pages/detail_berita_olahraga', $data);
     }
