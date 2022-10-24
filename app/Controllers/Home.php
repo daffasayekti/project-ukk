@@ -72,10 +72,11 @@ class Home extends BaseController
 
         $builder = $this->beritaModel->table('tb_berita');
 
-        $dataBerita = $data['detailEkonomi'];
-        $dataUpdate = ['banyak_dilihat' => 1];
+        $dataBerita = $data['detailEkonomi']['banyak_dilihat'];
+        $totalView  = $dataBerita + 1;
+        $dataUpdate = ['banyak_dilihat' => $totalView];
 
-        $where = ['id_berita' => $dataBerita['id_berita']];
+        $where = ['id_berita' => $data['detailEkonomi']['id_berita']];
 
         $builder->set($dataUpdate)
             ->where($where)
@@ -113,10 +114,11 @@ class Home extends BaseController
 
         $builder = $this->beritaModel->table('tb_berita');
 
-        $dataBerita = $data['detailPolitik'];
-        $dataUpdate = ['banyak_dilihat' => 1];
+        $dataBerita = $data['detailPolitik']['banyak_dilihat'];
+        $totalView  = $dataBerita + 1;
+        $dataUpdate = ['banyak_dilihat' => $totalView];
 
-        $where = ['id_berita' => $dataBerita['id_berita']];
+        $where = ['id_berita' => $data['detailPolitik']['id_berita']];
 
         $builder->set($dataUpdate)
             ->where($where)
@@ -154,10 +156,11 @@ class Home extends BaseController
 
         $builder = $this->beritaModel->table('tb_berita');
 
-        $dataBerita = $data['detailKecelakaan'];
-        $dataUpdate = ['banyak_dilihat' => 1];
+        $dataBerita = $data['detailKecelakaan']['banyak_dilihat'];
+        $totalView  = $dataBerita + 1;
+        $dataUpdate = ['banyak_dilihat' => $totalView];
 
-        $where = ['id_berita' => $dataBerita['id_berita']];
+        $where = ['id_berita' => $data['detailKecelakaan']['id_berita']];
 
         $builder->set($dataUpdate)
             ->where($where)
@@ -195,10 +198,11 @@ class Home extends BaseController
 
         $builder = $this->beritaModel->table('tb_berita');
 
-        $dataBerita = $data['detailOlahraga'];
-        $dataUpdate = ['banyak_dilihat' => 1];
+        $dataBerita = $data['detailOlahraga']['banyak_dilihat'];
+        $totalView  = $dataBerita + 1;
+        $dataUpdate = ['banyak_dilihat' => $totalView];
 
-        $where = ['id_berita' => $dataBerita['id_berita']];
+        $where = ['id_berita' => $data['detailOlahraga']['id_berita']];
 
         $builder->set($dataUpdate)
             ->where($where)
