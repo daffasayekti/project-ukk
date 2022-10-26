@@ -4,14 +4,18 @@ namespace App\Controllers;
 
 use App\Models\BeritaModel;
 
+use App\Models\KomentarModel;
+
 class Home extends BaseController
 {
     protected $beritaModel;
+    protected $komentarModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
     {
         $this->beritaModel    = new BeritaModel();
+        $this->komentarModel  = new KomentarModel();
     }
 
     public function index()
@@ -85,6 +89,17 @@ class Home extends BaseController
         return view('/pages/detail_berita_ekonomi', $data);
     }
 
+    public function komentar_ekonomi($id_berita)
+    {
+        $this->komentarModel->save([
+            'berita_id'       => $id_berita,
+            'created_by'      => $this->request->getVar('created_by'),
+            'isi_komentar'    => $this->request->getVar('isi_komentar'),
+        ]);
+
+        return redirect()->to('/home/detail_berita_ekonomi/' . $this->request->getVar('slug'));
+    }
+
     public function politik()
     {
         helper(['tanggal_helper']);
@@ -125,6 +140,17 @@ class Home extends BaseController
             ->update();
 
         return view('/pages/detail_berita_politik', $data);
+    }
+
+    public function komentar_politik($id_berita)
+    {
+        $this->komentarModel->save([
+            'berita_id'       => $id_berita,
+            'created_by'      => $this->request->getVar('created_by'),
+            'isi_komentar'    => $this->request->getVar('isi_komentar'),
+        ]);
+
+        return redirect()->to('/home/detail_berita_politik/' . $this->request->getVar('slug'));
     }
 
     public function kecelakaan()
@@ -169,6 +195,17 @@ class Home extends BaseController
         return view('/pages/detail_berita_kecelakaan', $data);
     }
 
+    public function komentar_kecelakaan($id_berita)
+    {
+        $this->komentarModel->save([
+            'berita_id'       => $id_berita,
+            'created_by'      => $this->request->getVar('created_by'),
+            'isi_komentar'    => $this->request->getVar('isi_komentar'),
+        ]);
+
+        return redirect()->to('/home/detail_berita_kecelakaan/' . $this->request->getVar('slug'));
+    }
+
     public function olahraga()
     {
         helper(['tanggal_helper']);
@@ -209,6 +246,17 @@ class Home extends BaseController
             ->update();
 
         return view('/pages/detail_berita_olahraga', $data);
+    }
+
+    public function komentar_olahraga($id_berita)
+    {
+        $this->komentarModel->save([
+            'berita_id'       => $id_berita,
+            'created_by'      => $this->request->getVar('created_by'),
+            'isi_komentar'    => $this->request->getVar('isi_komentar'),
+        ]);
+
+        return redirect()->to('/home/detail_berita_olahraga/' . $this->request->getVar('slug'));
     }
 
     public function kontak()

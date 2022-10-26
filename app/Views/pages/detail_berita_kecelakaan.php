@@ -15,9 +15,7 @@
                                 <p class="fs-13 text-muted mb-0 mt-2">
                                     <span class="mr-2"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_2(date($detailKecelakaan['tanggal_buat'])); ?>
                                 </p>
-                                <div class="rotate-img">
-                                    <img src="/assets/images/resource_berita/<?= $detailKecelakaan['gambar_berita']; ?>" alt="banner" class="img-fluid mt-4 mb-4" />
-                                </div>
+                                <img src="/assets/images/resource_berita/<?= $detailKecelakaan['gambar_berita']; ?>" alt="banner" class="img-fluid mt-4 mb-4" />
                                 <div style="text-align: justify; line-height: 1.7;">
                                     <p class="mb-4 fs-15">
                                         <?= $detailKecelakaan['isi_berita']; ?>
@@ -33,9 +31,7 @@
                                 <div class="testimonial">
                                     <div class="d-lg-flex justify-content-between align-items-center">
                                         <div class="d-flex align-items-center mb-3">
-                                            <div class="rotate-img">
-                                                <img src="/assets/images/profile_users/<?= $detailKecelakaan['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
-                                            </div>
+                                            <img src="/assets/images/profile_users/<?= $detailKecelakaan['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
                                             <div>
                                                 <p class="fs-12 mb-1 line-height-xs">
                                                     Penulis Berita
@@ -66,11 +62,29 @@
                                 </div>
                                 <div class="comment-section">
                                     <h5 class="font-weight-600">Kolom Komentar</h5>
+                                    <div class="testimonial">
+                                        <div>
+                                            <form action="/home/komentar_kecelakaan/<?= $detailKecelakaan['id_berita']; ?>">
+                                                <input type="hidden" name="created_by" value="<?= user()->username; ?>">
+                                                <input type="hidden" name="slug" value="<?= $detailKecelakaan['slug'] ?>">
+                                                <div class="d-flex align-items-center mb-3">
+                                                    <img src="/assets/images/profile_users/<?= user()->profile_img; ?>" alt="banner" class="img img-rounded mr-3" />
+                                                    <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                                                        <?= user()->username; ?>
+                                                    </p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <textarea class="form-control" cols="50" name="isi_komentar">
+
+                                                    </textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Kirim</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                     <div class="comment-box">
                                         <div class="d-flex align-items-center">
-                                            <div class="rotate-img">
-                                                <img src="/assets/images/profile_users/default.png" alt="banner" class="img-fluid img-rounded mr-3" />
-                                            </div>
+                                            <img src="/assets/images/profile_users/default.png" alt="banner" class="img-fluid img-rounded mr-3" />
                                             <div>
                                                 <p class="fs-12 mb-1 line-height-xs">
                                                     24 Jul 2020
@@ -91,9 +105,7 @@
                                     </div>
                                     <div class="comment-box mb-0">
                                         <div class="d-flex align-items-center">
-                                            <div class="rotate-img">
-                                                <img src="/assets/images/profile_users/default.png" alt="banner" class="img-fluid img-rounded mr-3" />
-                                            </div>
+                                            <img src="/assets/images/profile_users/default.png" alt="banner" class="img-fluid img-rounded mr-3" />
                                             <div>
                                                 <p class="fs-12 mb-1 line-height-xs">
                                                     24 Jul 2020
