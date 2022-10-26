@@ -80,48 +80,25 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="comment-box">
-                                        <div class="d-flex align-items-center">
-                                            <img src="/assets/images/profile_users/default.png" alt="banner" class="img-fluid img-rounded mr-3" />
-                                            <div>
-                                                <p class="fs-12 mb-1 line-height-xs">
-                                                    24 Jul 2020
-                                                </p>
-                                                <p class="fs-16 font-weight-600 mb-0 line-height-xs">
-                                                    Chigusa Kisa
-                                                </p>
+                                    <?php foreach ($komentarEkonomi as $value) { ?>
+                                        <div class="comment-box">
+                                            <div class="d-flex align-items-center">
+                                                <img src="/assets/images/profile_users/<?= $value['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
+                                                <div>
+                                                    <p class="fs-12 mb-1 line-height-xs">
+                                                        <?= tgl_indo_model_2(date($value['tanggal_komentar'])); ?>
+                                                    </p>
+                                                    <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                                                        <?= $value['username']; ?>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <p class="fs-12 mt-3">
-                                            Praesent facilisis vulputate venenatis. In
-                                            facilisis placerat arcu, in tempor neque aliquet
-                                            quis. Integer lacinia in ligula eu sodales. Proin
-                                            non lorem iaculis, dictum lorem quis, bibendum
-                                            leo.
-                                        </p>
-                                    </div>
-                                    <div class="comment-box mb-0">
-                                        <div class="d-flex align-items-center">
-                                            <img src="/assets/images/profile_users/default.png" alt="banner" class="img-fluid img-rounded mr-3" />
-                                            <div>
-                                                <p class="fs-12 mb-1 line-height-xs">
-                                                    24 Jul 2020
-                                                </p>
-                                                <p class="fs-16 font-weight-600 mb-0 line-height-xs">
-                                                    Lucy Miller
-                                                </p>
-                                            </div>
+                                            <p class="fs-12 mt-3">
+                                                <?= $value['isi_komentar']; ?>
+                                            </p>
                                         </div>
-
-                                        <p class="fs-12 mt-3">
-                                            Praesent facilisis vulputate venenatis. In
-                                            facilisis placerat arcu, in tempor neque aliquet
-                                            quis. Integer lacinia in ligula eu sodales. Proin
-                                            non lorem iaculis, dictum lorem quis, bibendum
-                                            leo.
-                                        </p>
-                                    </div>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>

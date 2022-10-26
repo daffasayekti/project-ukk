@@ -67,9 +67,12 @@ class Home extends BaseController
     {
         helper(['tanggal_helper']);
 
+        $id = $this->beritaModel->getBeritaBySlugAndAuthor($slug);
+
         $data = [
             'title' => 'Detail Berita Ekonomi',
             'detailEkonomi' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
+            'komentarEkonomi' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_ekonomi_trending' => $this->beritaModel->getBeritaEkonomiTrending()
         ];
@@ -119,9 +122,12 @@ class Home extends BaseController
     {
         helper(['tanggal_helper']);
 
+        $id = $this->beritaModel->getBeritaBySlugAndAuthor($slug);
+
         $data = [
             'title' => 'Detail Berita Politik',
             'detailPolitik' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
+            'komentarPolitik' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_politik_terbaru' => $this->beritaModel->getBeritaPolitikTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_politik_trending' => $this->beritaModel->getBeritaPolitikTrending(),
@@ -172,9 +178,12 @@ class Home extends BaseController
     {
         helper(['tanggal_helper']);
 
+        $id = $this->beritaModel->getBeritaBySlugAndAuthor($slug);
+
         $data = [
             'title' => 'Detail Berita Kecelakaan',
             'detailKecelakaan' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
+            'komentarKecelakaan' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_kecelakaan_terbaru' => $this->beritaModel->getBeritaKecelakaanTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_kecelakaan_trending' => $this->beritaModel->getBeritaKecelakaanTrending(),
@@ -225,9 +234,12 @@ class Home extends BaseController
     {
         helper(['tanggal_helper']);
 
+        $id = $this->beritaModel->getBeritaBySlugAndAuthor($slug);
+
         $data = [
             'title' => 'Detail Berita Olahraga',
             'detailOlahraga' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
+            'komentarOlahraga' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_olahraga_terbaru' => $this->beritaModel->getBeritaOlahragaTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_olahraga_trending' => $this->beritaModel->getBeritaOlahragaTerbaru(),
