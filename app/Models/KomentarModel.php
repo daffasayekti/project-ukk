@@ -20,4 +20,13 @@ class KomentarModel extends Model
 
         return $execute->getResultArray();
     }
+
+    public function delete_komentar($id_komentar)
+    {
+        $sql = "DELETE FROM tb_komentar WHERE id_komentar = '$id_komentar'";
+
+        $this->db->query($sql);
+
+        return;
+    }
 }

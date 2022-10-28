@@ -8,6 +8,8 @@ use App\Models\LoginsModel;
 
 use App\Models\UsersModel;
 
+use App\Models\KomentarModel;
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -17,6 +19,7 @@ class Admin extends BaseController
     protected $beritaModel;
     protected $loginsModel;
     protected $usersModel;
+    protected $komentarModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
@@ -24,6 +27,7 @@ class Admin extends BaseController
         $this->beritaModel = new BeritaModel();
         $this->loginsModel = new LoginsModel();
         $this->usersModel  = new UsersModel();
+        $this->komentarModel = new KomentarModel();
     }
 
     public function dashboard()
@@ -31,18 +35,11 @@ class Admin extends BaseController
         helper(['tanggal_helper']);
 
         $keyword = $this->request->getVar('keyword');
-        $keyword1 = $this->request->getVar('keyword1');
 
         if ($keyword) {
             $this->loginsModel->searchDataUsers($keyword);
         } else {
             $data_users_login = $this->loginsModel;
-        }
-
-        if ($keyword1) {
-            $this->beritaModel->searchDataBerita($keyword1);
-        } else {
-            $data_berita_moderasi = $this->beritaModel;
         }
 
         $data = [
@@ -55,7 +52,6 @@ class Admin extends BaseController
             'count_olahraga' => $this->beritaModel->countOlahraga(),
             'count_kecelakaan' => $this->beritaModel->countKecelakaan(),
             'count_ekonomi' => $this->beritaModel->countEkonomi(),
-
         ];
 
         return view('/admin/dashboard_admin', $data);
@@ -1162,5 +1158,24 @@ class Admin extends BaseController
 
     public function data_komentar()
     {
+        helper(['tanggal_helper']);
+
+        $data = [
+            'title' => 'Data Komentar',
+            'data_komentar' => $this->komentarModel->orderBy('id_komentar', 'DESC')->paginate(10, 'tb_komentar'),
+            'pager' => $this->komentarModel->pager,
+            'currentPage' => $this->request->getVar('page_tb_komentar') ? $this->request->getVar('page_tb_komentar') : 1,
+        ];
+
+        return view('/admin/data_komentar', $data);
+    }
+
+    public function hapus_komentar($id_komentar)
+    {
+        $this->komentarModel->delete_komentar($id_komentar);
+
+        session()->setFlashdata('success', 'Komentar Berhasil Dihapus.');
+
+        return redirect()->to('/admin/data_komentar');
     }
 }

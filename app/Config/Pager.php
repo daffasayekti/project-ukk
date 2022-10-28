@@ -30,6 +30,7 @@ class Pager extends BaseConfig
         'pagination_data_ekonomi' => 'App\Views\Pagers\pagination_data_ekonomi',
         'pagination_data_politik' => 'App\Views\Pagers\pagination_data_politik',
         'pagination_data_olahraga' => 'App\Views\Pagers\pagination_data_olahraga',
+        'pagination_data_komentar' => 'App\Views\Pagers\pagination_data_komentar',
     ];
 
     /**
