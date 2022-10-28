@@ -21,7 +21,7 @@
                 <div class="col-md-3">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-primary">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-running"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">

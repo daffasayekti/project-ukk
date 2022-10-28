@@ -1159,4 +1159,8 @@ class Admin extends BaseController
 
         return redirect()->to('/admin/moderasi_berita');
     }
+
+    public function data_komentar()
+    {
+    }
 }

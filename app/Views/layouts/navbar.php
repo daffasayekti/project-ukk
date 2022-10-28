@@ -28,14 +28,15 @@
                             <?php if (in_groups('User') && user()->jenis_akun_id == 1) : ?>
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" style="margin-top: 7px;">
                                     <div class="text-center mb-2">
-                                        <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="40"><br>
-                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span>
+                                        <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="50"><br>
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
+                                        <span class="badge badge-pill badge-warning mt-2">User Free</span>
                                     </div>
                                     <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>
-                                    <a class="dropdown-item" href="<?= base_url('/admin/dashboard'); ?>">
+                                    <a class="dropdown-item mb-3" href="<?= base_url('/admin/dashboard'); ?>">
                                         <i class="fas fa-money-bill fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Langganan
                                     </a>
@@ -47,16 +48,17 @@
                                 </div>
                             <?php elseif (in_groups('User') && user()->jenis_akun_id == 2) : ?>
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" style="margin-top: 7px;">
-                                    <div class="text-center mb-2">
-                                        <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="40"><br>
-                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span>
+                                    <div class="text-center mb-3 mt-3">
+                                        <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="50"><br>
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
+                                        <span class="badge badge-pill badge-success mt-2">User Premium</span>
                                     </div>
                                     <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>
-                                    <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item">
-                                        <i class="fa-solid fa-gear fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item mb-3">
+                                        <i class="fa-solid fa-edit fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Post
                                     </a>
                                     <div class="dropdown-divider"></div>
@@ -67,17 +69,18 @@
                                 </div>
                             <?php elseif (in_groups('Admin')) : ?>
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" style="margin-top: 7px;">
-                                    <div class="text-center mb-2">
-                                        <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="40"><br>
-                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span>
+                                    <div class="text-center mb-3 mt-3">
+                                        <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="50"><br>
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
+                                        <span class="badge badge-pill badge-primary mt-2">Admin</span>
                                     </div>
                                     <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>
-                                    <a href="<?= base_url('/admin/dashboard'); ?>" class="dropdown-item">
-                                        <i class="fa-solid fa-user-tie fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        My Admin
+                                    <a href="<?= base_url('/admin/dashboard'); ?>" class="dropdown-item mb-3">
+                                        <i class="fa-solid fa-users-cog fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        My-Admin
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="<?= base_url('/logout'); ?>">
@@ -87,10 +90,11 @@
                                 </div>
                             <?php else : ?>
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" style="margin-top: 7px;">
-                                    <div class="text-center mb-2">
+                                    <div class="text-center mb-3 mt-3">
                                         <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/default.png" width="40"><br>
                                         <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b>Guest</b></span>
                                     </div>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="<?= base_url('/login'); ?>">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-success"></i>
                                         Login

@@ -60,7 +60,7 @@
                                         ?>
                                     </td>
                                     <td style="width: 15%;" class="text-center">
-                                        <a href="/admin/detail_olahraga/<?= $value['slug']; ?>" class="btn btn-success btn-sm ml-1"><i class="fas fa-info-circle"></i></a>
+                                        <a href="/admin/detail_olahraga/<?= $value['slug']; ?>" class="btn btn-success btn-sm ml-1"><i class="fas fa-eye"></i></a>
                                         <a href="/admin/edit_berita_olahraga/<?= $value['slug']; ?>" class="btn btn-warning btn-sm ml-1"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="/admin/hapus_olahraga/<?= $value['slug']; ?>" class="btn btn-danger btn-sm ml-1"><i class="fas fa-trash"></i></a>
                                     </td>

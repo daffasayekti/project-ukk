@@ -8,11 +8,11 @@
         </div>
         <ul class="sidebar-menu">
             <li>
-                <a class="nav-link" href="<?= base_url('/admin/dashboard'); ?>"><i class="far fa-square"></i> <span>Dashboard Admin</span></a>
+                <a class="nav-link" href="<?= base_url('/admin/dashboard'); ?>"><i class="fas fa-home"></i> <span>Dashboard Admin</span></a>
             </li>
             <li class="menu-header">Kelola Data</li>
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-car-crash"></i> <span>Data Berita</span></a>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-newspaper"></i> <span>Data Berita</span></a>
                 <ul class="dropdown-menu">
                     <li>
                         <a class="nav-link" href="<?= base_url('/admin/data_kecelakaan'); ?>">Kecelakaan</a>
@@ -32,7 +32,7 @@
                 </ul>
             </li>
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-money-bill"></i> <span>Data Pengguna</span></a>
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i> <span>Data Pengguna</span></a>
                 <ul class="dropdown-menu">
                     <li>
                         <a class="nav-link" href="<?= base_url('/admin/user_free'); ?>">Users Free</a>
@@ -44,6 +44,9 @@
                         <a class="nav-link" href="<?= base_url('/ekonomi/kemiskinan'); ?>">Admin</a>
                     </li>
                 </ul>
+            </li>
+            <li>
+                <a class="nav-link" href="<?= base_url('/admin/data_komentar'); ?>"><i class="fas fa-comment"></i> <span>Data Komentar</span></a>
             </li>
         </ul>
     </aside>
