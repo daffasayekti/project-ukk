@@ -4,7 +4,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Users Free</h1>
+            <h1>Users Premium</h1>
         </div>
 
         <?php if (session()->getFlashdata('success')) : ?>
@@ -42,24 +42,24 @@
                             </tr>
                             <?php
                             $no = 1 + (10 * ($currentPage - 1));
-                            foreach ($data_users_free as $value) :
+                            foreach ($data_users_premium as $value) :
                             ?>
                                 <tr>
                                     <td class="text-center"><?= $no++; ?></td>
                                     <td><img alt="image" src="/assets/images/profile_users/<?= $value['profile_img'] ?>" class="rounded-circle mr-3" width="30" height="30"><?= $value['username']; ?></td>
                                     <td class="text-center"><?= $value['email']; ?></td>
                                     <td class="text-center">
-                                        <?php if ($value['jenis_akun_id'] == 1) {
-                                            echo 'Free';
+                                        <?php if ($value['jenis_akun_id'] == 2) {
+                                            echo 'Premium';
                                         } ?>
                                     </td>
                                     <td style="width: 15%;" class="text-center">
-                                        <a href="/admin/hapus_users_free/<?= $value['id']; ?>" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                        <a href="/admin/hapus_users_premium/<?= $value['id']; ?>" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
-                        <?= $pager->links('users', 'pagination_users_free'); ?>
+                        <?= $pager->links('users', 'pagination_users_premium'); ?>
                     </div>
                 </div>
             </div>

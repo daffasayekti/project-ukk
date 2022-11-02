@@ -38,10 +38,10 @@
                         <a class="nav-link" href="<?= base_url('/admin/user_free'); ?>">Users Free</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="<?= base_url('/ekonomi/kemiskinan'); ?>">Users Premium</a>
+                        <a class="nav-link" href="<?= base_url('/admin/user_premium'); ?>">Users Premium</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="<?= base_url('/ekonomi/kemiskinan'); ?>">Admin</a>
+                        <a class="nav-link" href="<?= base_url('/admin/admin'); ?>">Admin</a>
                     </li>
                 </ul>
             </li>

@@ -8,6 +8,8 @@ use App\Models\LoginsModel;
 
 use App\Models\UsersModel;
 
+use App\Models\AkunModel;
+
 use App\Models\KomentarModel;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -19,6 +21,7 @@ class Admin extends BaseController
     protected $beritaModel;
     protected $loginsModel;
     protected $usersModel;
+    protected $akunModel;
     protected $komentarModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
@@ -27,6 +30,7 @@ class Admin extends BaseController
         $this->beritaModel = new BeritaModel();
         $this->loginsModel = new LoginsModel();
         $this->usersModel  = new UsersModel();
+        $this->akunModel   = new AkunModel();
         $this->komentarModel = new KomentarModel();
     }
 
@@ -195,20 +199,78 @@ class Admin extends BaseController
         $keyword = $this->request->getVar('keyword');
 
         if ($keyword) {
-            $this->beritaModel->searchDataBeritaEkonomi($keyword);
+            $this->akunModel->searchDataUsersFree($keyword);
         } else {
-            $data_berita_ekonomi = $this->beritaModel;
+            $data_users_free = $this->akunModel;
         }
 
         $data = [
             'title' => 'Data Users Free',
-            'data_users_free' => $this->beritaModel->where('kategori_id', 2)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
-            'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
-            'pager' => $this->beritaModel->pager,
+            'data_users_free' => $this->akunModel->where('jenis_akun_id', 1)->orderBy('id', 'DESC')->paginate(10, 'users'),
+            'currentPage' => $this->request->getVar('page_users') ? $this->request->getVar('page_users') : 1,
+            'pager' => $this->akunModel->pager,
             'keyword' => $keyword,
         ];
 
         return view('/admin/data_users_free', $data);
+    }
+
+    public function hapus_users_free($id)
+    {
+        $this->akunModel->delete_akun($id);
+
+        session()->setFlashdata('success', 'Akun Berhasil Dihapus.');
+
+        return redirect()->to('/admin/users_free');
+    }
+
+    public function user_premium()
+    {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->akunModel->searchDataUsersPremium($keyword);
+        } else {
+            $data_users_premium = $this->akunModel;
+        }
+
+        $data = [
+            'title' => 'Data Users Premium',
+            'data_users_premium' => $this->akunModel->where('jenis_akun_id', 2)->orderBy('id', 'DESC')->paginate(10, 'users'),
+            'currentPage' => $this->request->getVar('page_users') ? $this->request->getVar('page_users') : 1,
+            'pager' => $this->akunModel->pager,
+            'keyword' => $keyword,
+        ];
+
+        return view('/admin/data_users_premium', $data);
+    }
+
+    public function hapus_users_premium($id)
+    {
+        $this->akunModel->delete_akun($id);
+
+        session()->setFlashdata('success', 'Akun Berhasil Dihapus.');
+
+        return redirect()->to('/admin/users_premium');
+    }
+
+    public function admin()
+    {
+        $data = [
+            'title' => 'Data Admin',
+            'data_admin' => $this->akunModel->getDataAdmin()
+        ];
+
+        return view('/admin/data_admin', $data);
+    }
+
+    public function hapus_admin($id)
+    {
+        $this->akunModel->delete_akun($id);
+
+        session()->setFlashdata('success', 'Akun Berhasil Dihapus.');
+
+        return redirect()->to('/admin/admin');
     }
 
     public function export_berita_kecelakaan()
