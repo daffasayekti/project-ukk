@@ -22,6 +22,9 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/trix.css'); ?>">
     <script type="text/javascript" src="<?= base_url('/assets/js/trix.js'); ?>"></script>
 
+    <!-- ChartJS -->
+    <script type="text/javascript" src="<?= base_url('/assets/js/Chart.min.js'); ?>"></script>
+
     <style>
         trix-toolbar [data-trix-button-group="file-tools"] {
             display: none;

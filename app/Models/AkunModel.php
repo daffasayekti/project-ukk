@@ -28,6 +28,27 @@ class AkunModel extends Model
         return $execute->getResultArray();
     }
 
+    public function getCountDataAdmin()
+    {
+        $sql = $this->db->query("SELECT users.*, auth_groups_users.* FROM users INNER JOIN auth_groups_users ON users.id = auth_groups_users.user_id");
+        $countAdmin = $sql->getNumRows();
+        return $countAdmin;
+    }
+
+    public function getCountUsersFree()
+    {
+        $sql = $this->db->query("SELECT * FROM users WHERE jenis_akun_id = 1");
+        $countUsersFree = $sql->getNumRows();
+        return $countUsersFree;
+    }
+
+    public function getCountUsersPremium()
+    {
+        $sql = $this->db->query("SELECT * FROM users WHERE jenis_akun_id = 2");
+        $countUsersPremium = $sql->getNumRows();
+        return $countUsersPremium;
+    }
+
     public function delete_akun($id)
     {
         $sql = "DELETE FROM users WHERE id = '$id'";

@@ -30,13 +30,13 @@
                                     <div class="text-center mb-2">
                                         <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="50"><br>
                                         <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
-                                        <span class="badge badge-pill badge-warning mt-2">User Free</span>
+                                        <span class="badge badge-pill badge-warning mt-2 text-white">User Free</span>
                                     </div>
                                     <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item">
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>
-                                    <a class="dropdown-item mb-3" href="<?= base_url('/admin/dashboard'); ?>">
+                                    <a class="dropdown-item mb-3" href="<?= base_url('/home/pilih_langganan'); ?>">
                                         <i class="fas fa-money-bill fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Langganan
                                     </a>
@@ -51,7 +51,7 @@
                                     <div class="text-center mb-3 mt-3">
                                         <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="50"><br>
                                         <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
-                                        <span class="badge badge-pill badge-success mt-2">User Premium</span>
+                                        <span class="badge badge-pill badge-success mt-2 text-white">User Premium</span>
                                     </div>
                                     <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item">
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -72,7 +72,7 @@
                                     <div class="text-center mb-3 mt-3">
                                         <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="50"><br>
                                         <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
-                                        <span class="badge badge-pill badge-primary mt-2">Admin</span>
+                                        <span class="badge badge-pill badge-primary mt-2 text-white">Admin</span>
                                     </div>
                                     <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item">
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -80,7 +80,7 @@
                                     </a>
                                     <a href="<?= base_url('/admin/dashboard'); ?>" class="dropdown-item mb-3">
                                         <i class="fa-solid fa-users-cog fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        My-Admin
+                                        My Admin
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="<?= base_url('/logout'); ?>">
@@ -114,30 +114,79 @@
                         <button class="navbar-toggler" type="button" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <div class="navbar-collapse justify-content-center collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav d-lg-flex justify-content-between align-items-center">
-                                <li>
-                                    <button class="navbar-close">
-                                        <i class="mdi mdi-close"></i>
-                                    </button>
-                                </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="<?= base_url('/'); ?>">Beranda</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('/home/ekonomi'); ?>">Ekonomi</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('/home/politik'); ?>">Politik</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('/home/kecelakaan'); ?>">Kecelakaan</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('/home/olahraga'); ?>">Olahraga</a>
-                                </li>
-                            </ul>
-                        </div>
+                        <?php if (in_groups('User') && user()->jenis_akun_id == 1) : ?>
+                            <div class="navbar-collapse justify-content-center collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav d-lg-flex justify-content-between align-items-center">
+                                    <li>
+                                        <button class="navbar-close">
+                                            <i class="mdi mdi-close"></i>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="<?= base_url('/'); ?>">Beranda</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('/home/ekonomi'); ?>">Ekonomi</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('/home/politik'); ?>">Politik</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('/home/kecelakaan'); ?>">Kecelakaan</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        <?php elseif (in_groups('User') && user()->jenis_akun_id == 2) : ?>
+                            <div class="navbar-collapse justify-content-center collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav d-lg-flex justify-content-between align-items-center">
+                                    <li>
+                                        <button class="navbar-close">
+                                            <i class="mdi mdi-close"></i>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="<?= base_url('/'); ?>">Beranda</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('/home/ekonomi'); ?>">Ekonomi</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('/home/politik'); ?>">Politik</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('/home/kecelakaan'); ?>">Kecelakaan</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('/home/olahraga'); ?>">Olahraga</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        <?php elseif (in_groups('Admin')) : ?>
+                            <div class="navbar-collapse justify-content-center collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav d-lg-flex justify-content-between align-items-center">
+                                    <li>
+                                        <button class="navbar-close">
+                                            <i class="mdi mdi-close"></i>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="<?= base_url('/'); ?>">Beranda</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('/home/ekonomi'); ?>">Ekonomi</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('/home/politik'); ?>">Politik</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('/home/kecelakaan'); ?>">Kecelakaan</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= base_url('/home/olahraga'); ?>">Olahraga</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <ul class="social-media">
                         <li>

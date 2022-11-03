@@ -78,7 +78,47 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-sm">
+                    <div class="mb-4 mt-3">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
             </div>
+
+            <script>
+                var ctx = document.getElementById("myChart").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["Admin", "Users Free", "Users Premium"],
+                        datasets: [{
+                            label: 'Data Pengguna',
+                            data: [<?= $count_data_admin ?>, <?= $count_users_free; ?>, <?= $count_users_premium; ?>],
+                            backgroundColor: [
+                                'rgba(18, 9, 176, 1)',
+                                'rgba(36, 176, 9, 1)',
+                                'rgba(223, 199, 15, 1)',
+                            ],
+                            borderColor: [
+                                'rgba(18, 9, 176, 1)',
+                                'rgba(36, 176, 9, 1)',
+                                'rgba(223, 199, 15, 1)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                    }
+                });
+            </script>
             <div class="card">
                 <div class="card-header">
                     <h4>Data Users Login</h4>

@@ -1,7 +1,7 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="<?= base_url('/admin/dashboard'); ?>">My-Admin</a>
+            <a href="<?= base_url('/admin/dashboard'); ?>">My Admin</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="<?= base_url('/admin/dashboard'); ?>">MA</a>

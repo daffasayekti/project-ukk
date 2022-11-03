@@ -6,16 +6,20 @@ use App\Models\BeritaModel;
 
 use App\Models\KomentarModel;
 
+use App\Models\JenisLanggananModel;
+
 class Home extends BaseController
 {
     protected $beritaModel;
     protected $komentarModel;
+    protected $jenisLanggananModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
     {
         $this->beritaModel    = new BeritaModel();
         $this->komentarModel  = new KomentarModel();
+        $this->jenisLanggananModel  = new JenisLanggananModel();
     }
 
     public function index()
@@ -289,5 +293,15 @@ class Home extends BaseController
         ];
 
         return view('/pages/pemberitahuan', $data);
+    }
+
+    public function pilih_langganan()
+    {
+        $data = [
+            'title' => 'Pilih Langganan',
+            'jenis_langganan' => $this->jenisLanggananModel->findAll(),
+        ];
+
+        return view('/pages/pilih_langganan', $data);
     }
 }

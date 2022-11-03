@@ -56,6 +56,9 @@ class Admin extends BaseController
             'count_olahraga' => $this->beritaModel->countOlahraga(),
             'count_kecelakaan' => $this->beritaModel->countKecelakaan(),
             'count_ekonomi' => $this->beritaModel->countEkonomi(),
+            'count_data_admin' => $this->akunModel->getCountDataAdmin(),
+            'count_users_free' => $this->akunModel->getCountUsersFree(),
+            'count_users_premium' => $this->akunModel->getCountUsersPremium()
         ];
 
         return view('/admin/dashboard_admin', $data);
