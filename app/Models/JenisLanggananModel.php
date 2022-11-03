@@ -8,5 +8,5 @@ class JenisLanggananModel extends Model
 {
     protected $table = 'jenis_langganan';
 
-    protected $allowedFields = ['jenis_langganan', 'harga_langganan'];
+    protected $allowedFields = ['nama_langganan', 'jenis_langganan', 'harga_langganan'];
 }

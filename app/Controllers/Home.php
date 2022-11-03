@@ -300,6 +300,7 @@ class Home extends BaseController
         $data = [
             'title' => 'Pilih Langganan',
             'jenis_langganan' => $this->jenisLanggananModel->findAll(),
+            'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
         ];
 
         return view('/pages/pilih_langganan', $data);
