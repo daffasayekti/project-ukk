@@ -24,17 +24,17 @@
                 <div class="card" data-aos="fade-up">
                     <div class="card-body">
                         <div class="aboutus-wrapper">
-                            <h1 class="mt-5 mb-3 text-center mb-3">
+                            <h2 class="mt-3 mb-3 text-center mb-3">
                                 Pilih Langganan
-                            </h1>
+                            </h2>
                             <div class="row">
-                                <?php foreach ($jenis_langganan as $value) { ?>
+                                <?php foreach ($data_langganan as $value) { ?>
                                     <div class="col-sm-6">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h5 class="card-title"><?= $value['nama_langganan']; ?> <span class="badge badge-danger ml-2">Rp. <?= number_format($value['harga_langganan'], 0, ",", "."); ?></span></h5>
+                                                <h5 class="card-title"><?= $value['nama_langganan']; ?> <span class="badge badge-danger ml-1">Rp. <?= number_format($value['harga_langganan'], 0, ",", "."); ?></span></h5>
                                                 <p class="card-text">Anda bisa menikmati layanan dari kami selama <?= $value['jenis_langganan']; ?></p>
-                                                <a href="#" class="btn btn-primary">Bayar</a>
+                                                <a href="/payment/detail_pembayaran/<?= $value['id_langganan']; ?>" class="btn btn-primary">Lanjutkan</a>
                                             </div>
                                         </div>
                                     </div>

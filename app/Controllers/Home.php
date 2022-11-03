@@ -299,8 +299,8 @@ class Home extends BaseController
     {
         $data = [
             'title' => 'Pilih Langganan',
-            'jenis_langganan' => $this->jenisLanggananModel->findAll(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'data_langganan' => $this->jenisLanggananModel->findAll(),
         ];
 
         return view('/pages/pilih_langganan', $data);
