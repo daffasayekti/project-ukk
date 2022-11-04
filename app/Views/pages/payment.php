@@ -69,9 +69,21 @@ SB-Mid-client-7zf0YflUfO844bEx"></script>
     document.getElementById('pay-button').onclick = function() {
         snap.pay('<?= $snapToken ?>', {
             onSuccess: function(result) {
+                $.ajax({
+                    url: '/payment/save',
+                    method: 'POST',
+                    data: result,
+                    success: function(res) {}
+                })
                 document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
             },
             onPending: function(result) {
+                $.ajax({
+                    url: '/payment/save',
+                    method: 'POST',
+                    data: result,
+                    success: function(res) {}
+                })
                 document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
             },
             onError: function(result) {
