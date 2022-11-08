@@ -1243,4 +1243,12 @@ class Admin extends BaseController
 
         return redirect()->to('/admin/data_komentar');
     }
+
+    public function data_pembayaran()
+    {
+    }
+
+    public function data_invoice()
+    {
+    }
 }

@@ -53,7 +53,14 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <button id="pay-button" class="btn btn-primary mt-2">Bayar</button>
+
+                                <?php if ($data_pembayaran == null) {
+                                    echo '<button id="pay-button" class="btn btn-primary mt-2">Bayar</button>';
+                                } elseif ($data_pembayaran['status_pembayaran'] == 'pending') {
+                                    echo '<button id="pay-button" class="btn btn-primary mt-2">Bayar</button>';
+                                } elseif ($data_pembayaran['status_pembayaran'] == 'settlement') {
+                                    echo '<a href="/payment/detail_invoice" class="btn btn-success mt-2 ml-2"><i class="fas fa-save mr-1"></i> Detail Invoice</a>';
+                                } ?>
                             </div>
                         </div>
                     </div>
@@ -72,19 +79,25 @@ SB-Mid-client-7zf0YflUfO844bEx"></script>
                 $.ajax({
                     url: '/payment/save',
                     method: 'POST',
-                    data: result,
+                    data: {
+                        ...result,
+                        id_langganan: <?= $data_langganan['id_langganan'] ?>,
+                        id_pelanggan: <?= user()->id ?>
+                    },
                     success: function(res) {}
                 })
-                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
             },
             onPending: function(result) {
                 $.ajax({
                     url: '/payment/save',
                     method: 'POST',
-                    data: result,
+                    data: {
+                        ...result,
+                        id_langganan: <?= $data_langganan['id_langganan'] ?>,
+                        id_pelanggan: <?= user()->id ?>
+                    },
                     success: function(res) {}
                 })
-                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
             },
             onError: function(result) {
                 document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);

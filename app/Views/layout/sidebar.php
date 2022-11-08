@@ -48,6 +48,12 @@
             <li>
                 <a class="nav-link" href="<?= base_url('/admin/data_komentar'); ?>"><i class="fas fa-comment"></i> <span>Data Komentar</span></a>
             </li>
+            <li>
+                <a class="nav-link" href="<?= base_url('/admin/data_pembayaran'); ?>"><i class="fas fa-money-bill"></i> <span>Data Pembayaran</span></a>
+            </li>
+            <li>
+                <a class="nav-link" href="<?= base_url('/admin/data_invoice'); ?>"><i class="fas fa-print"></i> <span>Data Invoice</span></a>
+            </li>
         </ul>
     </aside>
 </div>
