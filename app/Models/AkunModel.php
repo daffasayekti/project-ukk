@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class AkunModel extends Model
 {
     protected $table = 'users';
-    protected $allowedFields = ['email', 'username', 'fullname', 'profile_img', 'jenis_akun_id'];
+    protected $allowedFields = ['email', 'username', 'fullname', 'profile_img', 'jenis_akun_id', 'tanggal_expired'];
 
     public function searchDataUsersFree($keyword)
     {

@@ -12,7 +12,8 @@
         "myth/auth": "1.0",
         "phpoffice/phpspreadsheet": "^1.25",
         "midtrans/midtrans-php": "^2.5",
-        "dompdf/dompdf": "^2.0"
+        "dompdf/dompdf": "^2.0",
+        "nesbot/carbon": "^2.62"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",

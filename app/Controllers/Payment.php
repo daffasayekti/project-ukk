@@ -10,7 +10,7 @@ use App\Models\PembayaranModel;
 
 use App\Models\AkunModel;
 
-use Dompdf\Dompdf;
+use Carbon\Carbon;
 
 class Payment extends BaseController
 {
@@ -18,6 +18,7 @@ class Payment extends BaseController
     protected $beritaModel;
     protected $pembayaranModel;
     protected $akunModel;
+    protected $carbon;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
@@ -26,6 +27,7 @@ class Payment extends BaseController
         $this->beritaModel = new BeritaModel();
         $this->pembayaranModel = new PembayaranModel();
         $this->akunModel = new AkunModel();
+        $this->carbon = new Carbon();
     }
 
     public function detail_pembayaran($id)
@@ -96,8 +98,11 @@ class Payment extends BaseController
 
                 $where = ['id' => user()->id];
 
+                $date = Carbon::parse($this->request->getVar('transaction_time'))->addDays($dataPembayaran['waktu_langganan']);
+
                 $dataUpdate = [
-                    'jenis_akun_id' => 2
+                    'jenis_akun_id' => 2,
+                    'tanggal_expired' => $date,
                 ];
 
                 $builder->set($dataUpdate)
