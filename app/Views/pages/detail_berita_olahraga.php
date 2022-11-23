@@ -64,43 +64,41 @@
                                     <h5 class="font-weight-600">Kolom Komentar</h5>
                                     <div class="testimonial">
                                         <div>
-                                            <form action="/home/komentar_olahraga/<?= $detailOlahraga['id_berita']; ?>">
-                                                <input type="hidden" name="created_by" value="<?= user()->username; ?>">
-                                                <input type="hidden" name="slug" value="<?= $detailOlahraga['slug'] ?>">
-                                                <div class="d-flex align-items-center mb-3">
-                                                    <img src="/assets/images/profile_users/<?= user()->profile_img; ?>" alt="banner" class="img img-rounded mr-3" />
-                                                    <p class="fs-16 font-weight-600 mb-0 line-height-xs">
-                                                        <?= user()->username; ?>
-                                                    </p>
-                                                </div>
-                                                <div class="form-group">
-                                                    <textarea class="form-control" cols="50" name="isi_komentar">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <img src="/assets/images/profile_users/<?= user()->profile_img; ?>" alt="banner" class="img img-rounded mr-3" />
+                                                <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                                                    <?= user()->username; ?>
+                                                </p>
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea class="form-control komentar" cols="50" name="isi_komentar" id="isi_komentar" placeholder="Tulis Komentar...">
 
-                                                    </textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Kirim</button>
-                                            </form>
+                                                </textarea>
+                                            </div>
+                                            <button id="komentarOlahraga" class="btn btn-primary">Kirim</button>
                                         </div>
                                     </div>
-                                    <?php foreach ($komentarOlahraga as $value) { ?>
-                                        <div class="comment-box">
-                                            <div class="d-flex align-items-center">
-                                                <img src="/assets/images/profile_users/<?= $value['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
-                                                <div>
-                                                    <p class="fs-12 mb-1 line-height-xs">
-                                                        <?= tgl_indo_model_2(date($value['tanggal_komentar'])); ?>
-                                                    </p>
-                                                    <p class="fs-16 font-weight-600 mb-0 line-height-xs">
-                                                        <?= $value['username']; ?>
-                                                    </p>
+                                    <div id="comments">
+                                        <?php foreach ($komentarOlahraga as $value) { ?>
+                                            <div class="comment-box">
+                                                <div class="d-flex align-items-center">
+                                                    <img src="/assets/images/profile_users/<?= $value['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
+                                                    <div>
+                                                        <p class="fs-12 mb-1 line-height-xs">
+                                                            <?= tgl_indo_model_2(date($value['tanggal_komentar'])); ?>
+                                                        </p>
+                                                        <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                                                            <?= $value['username']; ?>
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <p class="fs-12 mt-3">
-                                                <?= $value['isi_komentar']; ?>
-                                            </p>
-                                        </div>
-                                    <?php } ?>
+                                                <p class="fs-12 mt-3">
+                                                    <?= $value['isi_komentar']; ?>
+                                                </p>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -156,4 +154,51 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $('#komentarOlahraga').on('click', function() {
+        var isi_komentar = document.getElementById('isi_komentar');
+        $.ajax({
+            url: '/home/komentar_olahraga1',
+            method: 'POST',
+            data: {
+                id_berita: <?= $detailOlahraga['id_berita'] ?>,
+                created_by: '<?= user()->username ?>',
+                isi_komentar: isi_komentar.value
+            },
+            success: function(res) {
+                getKomentarOlahraga();
+                isi_komentar.value = "";
+            }
+        })
+    });
+
+    function getKomentarOlahraga() {
+        $.ajax({
+            url: '/home/get_komentar_olahraga/<?= $detailOlahraga['id_berita'] ?>',
+            method: 'GET',
+            success: function(data) {
+                document.getElementById('comments').innerHTML = data.map(item => `
+                <div class="comment-box">
+                    <div class="d-flex align-items-center">
+                        <img src="/assets/images/profile_users/${item.profile_img}" alt="banner" class="img-fluid img-rounded mr-3" />
+                        <div>
+                            <p class="fs-12 mb-1 line-height-xs">
+                                ${item . tanggal_komentar}
+                            </p>
+                            <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                                ${item.username}
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="fs-12 mt-3">
+                        ${item.isi_komentar}
+                    </p>
+                </div>
+                `).join('')
+            }
+        })
+    }
+</script>
 <?= $this->endSection(); ?>

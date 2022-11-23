@@ -8,8 +8,11 @@ use App\Models\KomentarModel;
 
 use App\Models\JenisLanggananModel;
 
+use CodeIgniter\API\ResponseTrait;
+
 class Home extends BaseController
 {
+    use ResponseTrait;
     protected $beritaModel;
     protected $komentarModel;
     protected $jenisLanggananModel;
@@ -96,15 +99,104 @@ class Home extends BaseController
         return view('/pages/detail_berita_ekonomi', $data);
     }
 
-    public function komentar_ekonomi($id_berita)
+    public function komentar_ekonomi()
     {
-        $this->komentarModel->save([
-            'berita_id'       => $id_berita,
-            'created_by'      => $this->request->getVar('created_by'),
-            'isi_komentar'    => $this->request->getVar('isi_komentar'),
-        ]);
+        if ($this->request->isAJAX()) {
+            $this->komentarModel->save([
+                'berita_id'       => $this->request->getVar('id_berita'),
+                'created_by'      => $this->request->getVar('created_by'),
+                'isi_komentar'    => $this->request->getVar('isi_komentar'),
+            ]);
+        }
+    }
 
-        return redirect()->to('/home/detail_berita_ekonomi/' . $this->request->getVar('slug'));
+    public function get_komentar_ekonomi($id_berita)
+    {
+        if ($this->request->isAJAX()) {
+            $komentar = $this->komentarModel->getKomentarByBeritaId($id_berita);
+
+            $datas = [];
+            foreach ($komentar as $kom) {
+                $kom['tanggal_komentar'] = tgl_indo_model_2($kom['tanggal_komentar']);
+                $datas[] = $kom;
+            }
+            return $this->respond($datas);
+        }
+    }
+
+    public function komentar_politik1()
+    {
+        if ($this->request->isAJAX()) {
+            $this->komentarModel->save([
+                'berita_id'       => $this->request->getVar('id_berita'),
+                'created_by'      => $this->request->getVar('created_by'),
+                'isi_komentar'    => $this->request->getVar('isi_komentar'),
+            ]);
+        }
+    }
+
+    public function get_komentar_politik($id_berita)
+    {
+        if ($this->request->isAJAX()) {
+            $komentar = $this->komentarModel->getKomentarByBeritaId($id_berita);
+
+            $datas = [];
+            foreach ($komentar as $kom) {
+                $kom['tanggal_komentar'] = tgl_indo_model_2($kom['tanggal_komentar']);
+                $datas[] = $kom;
+            }
+            return $this->respond($datas);
+        }
+    }
+
+    public function komentar_kecelakaan1()
+    {
+        if ($this->request->isAJAX()) {
+            $this->komentarModel->save([
+                'berita_id'       => $this->request->getVar('id_berita'),
+                'created_by'      => $this->request->getVar('created_by'),
+                'isi_komentar'    => $this->request->getVar('isi_komentar'),
+            ]);
+        }
+    }
+
+    public function get_komentar_kecelakaan($id_berita)
+    {
+        if ($this->request->isAJAX()) {
+            $komentar = $this->komentarModel->getKomentarByBeritaId($id_berita);
+
+            $datas = [];
+            foreach ($komentar as $kom) {
+                $kom['tanggal_komentar'] = tgl_indo_model_2($kom['tanggal_komentar']);
+                $datas[] = $kom;
+            }
+            return $this->respond($datas);
+        }
+    }
+
+    public function komentar_olahraga1()
+    {
+        if ($this->request->isAJAX()) {
+            $this->komentarModel->save([
+                'berita_id'       => $this->request->getVar('id_berita'),
+                'created_by'      => $this->request->getVar('created_by'),
+                'isi_komentar'    => $this->request->getVar('isi_komentar'),
+            ]);
+        }
+    }
+
+    public function get_komentar_olahraga($id_berita)
+    {
+        if ($this->request->isAJAX()) {
+            $komentar = $this->komentarModel->getKomentarByBeritaId($id_berita);
+
+            $datas = [];
+            foreach ($komentar as $kom) {
+                $kom['tanggal_komentar'] = tgl_indo_model_2($kom['tanggal_komentar']);
+                $datas[] = $kom;
+            }
+            return $this->respond($datas);
+        }
     }
 
     public function politik()
