@@ -163,6 +163,15 @@ sup {
   vertical-align: baseline;
 }
 
+.nav-link {
+  color: #0056b3;
+}
+
+.nav-item.active a {
+  color: #007bff !important;
+  font-size: 18px !important;
+}
+
 sub {
   bottom: -.25em;
 }

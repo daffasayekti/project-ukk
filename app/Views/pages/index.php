@@ -117,7 +117,7 @@
                                             <img src="/assets/images/resource_berita/<?= $value['gambar_berita']; ?>" alt="thumb" class="img-fluid" />
                                         </div>
                                         <div class="badge-positioned">
-                                            <span class="badge badge-danger font-weight-bold">Flash news</span>
+                                            <span class="badge badge-danger font-weight-bold">Flash News</span>
                                         </div>
                                     </div>
                                 </div>

@@ -13,6 +13,7 @@ use CodeIgniter\API\ResponseTrait;
 class Home extends BaseController
 {
     use ResponseTrait;
+    protected $uri;
     protected $beritaModel;
     protected $komentarModel;
     protected $jenisLanggananModel;
@@ -23,6 +24,7 @@ class Home extends BaseController
         $this->beritaModel    = new BeritaModel();
         $this->komentarModel  = new KomentarModel();
         $this->jenisLanggananModel  = new JenisLanggananModel();
+        $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }
 
     public function index()
@@ -32,6 +34,7 @@ class Home extends BaseController
 
         $data = [
             'title' => 'World Time',
+            'uri' => $this->uri,
             'global_berita' => $this->beritaModel->getGlobalBerita(),
             'berita_terbaru_kecelakaan' => $this->beritaModel->getBeritaTerbaruKecelakaan(),
             'berita_terbaru_ekonomi' => $this->beritaModel->getBeritaTerbaruEkonomi(),
@@ -50,6 +53,7 @@ class Home extends BaseController
     {
         $data = [
             'title' => 'Tentang Kami',
+            'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
         ];
 
@@ -62,6 +66,7 @@ class Home extends BaseController
 
         $data = [
             'title' => 'Berita Ekonomi',
+            'uri' => $this->uri,
             'berita_ekonomi' => $this->beritaModel->getBeritaEkonomi(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_ekonomi_trending' => $this->beritaModel->getBeritaEkonomiTrending(),
@@ -78,6 +83,7 @@ class Home extends BaseController
 
         $data = [
             'title' => 'Detail Berita Ekonomi',
+            'uri' => $this->uri,
             'detailEkonomi' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
             'komentarEkonomi' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
@@ -205,6 +211,7 @@ class Home extends BaseController
 
         $data = [
             'title' => 'Berita Politik',
+            'uri' => $this->uri,
             'berita_politik' => $this->beritaModel->getBeritaPolitik(),
             'berita_politik_terbaru' => $this->beritaModel->getBeritaPolitikTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
@@ -222,6 +229,7 @@ class Home extends BaseController
 
         $data = [
             'title' => 'Detail Berita Politik',
+            'uri' => $this->uri,
             'detailPolitik' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
             'komentarPolitik' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_politik_terbaru' => $this->beritaModel->getBeritaPolitikTerbaru(),
@@ -261,6 +269,7 @@ class Home extends BaseController
 
         $data = [
             'title' => 'Berita Kecelakaan',
+            'uri' => $this->uri,
             'berita_kecelakaan' => $this->beritaModel->getBeritaKecelakaan(),
             'berita_kecelakaan_terbaru' => $this->beritaModel->getBeritaKecelakaanTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
@@ -278,6 +287,7 @@ class Home extends BaseController
 
         $data = [
             'title' => 'Detail Berita Kecelakaan',
+            'uri' => $this->uri,
             'detailKecelakaan' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
             'komentarKecelakaan' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_kecelakaan_terbaru' => $this->beritaModel->getBeritaKecelakaanTerbaru(),
@@ -317,6 +327,7 @@ class Home extends BaseController
 
         $data = [
             'title' => 'Berita Olahraga',
+            'uri' => $this->uri,
             'berita_olahraga' => $this->beritaModel->getBeritaOlahraga(),
             'berita_olahraga_terbaru' => $this->beritaModel->getBeritaOlahragaTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
@@ -334,6 +345,7 @@ class Home extends BaseController
 
         $data = [
             'title' => 'Detail Berita Olahraga',
+            'uri' => $this->uri,
             'detailOlahraga' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
             'komentarOlahraga' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_olahraga_terbaru' => $this->beritaModel->getBeritaOlahragaTerbaru(),
@@ -371,6 +383,7 @@ class Home extends BaseController
     {
         $data = [
             'title' => 'Kontak',
+            'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
         ];
 
@@ -381,6 +394,7 @@ class Home extends BaseController
     {
         $data = [
             'title' => 'Pemberitahuan',
+            'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
         ];
 
@@ -391,6 +405,7 @@ class Home extends BaseController
     {
         $data = [
             'title' => 'Pilih Langganan',
+            'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'data_langganan' => $this->jenisLanggananModel->findAll(),
         ];

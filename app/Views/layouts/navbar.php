@@ -4,11 +4,11 @@
             <div class="navbar-top">
                 <div class="d-flex justify-content-between align-items-center">
                     <ul class="navbar-top-left-menu">
-                        <li class="nav-item">
-                            <a href="<?= base_url('/home/pemberitahuan'); ?>" class="nav-link">Pemberitahuan</a>
+                        <li class="nav-item <?= $uri->getPath() == '/home/pemberitahuan' ? 'active' : ''; ?>">
+                            <a href="<?= base_url('/home/pemberitahuan'); ?>" class="nav-link">PEMBERITAHUAN</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('/home/tentang_kami'); ?>" class="nav-link">Tentang Kami</a>
+                        <li class="nav-item <?= $uri->getPath() == '/home/tentang_kami' ? 'active' : ''; ?>">
+                            <a href="<?= base_url('/home/tentang_kami'); ?>" class="nav-link">TENTANG KAMI</a>
                         </li>
                     </ul>
                     <ul class="navbar-top-right-menu">
@@ -122,16 +122,16 @@
                                             <i class="mdi mdi-close"></i>
                                         </button>
                                     </li>
-                                    <li class="nav-item active">
+                                    <li class="nav-item <?= $uri->getPath() == '/' ? 'active' : ''; ?> ">
                                         <a class="nav-link" href="<?= base_url('/'); ?>">Beranda</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item <?= $uri->getPath() == '/home/ekonomi' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_ekonomi' ? 'active' : ''; ?>">
                                         <a class="nav-link" href="<?= base_url('/home/ekonomi'); ?>">Ekonomi</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item <?= $uri->getPath() == '/home/politik' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_politik' ? 'active' : ''; ?>">
                                         <a class="nav-link" href="<?= base_url('/home/politik'); ?>">Politik</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item <?= $uri->getPath() == '/home/kecelakaan' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_kecelakaan' ? 'active' : ''; ?>">
                                         <a class="nav-link" href="<?= base_url('/home/kecelakaan'); ?>">Kecelakaan</a>
                                     </li>
                                 </ul>
@@ -144,19 +144,19 @@
                                             <i class="mdi mdi-close"></i>
                                         </button>
                                     </li>
-                                    <li class="nav-item active">
+                                    <li class="nav-item <?= $uri->getPath() == '/' ? 'active' : ''; ?> ">
                                         <a class="nav-link" href="<?= base_url('/'); ?>">Beranda</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item <?= $uri->getPath() == '/home/ekonomi' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_ekonomi' ? 'active' : ''; ?>">
                                         <a class="nav-link" href="<?= base_url('/home/ekonomi'); ?>">Ekonomi</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item <?= $uri->getPath() == '/home/politik' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_politik' ? 'active' : ''; ?>">
                                         <a class="nav-link" href="<?= base_url('/home/politik'); ?>">Politik</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item <?= $uri->getPath() == '/home/kecelakaan' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_kecelakaan' ? 'active' : ''; ?>">
                                         <a class="nav-link" href="<?= base_url('/home/kecelakaan'); ?>">Kecelakaan</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item <?= $uri->getPath() == '/home/olahraga' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_olahraga' ? 'active' : ''; ?>">
                                         <a class="nav-link" href="<?= base_url('/home/olahraga'); ?>">Olahraga</a>
                                     </li>
                                 </ul>
@@ -169,20 +169,42 @@
                                             <i class="mdi mdi-close"></i>
                                         </button>
                                     </li>
-                                    <li class="nav-item active">
+                                    <li class="nav-item <?= $uri->getPath() == '/' ? 'active' : ''; ?> ">
                                         <a class="nav-link" href="<?= base_url('/'); ?>">Beranda</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item <?= $uri->getPath() == '/home/ekonomi' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_ekonomi' ? 'active' : ''; ?>">
                                         <a class="nav-link" href="<?= base_url('/home/ekonomi'); ?>">Ekonomi</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item <?= $uri->getPath() == '/home/politik' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_politik' ? 'active' : ''; ?>">
                                         <a class="nav-link" href="<?= base_url('/home/politik'); ?>">Politik</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item <?= $uri->getPath() == '/home/kecelakaan' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_kecelakaan' ? 'active' : ''; ?>">
                                         <a class="nav-link" href="<?= base_url('/home/kecelakaan'); ?>">Kecelakaan</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item <?= $uri->getPath() == '/home/olahraga' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_olahraga' ? 'active' : ''; ?>">
                                         <a class="nav-link" href="<?= base_url('/home/olahraga'); ?>">Olahraga</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        <?php else : ?>
+                            <div class="navbar-collapse justify-content-center collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav d-lg-flex justify-content-between align-items-center">
+                                    <li>
+                                        <button class="navbar-close">
+                                            <i class="mdi mdi-close"></i>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item <?= $uri->getPath() == '/' ? 'active' : ''; ?> ">
+                                        <a class="nav-link" href="<?= base_url('/'); ?>">Beranda</a>
+                                    </li>
+                                    <li class="nav-item <?= $uri->getPath() == '/home/ekonomi' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_ekonomi' ? 'active' : ''; ?>">
+                                        <a class="nav-link" href="<?= base_url('/home/ekonomi'); ?>">Ekonomi</a>
+                                    </li>
+                                    <li class="nav-item <?= $uri->getPath() == '/home/politik' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_politik' ? 'active' : ''; ?>">
+                                        <a class="nav-link" href="<?= base_url('/home/politik'); ?>">Politik</a>
+                                    </li>
+                                    <li class="nav-item <?= $uri->getPath() == '/home/kecelakaan' || $uri->getTotalSegments() >= 2 && $uri->getSegment(2) == 'detail_berita_kecelakaan' ? 'active' : ''; ?>">
+                                        <a class="nav-link" href="<?= base_url('/home/kecelakaan'); ?>">Kecelakaan</a>
                                     </li>
                                 </ul>
                             </div>
