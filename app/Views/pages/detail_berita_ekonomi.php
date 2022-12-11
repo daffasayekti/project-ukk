@@ -26,56 +26,60 @@
                                 <span class="badge badge-outline-dark mr-2 mb-1">Ekonomi</span><span class="badge badge-outline-dark mr-2 mb-1">Ekonomi</span><span class="badge badge-outline-dark mr-2 mb-1">Ekonomi</span><span class="badge badge-outline-dark mb-1">Ekonomi</span>
                             </div>
                             <div class="post-comment-section">
-                                <div class="testimonial">
-                                    <div class="d-lg-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center mb-3">
-                                            <img src="/assets/images/profile_users/<?= $detailEkonomi['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
-                                            <div>
-                                                <p class="fs-12 mb-1 line-height-xs">
-                                                    Penulis Berita
-                                                </p>
-                                                <p class="fs-16 font-weight-600 mb-0 line-height-xs">
-                                                    <?= $detailEkonomi['username']; ?>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <ul class="social-media mb-3">
-                                            <li>
-                                                <a href="#">
-                                                    <i class="mdi mdi-facebook"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="mdi mdi-youtube"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="mdi mdi-twitter"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="comment-section">
-                                    <h5 class="font-weight-600">Kolom Komentar</h5>
-                                    <div class="testimonial" id="testimoniEkonomi">
-                                        <div>
+                                <?php if (in_groups('User') || in_groups('Admin')) : ?>
+                                    <div class="testimonial">
+                                        <div class="d-lg-flex justify-content-between align-items-center">
                                             <div class="d-flex align-items-center mb-3">
-                                                <img src="/assets/images/profile_users/<?= user()->profile_img; ?>" alt="banner" class="img img-rounded mr-3" />
-                                                <p class="fs-16 font-weight-600 mb-0 line-height-xs">
-                                                    <?= user()->username; ?>
-                                                </p>
+                                                <img src="/assets/images/profile_users/<?= $detailEkonomi['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
+                                                <div>
+                                                    <p class="fs-12 mb-1 line-height-xs">
+                                                        Penulis Berita
+                                                    </p>
+                                                    <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                                                        <?= $detailEkonomi['username']; ?>
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                <textarea class="form-control komentar" cols="50" name="isi_komentar" id="isi_komentar" placeholder="Tulis Komentar...">
-
-                                                </textarea>
-                                            </div>
-                                            <button class="btn btn-primary" id="komentarEkonomi">Kirim</button>
+                                            <ul class="social-media mb-3">
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="mdi mdi-facebook"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="mdi mdi-youtube"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="mdi mdi-twitter"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
+                                <?php endif; ?>
+                                <div class="comment-section">
+                                    <?php if (in_groups('User') || in_groups('Admin')) : ?>
+                                        <h5 class="font-weight-600">Kolom Komentar</h5>
+                                        <div class="testimonial" id="testimoniEkonomi">
+                                            <div>
+                                                <div class="d-flex align-items-center mb-3">
+                                                    <img src="/assets/images/profile_users/<?= user()->profile_img; ?>" alt="banner" class="img img-rounded mr-3" />
+                                                    <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                                                        <?= user()->username; ?>
+                                                    </p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <textarea class="form-control komentar" cols="50" name="isi_komentar" id="isi_komentar" placeholder="Tulis Komentar...">
+
+                                                    </textarea>
+                                                </div>
+                                                <button class="btn btn-primary" id="komentarEkonomi">Kirim</button>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
                                     <div id="comments">
                                         <?php foreach ($komentarEkonomi as $value) { ?>
                                             <div class="comment-box">
@@ -161,7 +165,7 @@
             method: 'POST',
             data: {
                 id_berita: <?= $detailEkonomi['id_berita'] ?>,
-                created_by: '<?= user()->username ?>',
+                created_by: '<?= in_groups('User') || in_groups('Admin') ? user()->username : 'Guest'; ?>',
                 isi_komentar: isi_komentar.value
             },
             success: function(res) {

@@ -23,6 +23,7 @@ class Admin extends BaseController
     protected $usersModel;
     protected $akunModel;
     protected $komentarModel;
+    protected $uri;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
@@ -32,6 +33,7 @@ class Admin extends BaseController
         $this->usersModel  = new UsersModel();
         $this->akunModel   = new AkunModel();
         $this->komentarModel = new KomentarModel();
+        $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }
 
     public function dashboard()
@@ -52,6 +54,7 @@ class Admin extends BaseController
             'pager' => $this->loginsModel->pager,
             'currentPage' => $this->request->getVar('page_auth_logins') ? $this->request->getVar('page_auth_logins') : 1,
             'keyword' => $keyword,
+            'uri' => $this->uri,
             'count_politik' => $this->beritaModel->countPolitik(),
             'count_olahraga' => $this->beritaModel->countOlahraga(),
             'count_kecelakaan' => $this->beritaModel->countKecelakaan(),
@@ -76,6 +79,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Moderasi Berita',
+            'uri' => $this->uri,
             'data_berita_moderasi' => $this->beritaModel->where('status_berita', 0)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
             'keyword' => $keyword,
@@ -107,6 +111,7 @@ class Admin extends BaseController
     {
         $data = [
             'title' => 'Detail Berita',
+            'uri' => $this->uri,
             'detail_berita' => $this->beritaModel->getBeritaBySlug($slug),
         ];
 
@@ -125,6 +130,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Data Berita Kecelakaan',
+            'uri' => $this->uri,
             'data_berita' => $this->beritaModel->where('kategori_id', 1)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
             'pager' => $this->beritaModel->pager,
@@ -146,6 +152,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Data Berita Politik',
+            'uri' => $this->uri,
             'data_berita' => $this->beritaModel->where('kategori_id', 3)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
             'pager' => $this->beritaModel->pager,
@@ -167,6 +174,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Data Berita Ekonomi',
+            'uri' => $this->uri,
             'data_berita' => $this->beritaModel->where('kategori_id', 2)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
             'pager' => $this->beritaModel->pager,
@@ -188,6 +196,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Data Berita Olahraga',
+            'uri' => $this->uri,
             'data_berita' => $this->beritaModel->where('kategori_id', 4)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
             'pager' => $this->beritaModel->pager,
@@ -209,6 +218,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Data Users Free',
+            'uri' => $this->uri,
             'data_users_free' => $this->akunModel->where('jenis_akun_id', 1)->orderBy('id', 'DESC')->paginate(10, 'users'),
             'currentPage' => $this->request->getVar('page_users') ? $this->request->getVar('page_users') : 1,
             'pager' => $this->akunModel->pager,
@@ -229,6 +239,8 @@ class Admin extends BaseController
 
     public function user_premium()
     {
+        helper(['tanggal_helper']);
+
         $keyword = $this->request->getVar('keyword');
 
         if ($keyword) {
@@ -239,6 +251,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Data Users Premium',
+            'uri' => $this->uri,
             'data_users_premium' => $this->akunModel->where('jenis_akun_id', 2)->orderBy('id', 'DESC')->paginate(10, 'users'),
             'currentPage' => $this->request->getVar('page_users') ? $this->request->getVar('page_users') : 1,
             'pager' => $this->akunModel->pager,
@@ -248,20 +261,23 @@ class Admin extends BaseController
         return view('/admin/data_users_premium', $data);
     }
 
-    public function hapus_users_premium($id)
-    {
-        $this->akunModel->delete_akun($id);
-
-        session()->setFlashdata('success', 'Akun Berhasil Dihapus.');
-
-        return redirect()->to('/admin/users_premium');
-    }
-
     public function admin()
     {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->akunModel->searchDataAdmin($keyword);
+        } else {
+            $data_admin = $this->akunModel;
+        }
+
         $data = [
             'title' => 'Data Admin',
-            'data_admin' => $this->akunModel->getDataAdmin()
+            'uri' => $this->uri,
+            'data_admin' => $this->akunModel->where('jenis_akun_id', 3)->orderBy('id', 'DESC')->paginate(10, 'users'),
+            'currentPage' => $this->request->getVar('page_users') ? $this->request->getVar('page_users') : 1,
+            'pager' => $this->akunModel->pager,
+            'keyword' => $keyword,
         ];
 
         return view('/admin/data_admin', $data);
@@ -548,6 +564,7 @@ class Admin extends BaseController
     {
         $data = [
             'title' => 'Create Berita Kecelakaan',
+            'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
         ];
 
@@ -613,6 +630,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Detail Berita Kecelakaan',
+            'uri' => $this->uri,
             'detailKecelakaan' => $detailKecelakaan
         ];
 
@@ -625,6 +643,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Edit Berita Kecelakaan',
+            'uri' => $this->uri,
             'beritaKecelakaan' => $beritaKecelakaan,
             'validation' => \Config\Services::validation(),
         ];
@@ -714,6 +733,7 @@ class Admin extends BaseController
     {
         $data = [
             'title' => 'Create Berita Politik',
+            'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
         ];
 
@@ -779,6 +799,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Detail Berita Politik',
+            'uri' => $this->uri,
             'detailPolitik' => $detailPolitik
         ];
 
@@ -792,6 +813,7 @@ class Admin extends BaseController
         $data = [
             'title' => 'Edit Berita Politik',
             'beritaPolitik' => $beritaPolitik,
+            'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
         ];
 
@@ -880,6 +902,7 @@ class Admin extends BaseController
     {
         $data = [
             'title' => 'Create Berita Ekonomi',
+            'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
         ];
 
@@ -945,6 +968,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Detail Berita Ekonomi',
+            'uri' => $this->uri,
             'detailEkonomi' => $detailEkonomi
         ];
 
@@ -958,6 +982,7 @@ class Admin extends BaseController
         $data = [
             'title' => 'Edit Berita Ekonomi',
             'beritaEkonomi' => $beritaEkonomi,
+            'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
         ];
 
@@ -1046,6 +1071,7 @@ class Admin extends BaseController
     {
         $data = [
             'title' => 'Create Berita Olahraga',
+            'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
         ];
 
@@ -1111,6 +1137,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Detail Berita Olahraga',
+            'uri' => $this->uri,
             'detailOlahraga' => $detailOlahraga
         ];
 
@@ -1124,6 +1151,7 @@ class Admin extends BaseController
         $data = [
             'title' => 'Edit Berita Olahraga',
             'beritaOlahraga' => $beritaOlahraga,
+            'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
         ];
 
@@ -1227,6 +1255,7 @@ class Admin extends BaseController
 
         $data = [
             'title' => 'Data Komentar',
+            'uri' => $this->uri,
             'data_komentar' => $this->komentarModel->orderBy('id_komentar', 'DESC')->paginate(10, 'tb_komentar'),
             'pager' => $this->komentarModel->pager,
             'currentPage' => $this->request->getVar('page_tb_komentar') ? $this->request->getVar('page_tb_komentar') : 1,

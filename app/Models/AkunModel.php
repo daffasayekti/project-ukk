@@ -19,9 +19,14 @@ class AkunModel extends Model
         return $this->table('users')->like('username', $keyword)->where('jenis_akun_id', 2);
     }
 
+    public function searchDataAdmin($keyword)
+    {
+        return $this->table('users')->like('username', $keyword)->where('jenis_akun_id', 3);
+    }
+
     public function getDataAdmin()
     {
-        $sql = "SELECT users.*, auth_groups_users.* FROM users INNER JOIN auth_groups_users ON users.id = auth_groups_users.user_id";
+        $sql = "SELECT users.*, auth_groups_users.* FROM users INNER JOIN auth_groups_users ON users.id = auth_groups_users.user_id WHERE group_id = '1'";
 
         $execute = $this->db->query($sql);
 
@@ -30,7 +35,7 @@ class AkunModel extends Model
 
     public function getCountDataAdmin()
     {
-        $sql = $this->db->query("SELECT users.*, auth_groups_users.* FROM users INNER JOIN auth_groups_users ON users.id = auth_groups_users.user_id");
+        $sql = $this->db->query("SELECT * FROM auth_groups_users WHERE group_id = '1'");
         $countAdmin = $sql->getNumRows();
         return $countAdmin;
     }

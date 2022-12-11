@@ -38,7 +38,7 @@
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Jenis Akun</th>
-                                <th>Aksi</th>
+                                <th>Tanggal Expired</th>
                             </tr>
                             <?php
                             $no = 1 + (10 * ($currentPage - 1));
@@ -53,9 +53,7 @@
                                             echo 'Premium';
                                         } ?>
                                     </td>
-                                    <td style="width: 15%;" class="text-center">
-                                        <a href="/admin/hapus_users_premium/<?= $value['id']; ?>" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                    </td>
+                                    <td class="text-center"><?= tgl_indo_model_1(date($value['tanggal_expired'])); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>

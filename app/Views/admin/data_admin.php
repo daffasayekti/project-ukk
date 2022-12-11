@@ -20,6 +20,16 @@
 
         <div class="section-body">
             <div class="card">
+                <div class="card-header justify-content-end">
+                    <form action="" method="get" autocomplete="off">
+                        <div class="float-left">
+                            <input type="text" name="keyword" value="<?= $keyword; ?>" class="form-control" style="width:159pt" placeholder="Masukkan Nama Admin" autocomplete="off">
+                        </div>
+                        <div class="float-right ml-2">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
                 <div class="card-body">
                     <div class="table-responsive-sm table-striped">
                         <table class="table table-bordered table-md">
@@ -30,21 +40,18 @@
                                 <th>Jenis Akun</th>
                             </tr>
                             <?php
-                            $no = 1;
+                            $no = 1 + (10 * ($currentPage - 1));
                             foreach ($data_admin as $value) :
                             ?>
                                 <tr>
                                     <td class="text-center"><?= $no++; ?></td>
                                     <td><img alt="image" src="/assets/images/profile_users/<?= $value['profile_img'] ?>" class="rounded-circle mr-3" width="30" height="30"><?= $value['username']; ?></td>
                                     <td class="text-center"><?= $value['email']; ?></td>
-                                    <td class="text-center">
-                                        <?php if ($value['group_id'] == 1) {
-                                            echo 'Admin';
-                                        } ?>
-                                    </td>
+                                    <td class="text-center">Admin</td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
+                        <?= $pager->links('users', 'pagination_data_admin'); ?>
                     </div>
                 </div>
             </div>

@@ -12,9 +12,11 @@ use App\Models\AkunModel;
 
 use Carbon\Carbon;
 
+
 class Payment extends BaseController
 {
     protected $jenisLanggananModel;
+    protected $uri;
     protected $beritaModel;
     protected $pembayaranModel;
     protected $akunModel;
@@ -28,6 +30,7 @@ class Payment extends BaseController
         $this->pembayaranModel = new PembayaranModel();
         $this->akunModel = new AkunModel();
         $this->carbon = new Carbon();
+        $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }
 
     public function detail_pembayaran($id)
@@ -64,6 +67,7 @@ class Payment extends BaseController
         $data = [
             'title' => 'Detail Pembayaran',
             'snapToken' => \Midtrans\Snap::getSnapToken($params),
+            'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'data_langganan' => $data_langganan,
             'data_pembayaran' => $this->pembayaranModel->getDataPembayaranByUsername(user()->username),
@@ -125,6 +129,7 @@ class Payment extends BaseController
 
         $data = [
             'data_invoice' => $this->pembayaranModel->getDataPembayaranByUsername(user()->username),
+            'uri' => $this->uri,
         ];
 
         return view('/pages/invoice', $data);
