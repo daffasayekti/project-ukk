@@ -17,6 +17,8 @@
 
     <!-- My CSS -->
     <link rel="stylesheet" href="<?= base_url('/assets/css/style1.css'); ?>">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png" />
 </head>
 
 <body>

@@ -12,9 +12,17 @@ use App\Models\AkunModel;
 
 use App\Models\KomentarModel;
 
+use App\Models\PembayaranModel;
+
+use App\Models\JenisLanggananModel;
+
+use App\Models\InvoiceModel;
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+use Carbon\Carbon;
 
 class Admin extends BaseController
 {
@@ -22,8 +30,12 @@ class Admin extends BaseController
     protected $loginsModel;
     protected $usersModel;
     protected $akunModel;
+    protected $invoiceModel;
     protected $komentarModel;
+    protected $pembayaranModel;
     protected $uri;
+    protected $carbon;
+    protected $jenisLanggananModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
@@ -33,6 +45,10 @@ class Admin extends BaseController
         $this->usersModel  = new UsersModel();
         $this->akunModel   = new AkunModel();
         $this->komentarModel = new KomentarModel();
+        $this->invoiceModel = new InvoiceModel();
+        $this->pembayaranModel = new PembayaranModel();
+        $this->carbon = new Carbon();
+        $this->jenisLanggananModel  = new JenisLanggananModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }
 
@@ -1275,9 +1291,129 @@ class Admin extends BaseController
 
     public function data_pembayaran()
     {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->pembayaranModel->searchDataPembayaran($keyword);
+        } else {
+            $data_pembayaran = $this->pembayaranModel;
+        }
+
+        $data = [
+            'title' => 'Data Pembayaran',
+            'uri' => $this->uri,
+            'data_pembayaran' => $this->pembayaranModel->orderBy('id_pembayaran', 'DESC')->where('status_pembayaran', 'pending')->orWhere('status_pembayaran', 'expire')->paginate(10, 'tb_pembayaran'),
+            'pager' => $this->pembayaranModel->pager,
+            'keyword' => $keyword
+        ];
+
+        return view('/admin/data_pembayaran', $data);
+    }
+
+    public function hapus_data_pembayaran($order_id)
+    {
+        $this->pembayaranModel->delete_pembayaran($order_id);
+
+        session()->setFlashdata('success', 'Data Pembayaran Berhasil Dihapus.');
+
+        return redirect()->to('/admin/data_pembayaran');
+    }
+
+    public function check_status_pembayaran($order_id)
+    {
+        \Midtrans\Config::$serverKey = 'SB-Mid-server-vg0qvnm9Az97NxyMgEVIB6OR';
+        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$is3ds = true;
+
+        $status = \Midtrans\Transaction::status($order_id);
+
+        if ($status->transaction_status == 'settlement') {
+            $data_pembayaran = $this->pembayaranModel->getStatusPembayaran($order_id);
+
+            $data_langganan = $this->jenisLanggananModel->getDataLanggananByName($data_pembayaran['nama_produk']);
+
+            $builderPembayaran = $this->pembayaranModel->table('tb_pembayaran');
+
+            $where_order_id = ['order_id' => $order_id];
+
+            $dataUpdatePembayaran = [
+                'status_pembayaran' => $status->transaction_status
+            ];
+
+            $builderPembayaran->set($dataUpdatePembayaran)
+                ->where($where_order_id)
+                ->update();
+
+            $this->invoiceModel->save([
+                'id_pembayaran' => $data_pembayaran['id_pembayaran'],
+                'transaksi_id' => $data_pembayaran['transaksi_id'],
+                'order_id' => $data_pembayaran['order_id'],
+                'nama_pelanggan' => $data_pembayaran['nama_pelanggan'],
+                'email' => $data_pembayaran['email'],
+                'nama_produk' => $data_pembayaran['nama_produk'],
+                'jenis_langganan' => $data_pembayaran['jenis_langganan'],
+                'total_pembayaran' => $data_pembayaran['total_pembayaran'],
+                'tipe_pembayaran' => $data_pembayaran['tipe_pembayaran'],
+                'status_pembayaran' => $status->transaction_status,
+                'tanggal_pembayaran' => $data_pembayaran['tanggal_pembayaran']
+            ]);
+
+            $this->pembayaranModel->delete_pembayaran_by_id($data_pembayaran['id_pembayaran']);
+
+            $data_users = $this->akunModel->getUsersByEmail($data_pembayaran['email']);
+
+            $builderUsers = $this->akunModel->table('users');
+
+            $where_id = ['id' => $data_users['id']];
+
+            $dataUpdateUsers = [
+                'jenis_akun_id' => 2,
+                'tanggal_expired' => Carbon::parse($data_pembayaran['tanggal_pembayaran'])->addDays($data_langganan['waktu_langganan']),
+            ];
+
+            $builderUsers->set($dataUpdateUsers)
+                ->where($where_id)
+                ->update();
+
+            session()->setFlashdata('success', 'Status Pembayaran Berhasil Diubah.');
+
+            return redirect()->to('/admin/data_pembayaran');
+        } else {
+            return redirect()->to('/admin/data_pembayaran');
+        }
     }
 
     public function data_invoice()
     {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->invoiceModel->searchDataInvoice($keyword);
+        } else {
+            $data_invoice = $this->invoiceModel;
+        }
+
+        $data = [
+            'title' => 'Data Invoice',
+            'uri' => $this->uri,
+            'data_invoice' => $this->invoiceModel->orderBy('id_invoice', 'DESC')->paginate(10, 'tb_invoice'),
+            'pager' => $this->invoiceModel->pager,
+            'keyword' => $keyword
+        ];
+
+        return view('/admin/data_invoice', $data);
+    }
+
+    public function detail_invoice($id_pembayaran)
+    {
+        helper(['tanggal_helper']);
+
+        $data = [
+            'data_invoice' => $this->invoiceModel->getInvoiceByPembayaranId($id_pembayaran),
+            'uri' => $this->uri,
+        ];
+
+        return view('/pages/invoice', $data);
     }
 }

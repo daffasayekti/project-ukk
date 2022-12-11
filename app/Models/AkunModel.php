@@ -47,6 +47,15 @@ class AkunModel extends Model
         return $countUsersFree;
     }
 
+    public function getUsersByEmail($email)
+    {
+        $sql = "SELECT * FROM users WHERE email = '$email'";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getRowArray();
+    }
+
     public function getCountUsersPremium()
     {
         $sql = $this->db->query("SELECT * FROM users WHERE jenis_akun_id = 2");

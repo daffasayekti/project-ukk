@@ -21,6 +21,15 @@ class PembayaranModel extends Model
         return $execute->getRowArray();
     }
 
+    public function getDataPembayaranById($idPembayaran)
+    {
+        $sql = "SELECT * FROM tb_pembayaran WHERE id_pembayaran = '$idPembayaran'";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getRowArray();
+    }
+
     public function getDataPembayaranByUsername($username)
     {
         $sql = "SELECT * FROM tb_pembayaran WHERE nama_pelanggan = '$username'";
@@ -28,5 +37,28 @@ class PembayaranModel extends Model
         $execute = $this->db->query($sql);
 
         return $execute->getRowArray();
+    }
+
+    public function searchDataPembayaran($keyword)
+    {
+        return $this->table('tb_pembayaran')->like('nama_pelanggan', $keyword)->where('status_pembayaran', 'pending')->orWhere('status_pembayaran', 'expire');
+    }
+
+    public function delete_pembayaran($order_id)
+    {
+        $sql = "DELETE FROM tb_pembayaran WHERE order_id = '$order_id'";
+
+        $this->db->query($sql);
+
+        return;
+    }
+
+    public function delete_pembayaran_by_id($idPembayaran)
+    {
+        $sql = "DELETE FROM tb_pembayaran WHERE id_pembayaran = '$idPembayaran'";
+
+        $this->db->query($sql);
+
+        return;
     }
 }

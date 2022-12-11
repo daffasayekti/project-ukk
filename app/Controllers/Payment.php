@@ -10,8 +10,9 @@ use App\Models\PembayaranModel;
 
 use App\Models\AkunModel;
 
-use Carbon\Carbon;
+use App\Models\InvoiceModel;
 
+use Carbon\Carbon;
 
 class Payment extends BaseController
 {
@@ -19,6 +20,7 @@ class Payment extends BaseController
     protected $uri;
     protected $beritaModel;
     protected $pembayaranModel;
+    protected $invoiceModel;
     protected $akunModel;
     protected $carbon;
     protected $helpers = ['tanggal_helper', 'auth'];
@@ -29,6 +31,7 @@ class Payment extends BaseController
         $this->beritaModel = new BeritaModel();
         $this->pembayaranModel = new PembayaranModel();
         $this->akunModel = new AkunModel();
+        $this->invoiceModel = new InvoiceModel();
         $this->carbon = new Carbon();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }
@@ -100,7 +103,7 @@ class Payment extends BaseController
             if ($cekStatus['status_pembayaran'] == 'settlement') {
                 $builder = $this->akunModel->table('users');
 
-                $where = ['id' => user()->id];
+                $where = ['id' => $dataPelanggan['id']];
 
                 $date = Carbon::parse($this->request->getVar('transaction_time'))->addDays($dataPembayaran['waktu_langganan']);
 
@@ -123,13 +126,36 @@ class Payment extends BaseController
         }
     }
 
-    public function detail_invoice()
+    public function detail_invoice($idPembayaran)
     {
         helper(['tanggal_helper']);
 
+        $data_pembayaran = $this->pembayaranModel->getDataPembayaranById($idPembayaran);
+
+        $checkInvoice = $this->invoiceModel->getInvoiceByPembayaranId($idPembayaran);
+
+        if (!$checkInvoice) {
+            $this->invoiceModel->save([
+                'id_pembayaran' => $data_pembayaran['id_pembayaran'],
+                'transaksi_id' => $data_pembayaran['transaksi_id'],
+                'order_id' => $data_pembayaran['order_id'],
+                'nama_pelanggan' => $data_pembayaran['nama_pelanggan'],
+                'email' => $data_pembayaran['email'],
+                'nama_produk' => $data_pembayaran['nama_produk'],
+                'jenis_langganan' => $data_pembayaran['jenis_langganan'],
+                'total_pembayaran' => $data_pembayaran['total_pembayaran'],
+                'tipe_pembayaran' => $data_pembayaran['tipe_pembayaran'],
+                'status_pembayaran' => $data_pembayaran['status_pembayaran'],
+                'tanggal_pembayaran' => $data_pembayaran['tanggal_pembayaran']
+            ]);
+        }
+
+        $this->pembayaranModel->delete_pembayaran_by_id($idPembayaran);
+
         $data = [
-            'data_invoice' => $this->pembayaranModel->getDataPembayaranByUsername(user()->username),
+            'data_invoice' => $this->invoiceModel->getInvoiceByPembayaranId($idPembayaran),
             'uri' => $this->uri,
+            'id_pembayaran' => $idPembayaran
         ];
 
         return view('/pages/invoice', $data);

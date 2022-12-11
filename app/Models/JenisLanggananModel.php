@@ -18,4 +18,13 @@ class JenisLanggananModel extends Model
 
         return $execute->getRowArray();
     }
+
+    public function getDataLanggananByName($nama_produk)
+    {
+        $sql = "SELECT * FROM jenis_langganan WHERE nama_langganan = '$nama_produk'";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getRowArray();
+    }
 }

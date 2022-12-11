@@ -34,6 +34,8 @@ class Pager extends BaseConfig
         'pagination_users_free'    => 'App\Views\Pagers\pagination_users_free',
         'pagination_users_premium' => 'App\Views\Pagers\pagination_users_premium',
         'pagination_data_admin'    => 'App\Views\Pagers\pagination_data_admin',
+        'pagination_data_pembayaran' => 'App\Views\Pagers\pagination_data_pembayaran',
+        'pagination_data_invoice'    => 'App\Views\Pagers\pagination_data_invoice',
     ];
 
     /**

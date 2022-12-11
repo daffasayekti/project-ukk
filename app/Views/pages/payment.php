@@ -54,13 +54,14 @@
                                     </tbody>
                                 </table>
 
-                                <?php if ($data_pembayaran == null) {
-                                    echo '<button id="pay-button" class="btn btn-primary mt-2">Bayar</button>';
-                                } elseif ($data_pembayaran['status_pembayaran'] == 'pending') {
-                                    echo '<button id="pay-button" class="btn btn-primary mt-2">Bayar</button>';
-                                } elseif ($data_pembayaran['status_pembayaran'] == 'settlement') {
-                                    echo '<a href="/payment/detail_invoice" class="btn btn-success mt-2 ml-2"><i class="fas fa-save mr-1"></i> Detail Invoice</a>';
-                                } ?>
+                                <?php if ($data_pembayaran == null) : ?>
+                                    <button id="pay-button" class="btn btn-primary mt-2">Bayar</button>
+                                <?php elseif ($data_pembayaran['status_pembayaran'] == 'pending') : ?>
+                                    <a href="/" class="btn btn-primary mt-2 ml-2"><i class="fas fa-arrow-alt-circle-left mr-1"></i> Kembali Halaman Utama</a>
+                                <?php elseif ($data_pembayaran['status_pembayaran'] == 'settlement') : ?>
+                                    <a href="/payment/detail_invoice/<?= $data_pembayaran['id_pembayaran']; ?>" class="btn btn-success mt-2 ml-2"><i class="fas fa-save mr-1"></i> Detail Invoice</a>
+                                    <a href="/" class="btn btn-primary mt-2 ml-2"><i class="fas fa-arrow-alt-circle-left mr-1"></i> Kembali Halaman Utama</a>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
