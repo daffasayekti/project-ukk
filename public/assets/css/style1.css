@@ -2178,7 +2178,7 @@ pre {
 
 .beep {
   position: relative; }
-  .beep:after {
+  .beep.active:after {
     content: '';
     position: absolute;
     top: 2px;

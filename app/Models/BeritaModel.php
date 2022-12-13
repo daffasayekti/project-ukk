@@ -317,4 +317,13 @@ class BeritaModel extends Model
 
         return;
     }
+
+    public function getNotifikasiBerita()
+    {
+        $sql = "SELECT * FROM tb_berita WHERE status_berita = '0' ORDER BY id_berita DESC";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
 }

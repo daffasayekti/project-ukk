@@ -61,4 +61,13 @@ class PembayaranModel extends Model
 
         return;
     }
+
+    public function getNotifikasiPembayaran()
+    {
+        $sql = "SELECT * FROM tb_pembayaran WHERE status_pembayaran = 'pending' ORDER BY id_pembayaran DESC";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
 }

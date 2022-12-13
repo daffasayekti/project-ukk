@@ -87,6 +87,7 @@ SB-Mid-client-7zf0YflUfO844bEx"></script>
                     },
                     success: function(res) {}
                 })
+                window.location.href = '/payment/detail_pembayaran/' + <?= $data_langganan['id_langganan']; ?>
             },
             onPending: function(result) {
                 $.ajax({
@@ -99,6 +100,7 @@ SB-Mid-client-7zf0YflUfO844bEx"></script>
                     },
                     success: function(res) {}
                 })
+                window.location.href = '/payment/detail_pembayaran/' + <?= $data_langganan['id_langganan']; ?>
             },
             onError: function(result) {
                 document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
