@@ -390,15 +390,26 @@ class Home extends BaseController
         return view('/pages/kontak', $data);
     }
 
-    public function pemberitahuan()
+    public function laporkan()
     {
         $data = [
-            'title' => 'Pemberitahuan',
+            'title' => 'Laporkan Kejadian Disekitarmu',
             'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
         ];
 
-        return view('/pages/pemberitahuan', $data);
+        return view('/pages/laporkan', $data);
+    }
+
+    public function proses_laporkan()
+    {
+        $no_whatsapp = $this->request->getVar('nomer_whatsapp');
+        $pesan = $this->request->getVar('pesan');
+
+        $result = file_get_contents("http://localhost:5000/" . "msg?number=" . $no_whatsapp . "&message=" . $pesan);
+
+        session()->setFlashdata('success', 'Laporanmu Berhasil Dikirim');
+        return redirect()->to('/home/laporkan');
     }
 
     public function pilih_langganan()

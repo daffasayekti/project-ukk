@@ -4,8 +4,8 @@
             <div class="navbar-top">
                 <div class="d-flex justify-content-between align-items-center">
                     <ul class="navbar-top-left-menu">
-                        <li class="nav-item <?= $uri->getPath() == '/home/pemberitahuan' ? 'active' : ''; ?>">
-                            <a href="<?= base_url('/home/pemberitahuan'); ?>" class="nav-link">PEMBERITAHUAN</a>
+                        <li class="nav-item <?= $uri->getPath() == '/home/laporkan' ? 'active' : ''; ?>">
+                            <a href="<?= base_url('/home/laporkan'); ?>" class="nav-link">LAPORKAN</a>
                         </li>
                         <li class="nav-item <?= $uri->getPath() == '/home/tentang_kami' ? 'active' : ''; ?>">
                             <a href="<?= base_url('/home/tentang_kami'); ?>" class="nav-link">TENTANG KAMI</a>

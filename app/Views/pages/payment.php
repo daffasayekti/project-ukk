@@ -60,7 +60,6 @@
                                     <a href="/" class="btn btn-primary mt-2 ml-2"><i class="fas fa-arrow-alt-circle-left mr-1"></i> Kembali Halaman Utama</a>
                                 <?php elseif ($data_pembayaran['status_pembayaran'] == 'settlement') : ?>
                                     <a href="/payment/detail_invoice/<?= $data_pembayaran['id_pembayaran']; ?>" class="btn btn-success mt-2 ml-2"><i class="fas fa-save mr-1"></i> Detail Invoice</a>
-                                    <a href="/" class="btn btn-primary mt-2 ml-2"><i class="fas fa-arrow-alt-circle-left mr-1"></i> Kembali Halaman Utama</a>
                                 <?php endif; ?>
                             </div>
                         </div>
