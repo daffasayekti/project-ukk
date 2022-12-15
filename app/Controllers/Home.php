@@ -409,6 +409,7 @@ class Home extends BaseController
         $result = file_get_contents("http://localhost:5000/" . "msg?number=" . $no_whatsapp . "&message=" . $pesan);
 
         session()->setFlashdata('success', 'Laporanmu Berhasil Dikirim');
+
         return redirect()->to('/home/laporkan');
     }
 
