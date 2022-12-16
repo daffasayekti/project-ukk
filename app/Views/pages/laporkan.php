@@ -39,35 +39,33 @@
                             <?php endif; ?>
                             <div class="row">
                                 <div class="col-lg-12 mb-5 mb-sm-2">
-                                    <form action="/home/proses_laporkan" method="post">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <textarea class="form-control textarea" placeholder="Ketik Pesan *" id="pesan" name="pesan" autocomplete="off"></textarea>
-                                                </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <textarea class="form-control textarea" placeholder="Ketik Pesan *" id="pesan" name="pesan" autocomplete="off"></textarea>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" placeholder="Nama Lengkap *" autocomplete="off" />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <input type="number" class="form-control" id="nomer_whatsapp" name="nomer_whatsapp" placeholder="Nomer Whatsapp *" autocomplete="off" />
-                                                </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" placeholder="Nama Pengirim *" autocomplete="off" />
                                             </div>
                                         </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="nomer_whatsapp" name="nomer_whatsapp" placeholder="Nomer Whatsapp *" autocomplete="off" value="085655385882" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <button type="submit" class="btn btn-lg btn-dark font-weight-bold mt-3">Kirim Whatsapp</button>
-                                                </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-lg btn-dark font-weight-bold mt-3" id="kirim_whatsapp">Kirim Whatsapp</button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -77,4 +75,40 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $('#kirim_whatsapp').on('click', function() {
+        var nomer_whatsapp = document.getElementById('nomer_whatsapp').value;
+        var pesan = document.getElementById('pesan').value;
+        var nama_lengkap = document.getElementById('nama_lengkap').value;
+        $.ajax({
+            url: 'http://localhost:3000/api?nowhatsapp=' + nomer_whatsapp + '&pesan=' + pesan,
+            method: 'GET',
+            data: {},
+            success: function(res) {
+                saveLaporan();
+                pesan.value = "";
+                nomer_whatsapp.value = "";
+            }
+        });
+    });
+
+    function saveLaporan() {
+        $.ajax({
+            url: '/home/proses_laporkan',
+            method: 'POST',
+            data: {
+                nomer_whatsapp: nomer_whatsapp.value,
+                pesan: pesan.value,
+                nama_lengkap: nama_lengkap.value,
+            },
+            success: function(res) {
+                nomer_whatsapp.value = "";
+                pesan.value = "";
+            }
+        });
+
+        window.location.href = '/home/laporkan';
+    }
+</script>
 <?= $this->endSection(); ?>

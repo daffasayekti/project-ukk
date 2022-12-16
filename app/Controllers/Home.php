@@ -8,6 +8,8 @@ use App\Models\KomentarModel;
 
 use App\Models\JenisLanggananModel;
 
+use App\Models\LaporanModel;
+
 use CodeIgniter\API\ResponseTrait;
 
 class Home extends BaseController
@@ -17,6 +19,7 @@ class Home extends BaseController
     protected $beritaModel;
     protected $komentarModel;
     protected $jenisLanggananModel;
+    protected $laporanModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
@@ -24,6 +27,7 @@ class Home extends BaseController
         $this->beritaModel    = new BeritaModel();
         $this->komentarModel  = new KomentarModel();
         $this->jenisLanggananModel  = new JenisLanggananModel();
+        $this->laporanModel  = new LaporanModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }
 
@@ -403,10 +407,11 @@ class Home extends BaseController
 
     public function proses_laporkan()
     {
-        $no_whatsapp = $this->request->getVar('nomer_whatsapp');
-        $pesan = $this->request->getVar('pesan');
-
-        $result = file_get_contents("http://localhost:5000/" . "msg?number=" . $no_whatsapp . "&message=" . $pesan);
+        $this->laporanModel->save([
+            'nama_pengirim' => $this->request->getVar('nama_lengkap'),
+            'no_whatsapp' => $this->request->getVar('nomer_whatsapp'),
+            'isi_pesan' => $this->request->getVar('pesan'),
+        ]);
 
         session()->setFlashdata('success', 'Laporanmu Berhasil Dikirim');
 
