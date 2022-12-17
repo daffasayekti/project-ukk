@@ -4,7 +4,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Moderasi Berita</h1>
+            <h1>Moderasi Laporan</h1>
         </div>
 
         <?php if (session()->getFlashdata('success')) : ?>
@@ -35,48 +35,33 @@
                         <table class="table table-bordered table-md" id="table">
                             <tr class="text-center">
                                 <th>No.</th>
-                                <th>Judul Berita</th>
-                                <th>Status Berita</th>
-                                <th>Kategori Berita</th>
+                                <th>Isi Laporan</th>
+                                <th>Status Laporan</th>
+                                <th>Nomer Whatsapp</th>
                                 <th>Aksi</th>
                             </tr>
 
                             <?php
                             $no = 1 + (10 * ($currentPage - 1));
-                            foreach ($data_berita_moderasi as $value) :
+                            foreach ($data_laporan_moderasi as $value) :
                             ?>
                                 <tr>
                                     <td class="text-center"><?= $no++; ?></td>
-                                    <td><?= $value['judul_berita']; ?></td>
+                                    <td><?= $value['isi_pesan']; ?></td>
                                     <td class="text-center">
-                                        <?php
-                                        if ($value['status_berita'] == 0) {
-                                            echo 'Belum Aktif';
-                                        }
-                                        ?>
+                                        <?= $value['nama_pengirim']; ?>
                                     </td>
                                     <td class="text-center">
-                                        <?php
-                                        if ($value['kategori_id'] == 1) {
-                                            echo 'Kecelakaan';
-                                        } else if ($value['kategori_id'] == 2) {
-                                            echo 'Ekonomi';
-                                        } else if ($value['kategori_id'] == 3) {
-                                            echo 'Politik';
-                                        } else if ($value['kategori_id'] == 4) {
-                                            echo 'Olahraga';
-                                        }
-                                        ?>
+                                        <?= $value['no_whatsapp']; ?>
                                     </td>
                                     <td class="text-center">
-                                        <a href="/admin/detail_berita_moderasi/<?= $value['slug']; ?>" class="btn btn-warning btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="/admin/proses_moderasi/<?= $value['id_berita']; ?>" class="btn btn-success ml-1 btn-sm"><i class="fas fa-check-circle"></i></a>
-                                        <a href="/admin/gagal_moderasi/<?= $value['slug']; ?>" class="btn btn-danger ml-1 btn-sm"><i class="fa-sharp fa-solid fa-circle-xmark"></i></a>
+                                        <a href="/admin/proses_moderasi_laporan/<?= $value['id_laporan']; ?>" class="btn btn-success ml-1 btn-sm"><i class="fas fa-check-circle"></i></a>
+                                        <a href="/admin/gagal_moderasi_laporan/<?= $value['id_laporan']; ?>" class="btn btn-danger ml-1 btn-sm"><i class="fa-sharp fa-solid fa-circle-xmark"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
-                        <?= $pager->links('tb_berita', 'pagination_data_moderasi'); ?>
+                        <?= $pager->links('tb_laporan_masyarakat', 'pagination_data_moderasi_laporan'); ?>
                     </div>
                 </div>
             </div>

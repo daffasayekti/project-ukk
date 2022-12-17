@@ -7,6 +7,7 @@
             <div class="d-flex align-items-center">
                 <span class="badge badge-dark mr-3">Flash News</span>
                 <p class="mb-0">
+                    <?= $data_laporan['isi_pesan']; ?>
                 </p>
             </div>
             <div class="d-flex">

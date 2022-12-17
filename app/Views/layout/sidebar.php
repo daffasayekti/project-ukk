@@ -29,6 +29,9 @@
                     <li class="nav-item <?= $uri->getPath() == '/admin/moderasi_berita' ? 'active' : ''; ?>">
                         <a class="nav-link" href="<?= base_url('/admin/moderasi_berita'); ?>">Moderasi Berita</a>
                     </li>
+                    <li class="nav-item <?= $uri->getPath() == '/admin/moderasi_laporan' ? 'active' : ''; ?>">
+                        <a class="nav-link" href="<?= base_url('/admin/moderasi_laporan'); ?>">Moderasi Laporan</a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item dropdown">

@@ -48,6 +48,7 @@ class Home extends BaseController
             'berita_ekonomi' => $this->beritaModel->getBeritaEkonomiLimit5(),
             'berita_politik' => $this->beritaModel->getBeritaPolitikLimit2(),
             'berita_kecelakaan' => $this->beritaModel->getBeritaKecelakaanLimit2(),
+            'data_laporan' => $this->laporanModel->getDataLaporan()
         ];
 
         return view('/pages/index', $data);
@@ -59,6 +60,7 @@ class Home extends BaseController
             'title' => 'Tentang Kami',
             'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'data_laporan' => $this->laporanModel->getDataLaporan()
         ];
 
         return view('/pages/tentang_kami', $data);
@@ -74,6 +76,7 @@ class Home extends BaseController
             'berita_ekonomi' => $this->beritaModel->getBeritaEkonomi(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_ekonomi_trending' => $this->beritaModel->getBeritaEkonomiTrending(),
+            'data_laporan' => $this->laporanModel->getDataLaporan()
         ];
 
         return view('/pages/ekonomi', $data);
@@ -220,6 +223,7 @@ class Home extends BaseController
             'berita_politik_terbaru' => $this->beritaModel->getBeritaPolitikTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_politik_trending' => $this->beritaModel->getBeritaPolitikTrending(),
+            'data_laporan' => $this->laporanModel->getDataLaporan()
         ];
 
         return view('/pages/politik', $data);
@@ -278,6 +282,7 @@ class Home extends BaseController
             'berita_kecelakaan_terbaru' => $this->beritaModel->getBeritaKecelakaanTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_kecelakaan_trending' => $this->beritaModel->getBeritaKecelakaanTrending(),
+            'data_laporan' => $this->laporanModel->getDataLaporan()
         ];
 
         return view('/pages/kecelakaan', $data);
@@ -336,6 +341,7 @@ class Home extends BaseController
             'berita_olahraga_terbaru' => $this->beritaModel->getBeritaOlahragaTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_olahraga_trending' => $this->beritaModel->getBeritaOlahragaTerbaru(),
+            'data_laporan' => $this->laporanModel->getDataLaporan()
         ];
 
         return view('/pages/olahraga', $data);
@@ -383,23 +389,13 @@ class Home extends BaseController
         return redirect()->to('/home/detail_berita_olahraga/' . $this->request->getVar('slug'));
     }
 
-    public function kontak()
-    {
-        $data = [
-            'title' => 'Kontak',
-            'uri' => $this->uri,
-            'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
-        ];
-
-        return view('/pages/kontak', $data);
-    }
-
     public function laporkan()
     {
         $data = [
             'title' => 'Laporkan Kejadian Disekitarmu',
             'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'data_laporan' => $this->laporanModel->getDataLaporan()
         ];
 
         return view('/pages/laporkan', $data);
@@ -425,6 +421,7 @@ class Home extends BaseController
             'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'data_langganan' => $this->jenisLanggananModel->findAll(),
+            'data_laporan' => $this->laporanModel->getDataLaporan()
         ];
 
         return view('/pages/pilih_langganan', $data);

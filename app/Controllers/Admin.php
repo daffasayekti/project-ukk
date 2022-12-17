@@ -18,6 +18,8 @@ use App\Models\JenisLanggananModel;
 
 use App\Models\InvoiceModel;
 
+use App\Models\LaporanModel;
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -33,6 +35,7 @@ class Admin extends BaseController
     protected $invoiceModel;
     protected $komentarModel;
     protected $pembayaranModel;
+    protected $laporanModel;
     protected $uri;
     protected $carbon;
     protected $jenisLanggananModel;
@@ -47,6 +50,7 @@ class Admin extends BaseController
         $this->komentarModel = new KomentarModel();
         $this->invoiceModel = new InvoiceModel();
         $this->pembayaranModel = new PembayaranModel();
+        $this->laporanModel = new LaporanModel();
         $this->carbon = new Carbon();
         $this->jenisLanggananModel  = new JenisLanggananModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
@@ -80,6 +84,7 @@ class Admin extends BaseController
             'count_users_premium' => $this->akunModel->getCountUsersPremium(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/dashboard_admin', $data);
@@ -104,9 +109,35 @@ class Admin extends BaseController
             'pager' => $this->beritaModel->pager,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/moderasi_data', $data);
+    }
+
+    public function moderasi_laporan()
+    {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->laporanModel->searchDataLaporan($keyword);
+        } else {
+            $data_moderasi_laporan = $this->laporanModel;
+        }
+
+        $data = [
+            'title' => 'Moderasi Laporan',
+            'uri' => $this->uri,
+            'data_laporan_moderasi' => $this->laporanModel->where('status_laporan', 0)->orderBy('id_laporan', 'DESC')->paginate(10, 'tb_laporan_masyarakat'),
+            'currentPage' => $this->request->getVar('page_tb_laporan_masyarakat') ? $this->request->getVar('page_tb_laporan_masyarakat') : 1,
+            'keyword' => $keyword,
+            'pager' => $this->laporanModel->pager,
+            'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+        ];
+
+        return view('/admin/moderasi_laporan', $data);
     }
 
     public function proses_moderasi($id_berita)
@@ -124,7 +155,27 @@ class Admin extends BaseController
             ->update();
 
         session()->setFlashdata('success', 'Data Berita Berhasil Disetujui');
+
         return redirect()->to('/admin/moderasi_berita');
+    }
+
+    public function proses_moderasi_laporan($id_laporan)
+    {
+        $builder = $this->laporanModel->table('tb_laporan_masyarakat');
+
+        $data = [
+            'status_laporan' => 1,
+        ];
+
+        $where = ['id_laporan' => $id_laporan];
+
+        $builder->set($data)
+            ->where($where)
+            ->update();
+
+        session()->setFlashdata('success', 'Data Laporan Berhasil Disetujui');
+
+        return redirect()->to('/admin/moderasi_laporan');
     }
 
     public function detail_berita_moderasi($slug)
@@ -135,6 +186,7 @@ class Admin extends BaseController
             'detail_berita' => $this->beritaModel->getBeritaBySlug($slug),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/detail_berita_moderasi', $data);
@@ -159,6 +211,7 @@ class Admin extends BaseController
             'keyword' => $keyword,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/data_kecelakaan', $data);
@@ -183,6 +236,7 @@ class Admin extends BaseController
             'keyword' => $keyword,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/data_politik', $data);
@@ -207,6 +261,7 @@ class Admin extends BaseController
             'keyword' => $keyword,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/data_ekonomi', $data);
@@ -231,6 +286,7 @@ class Admin extends BaseController
             'keyword' => $keyword,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/data_olahraga', $data);
@@ -255,6 +311,7 @@ class Admin extends BaseController
             'keyword' => $keyword,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/data_users_free', $data);
@@ -290,6 +347,7 @@ class Admin extends BaseController
             'keyword' => $keyword,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/data_users_premium', $data);
@@ -314,6 +372,7 @@ class Admin extends BaseController
             'keyword' => $keyword,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/data_admin', $data);
@@ -604,6 +663,7 @@ class Admin extends BaseController
             'validation' => \Config\Services::validation(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/create_berita_kecelakaan', $data);
@@ -672,6 +732,7 @@ class Admin extends BaseController
             'detailKecelakaan' => $detailKecelakaan,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/detail_berita_kecelakaan', $data);
@@ -688,6 +749,7 @@ class Admin extends BaseController
             'validation' => \Config\Services::validation(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/edit_berita_kecelakaan', $data);
@@ -779,6 +841,7 @@ class Admin extends BaseController
             'validation' => \Config\Services::validation(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/create_berita_politik', $data);
@@ -847,6 +910,7 @@ class Admin extends BaseController
             'detailPolitik' => $detailPolitik,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/detail_berita_politik', $data);
@@ -863,6 +927,7 @@ class Admin extends BaseController
             'validation' => \Config\Services::validation(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/edit_berita_politik', $data);
@@ -954,6 +1019,7 @@ class Admin extends BaseController
             'validation' => \Config\Services::validation(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/create_berita_ekonomi', $data);
@@ -1022,6 +1088,7 @@ class Admin extends BaseController
             'detailEkonomi' => $detailEkonomi,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/detail_berita_ekonomi', $data);
@@ -1038,6 +1105,7 @@ class Admin extends BaseController
             'validation' => \Config\Services::validation(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/edit_berita_ekonomi', $data);
@@ -1129,6 +1197,7 @@ class Admin extends BaseController
             'validation' => \Config\Services::validation(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/create_berita_olahraga', $data);
@@ -1197,6 +1266,7 @@ class Admin extends BaseController
             'detailOlahraga' => $detailOlahraga,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/detail_berita_olahraga', $data);
@@ -1213,6 +1283,7 @@ class Admin extends BaseController
             'validation' => \Config\Services::validation(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/edit_berita_olahraga', $data);
@@ -1304,9 +1375,18 @@ class Admin extends BaseController
 
         $this->beritaModel->delete_berita($slug);
 
-        session()->setFlashdata('success', 'Data Gagal Dimoderasi.');
+        session()->setFlashdata('success', 'Data Berita Gagal Dimoderasi.');
 
         return redirect()->to('/admin/moderasi_berita');
+    }
+
+    public function gagal_moderasi_laporan($id_laporan)
+    {
+        $this->laporanModel->delete_laporan($id_laporan);
+
+        session()->setFlashdata('success', 'Data Laporan Gagal Dimoderasi.');
+
+        return redirect()->to('/admin/moderasi_laporan');
     }
 
     public function data_komentar()
@@ -1321,6 +1401,7 @@ class Admin extends BaseController
             'currentPage' => $this->request->getVar('page_tb_komentar') ? $this->request->getVar('page_tb_komentar') : 1,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/data_komentar', $data);
@@ -1353,6 +1434,7 @@ class Admin extends BaseController
             'keyword' => $keyword,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/data_pembayaran', $data);
@@ -1450,6 +1532,7 @@ class Admin extends BaseController
             'keyword' => $keyword,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/admin/data_invoice', $data);
@@ -1464,6 +1547,7 @@ class Admin extends BaseController
             'uri' => $this->uri,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
         return view('/pages/invoice', $data);

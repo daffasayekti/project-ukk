@@ -33,7 +33,7 @@
     </div>
   </form>
   <ul class="navbar-nav navbar-right">
-    <?php if (count($notifikasi_berita) || count($notifikasi_pembayaran)) : ?>
+    <?php if (count($notifikasi_berita) || count($notifikasi_pembayaran) || count($notifikasi_laporan)) : ?>
       <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep active"><i class="far fa-bell"></i></a>
         <div class="dropdown-menu dropdown-list dropdown-menu-right">
           <div class="dropdown-header">Notifikasi
@@ -66,6 +66,17 @@
                 <div class="dropdown-item-desc">
                   Silahkan Check Status Pembayaran dengan Order ID-<?= $value['order_id']; ?>
                   <div class="time text-primary"><?= tgl_indo_sekarang($value['tanggal_pembayaran']); ?></div>
+                </div>
+              </a>
+            <?php endforeach; ?>
+            <?php foreach ($notifikasi_laporan as $value) : ?>
+              <a href="<?= base_url('/admin/moderasi_laporan'); ?>" class="dropdown-item dropdown-item-unread">
+                <div class="dropdown-item-icon bg-danger text-white">
+                  <i class="fas fa-hand-paper"></i>
+                </div>
+                <div class="dropdown-item-desc">
+                  Silahkan Moderasi Laporan Masyarakat dengan ID-<?= $value['id_laporan']; ?>
+                  <div class="time text-primary"><?= tgl_indo_sekarang($value['tanggal_laporan']); ?></div>
                 </div>
               </a>
             <?php endforeach; ?>
