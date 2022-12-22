@@ -83,7 +83,7 @@
                                         </div>
                                     <?php endif; ?>
                                     <div id="comments">
-                                        <?php foreach ($komentarKecelakaan as $value) { ?>
+                                        <?php foreach ($komentarKecelakaan as $i => $value) { ?>
                                             <div class="comment-box">
                                                 <div class="d-flex align-items-center">
                                                     <img src="/assets/images/profile_users/<?= $value['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
@@ -100,6 +100,10 @@
                                                 <p class="fs-12 mt-3">
                                                     <?= $value['isi_komentar']; ?>
                                                 </p>
+                                                <?php if (in_groups('User') || in_groups('Admin')) : ?>
+                                                    <h5 class="text-primary balas-komentar" data-index="<?= $i ?>" style="font-size: 14px; cursor:pointer"><b>Balas Komentar</b></h5>
+                                                    <div class="textarea-balas"></div>
+                                                <?php endif; ?>
                                             </div>
                                         <?php } ?>
                                     </div>
@@ -182,7 +186,7 @@
             url: '/home/get_komentar_kecelakaan/<?= $detailKecelakaan['id_berita'] ?>',
             method: 'GET',
             success: function(data) {
-                document.getElementById('comments').innerHTML = data.map(item => `
+                document.getElementById('comments').innerHTML = data.map((item, i) => `
                 <div class="comment-box">
                     <div class="d-flex align-items-center">
                         <img src="/assets/images/profile_users/${item.profile_img}" alt="banner" class="img-fluid img-rounded mr-3" />
@@ -199,10 +203,23 @@
                     <p class="fs-12 mt-3">
                         ${item.isi_komentar}
                     </p>
+
+                    <h5 class="text-primary balas-komentar" data-index="${i}" style="font-size: 14px; cursor:pointer"><b>Balas Komentar</b></h5>
+                    <div class="textarea-balas"></div>
                 </div>
                 `).join('')
             }
         })
     }
+
+    $('.content-wrapper').on('click', '.balas-komentar', function() {
+        var index = $(this).data('index');
+        if (!document.querySelectorAll('.textarea-balas')[index].querySelector('textarea')) {
+            document.querySelectorAll('.textarea-balas')[index].innerHTML = `<textarea class="form-control komentar mt-3" cols="30" name="balas_komentar" id="balas_komentar" placeholder="Tulis Komentar..."></textarea>
+            <button class="btn btn-primary mt-3" id="komentarEkonomi">Kirim</button>`
+        } else {
+            document.querySelectorAll('.textarea-balas')[index].innerHTML = ''
+        }
+    });
 </script>
 <?= $this->endSection(); ?>

@@ -23,7 +23,7 @@
                 <div class="card-header justify-content-end">
                     <form action="" method="get" autocomplete="off">
                         <div class="float-left">
-                            <input type="text" name="keyword" value="<?= $keyword; ?>" class="form-control" style="width:159pt" placeholder="Masukkan Judul Berita" autocomplete="off">
+                            <input type="text" name="keyword" value="<?= $keyword; ?>" class="form-control" style="width:159pt" placeholder="Masukkan Judul Laporan" autocomplete="off">
                         </div>
                         <div class="float-right ml-2">
                             <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
@@ -36,8 +36,7 @@
                             <tr class="text-center">
                                 <th>No.</th>
                                 <th>Isi Laporan</th>
-                                <th>Status Laporan</th>
-                                <th>Nomer Whatsapp</th>
+                                <th>Nama Pengirim</th>
                                 <th>Aksi</th>
                             </tr>
 
@@ -50,9 +49,6 @@
                                     <td><?= $value['isi_pesan']; ?></td>
                                     <td class="text-center">
                                         <?= $value['nama_pengirim']; ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <?= $value['no_whatsapp']; ?>
                                     </td>
                                     <td class="text-center">
                                         <a href="/admin/proses_moderasi_laporan/<?= $value['id_laporan']; ?>" class="btn btn-success ml-1 btn-sm"><i class="fas fa-check-circle"></i></a>
