@@ -55,7 +55,10 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <input type="number" class="form-control" id="nomer_whatsapp" name="nomer_whatsapp" placeholder="Nomer Whatsapp *" autocomplete="off" value="085655385882" readonly />
+                                                <select class="custom-select form-control" id="nomer_whatsapp" name="nomer_whatsapp">
+                                                    <option value="085655385882">+6285655385882 (Admin 1)</option>
+                                                    <option value="089699397150">+6289699397150 (Admin 2)</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>

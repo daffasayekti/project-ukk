@@ -5,6 +5,9 @@
     <section class="section">
         <div class="section-header">
             <h1>Admin</h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item"><a href="/admin/create_data_admin" class="badge badge-primary">Add Admin</a></div>
+            </div>
         </div>
 
         <?php if (session()->getFlashdata('success')) : ?>

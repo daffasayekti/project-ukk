@@ -1917,8 +1917,8 @@ pre code {
 }
 
 .form-control::placeholder {
-  color: #c9c8c8;
-  opacity: 1;
+  color: #495057;
+  font-size: 1rem;
 }
 
 .form-control:disabled, .form-control[readonly] {

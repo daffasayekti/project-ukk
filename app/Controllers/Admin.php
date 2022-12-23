@@ -20,11 +20,16 @@ use App\Models\InvoiceModel;
 
 use App\Models\LaporanModel;
 
+use App\Models\UserAkunModel;
+
+use App\Models\AuthPermissionsModel;
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 use Carbon\Carbon;
+use PhpOffice\PhpSpreadsheet\Reader\Xls\MD5;
 
 class Admin extends BaseController
 {
@@ -39,6 +44,8 @@ class Admin extends BaseController
     protected $uri;
     protected $carbon;
     protected $jenisLanggananModel;
+    protected $userModel;
+    protected $authModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
@@ -51,7 +58,9 @@ class Admin extends BaseController
         $this->invoiceModel = new InvoiceModel();
         $this->pembayaranModel = new PembayaranModel();
         $this->laporanModel = new LaporanModel();
+        $this->userModel = new UserAkunModel();
         $this->carbon = new Carbon();
+        $this->authModel = new AuthPermissionsModel();
         $this->jenisLanggananModel  = new JenisLanggananModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }
@@ -1551,5 +1560,72 @@ class Admin extends BaseController
         ];
 
         return view('/pages/invoice', $data);
+    }
+
+    public function create_data_admin()
+    {
+        $data = [
+            'title' => 'Create Data Admin',
+            'uri' => $this->uri,
+            'validation' => \Config\Services::validation(),
+            'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+        ];
+
+        return view('/admin/create_data_admin', $data);
+    }
+
+    public function proses_create_admin()
+    {
+        if (!$this->validate([
+            'email'   => [
+                'label'  => 'Email',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong'
+                ]
+            ],
+            'username'   => [
+                'label'  => 'Username',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong'
+                ]
+            ],
+            'password_hash'   => [
+                'label'  => 'Password',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong'
+                ]
+            ],
+        ])) {
+            return redirect()->to('/admin/create_data_admin')->withInput();
+        };
+
+        $option = [
+            'cost' => 10
+        ];
+
+        $this->userModel->save([
+            'email' => $this->request->getVar('email'),
+            'username' => $this->request->getVar('username'),
+            'fullname' => $this->request->getVar('fullname'),
+            'password_hash' => password_hash($this->request->getVar('password_hash'), PASSWORD_DEFAULT, $option),
+            'jenis_akun_id' => 3,
+            'active' => 1,
+        ]);
+
+        $users = $this->userModel->getUsersByEmail($this->request->getVar('email'));
+
+        $this->authModel->save([
+            'group_id' => 1,
+            'user_id' => $users['id']
+        ]);
+
+        session()->setFlashdata('success', 'Data Admin Berhasil Disimpan.');
+
+        return redirect()->to('/admin/admin');
     }
 }
