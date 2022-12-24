@@ -12,6 +12,8 @@ use App\Models\LaporanModel;
 
 use CodeIgniter\API\ResponseTrait;
 
+use App\Models\BalasModel;
+
 class Home extends BaseController
 {
     use ResponseTrait;
@@ -20,6 +22,7 @@ class Home extends BaseController
     protected $komentarModel;
     protected $jenisLanggananModel;
     protected $laporanModel;
+    protected $balasModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
@@ -28,6 +31,7 @@ class Home extends BaseController
         $this->komentarModel  = new KomentarModel();
         $this->jenisLanggananModel  = new JenisLanggananModel();
         $this->laporanModel  = new LaporanModel();
+        $this->balasModel = new BalasModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }
 

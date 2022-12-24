@@ -214,10 +214,24 @@
         var index = $(this).data('index');
         if (!document.querySelectorAll('.textarea-balas')[index].querySelector('textarea')) {
             document.querySelectorAll('.textarea-balas')[index].innerHTML = `<textarea class="form-control komentar mt-3" cols="30" name="balas_komentar" id="balas_komentar" placeholder="Tulis Komentar..."></textarea>
-            <button class="btn btn-primary mt-3" id="komentarEkonomi">Kirim</button>`
+            <button class="btn btn-primary mt-3 balaskomentarEkonomi" id="balaskomentarEkonomi">Kirim</button>`
         } else {
             document.querySelectorAll('.textarea-balas')[index].innerHTML = ''
         }
+    });
+
+    $('#balaskomentarEkonomi').on('click', function() {
+        var balas_komentar = document.getElementById('balas_komentar');
+        console.log(balas_komentar)
+        $.ajax({
+            url: '/home/komentar_ekonomi',
+            method: 'POST',
+            data: {
+                created_by: '<?= in_groups('User') || in_groups('Admin') ? user()->username : 'Guest'; ?>',
+                balas_komentar: balas_komentar.value
+            },
+            success: function(res) {}
+        })
     });
 </script>
 <?= $this->endSection(); ?>
