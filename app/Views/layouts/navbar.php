@@ -32,7 +32,7 @@
                                         <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
                                         <span class="badge badge-pill badge-warning mt-2 text-white">User Free</span>
                                     </div>
-                                    <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item">
+                                    <a href="/home/edit_profile" class="dropdown-item">
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>
@@ -53,7 +53,7 @@
                                         <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
                                         <span class="badge badge-pill badge-success mt-2 text-white">User Premium</span>
                                     </div>
-                                    <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item">
+                                    <a href="/home/edit_profile" class="dropdown-item">
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>
@@ -74,7 +74,7 @@
                                         <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
                                         <span class="badge badge-pill badge-primary mt-2 text-white">Admin</span>
                                     </div>
-                                    <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item">
+                                    <a href="/home/edit_profile" class="dropdown-item">
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>

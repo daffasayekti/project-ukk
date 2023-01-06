@@ -99,10 +99,30 @@
                                                     <?= $value['isi_komentar']; ?>
                                                 </p>
                                                 <?php if (in_groups('User') || in_groups('Admin')) : ?>
-                                                    <h5 class="text-primary balas-komentar" data-index="<?= $i ?>" style="font-size: 14px; cursor:pointer"><b>Balas Komentar</b></h5>
+                                                    <h5 class="text-primary balas-komentar" data-index="<?= $i ?>" style="font-size: 14px; cursor:pointer" data-id="<?= $value['id_komentar']; ?>"><b>Balas Komentar</b></h5>
                                                     <div class="textarea-balas"></div>
                                                 <?php endif; ?>
                                             </div>
+                                            <div id="balasan" class="balasan"></div>
+                                            <?php if ($value['komentar_id']) : ?>
+                                                <div class="comment-box from">
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="/assets/images/profile_users/<?= $value['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
+                                                        <div>
+                                                            <p class="fs-12 mb-1 line-height-xs">
+                                                                <?= tgl_indo_model_2(date($value['tanggal_balas_komentar'])); ?>
+                                                            </p>
+                                                            <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                                                                <?= $value['penulis_komentar']; ?>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <p class="fs-12 mt-3">
+                                                        <?= $value['isi_balas_komentar']; ?>
+                                                    </p>
+                                                </div>
+                                            <?php endif; ?>
                                         <?php } ?>
                                     </div>
                                 </div>
@@ -145,7 +165,7 @@
                                             <img src="/assets/images/resource_berita/<?= $value['gambar_berita']; ?>" alt="banner" class="img-fluid" />
                                         </div>
                                         <h3 class="mt-3 font-weight-600">
-                                            <a href="/home/detail_berita_ekonomi/<?= $value['slug']; ?>" style="text-decoration: none; color: #434a54"><?= $value['judul_berita']; ?></a>e
+                                            <a href="/home/detail_berita_ekonomi/<?= $value['slug']; ?>" style="text-decoration: none; color: #434a54"><?= $value['judul_berita']; ?></a>
                                         </h3>
                                         <p class="fs-13 text-muted mb-0">
                                             <span class="mr-2"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_2(date($value['tanggal_buat'])); ?>
@@ -190,7 +210,7 @@
                         <img src="/assets/images/profile_users/${item.profile_img}" alt="banner" class="img-fluid img-rounded mr-3" />
                         <div>
                             <p class="fs-12 mb-1 line-height-xs">
-                                ${item . tanggal_komentar}
+                                ${item.tanggal_komentar}
                             </p>
                             <p class="fs-16 font-weight-600 mb-0 line-height-xs">
                                 ${item.username}
@@ -212,26 +232,63 @@
 
     $('.content-wrapper').on('click', '.balas-komentar', function() {
         var index = $(this).data('index');
+        var komentar_id = $(this).data('id');
+
         if (!document.querySelectorAll('.textarea-balas')[index].querySelector('textarea')) {
             document.querySelectorAll('.textarea-balas')[index].innerHTML = `<textarea class="form-control komentar mt-3" cols="30" name="balas_komentar" id="balas_komentar" placeholder="Tulis Komentar..."></textarea>
-            <button class="btn btn-primary mt-3 balaskomentarEkonomi" id="balaskomentarEkonomi">Kirim</button>`
+            <button class="btn btn-primary mt-3 balaskomentarEkonomi" id="balaskomentarEkonomi" data-id="${komentar_id}" data-index="${index}">Kirim</button>`
         } else {
             document.querySelectorAll('.textarea-balas')[index].innerHTML = ''
         }
     });
 
-    $('#balaskomentarEkonomi').on('click', function() {
+    $('body').on('click', '.balaskomentarEkonomi', function() {
+        var index = $(this).data('index');
+        var komentar_id = $(this).data('id');
         var balas_komentar = document.getElementById('balas_komentar');
-        console.log(balas_komentar)
+        var tbl_balas_komentar = document.getElementById('balaskomentarEkonomi');
+
         $.ajax({
-            url: '/home/komentar_ekonomi',
+            url: '/home/balas_ekonomi',
             method: 'POST',
             data: {
+                komentar_id: komentar_id,
                 created_by: '<?= in_groups('User') || in_groups('Admin') ? user()->username : 'Guest'; ?>',
                 balas_komentar: balas_komentar.value
             },
-            success: function(res) {}
+            success: function(res) {
+                getBalasKomentar(komentar_id, index)
+                document.querySelectorAll('.textarea-balas')[index].innerHTML = '';
+            }
         })
     });
+
+    function getBalasKomentar(komentar_id, index) {
+        $.ajax({
+            url: "/home/get_balas_ekonomi/" + komentar_id,
+            method: 'GET',
+            success: function(data) {
+                document.querySelectorAll('.balasan')[index].innerHTML = data.map((item) => `
+                <div class="comment-box from">
+                    <div class="d-flex align-items-center">
+                        <img src="/assets/images/profile_users/${item.profile_penulis}" alt="banner" class="img-fluid img-rounded mr-3" />
+                    <div>
+                    <p class="fs-12 mb-1 line-height-xs">
+                        ${item.tanggal_balas_komentar}
+                    </p>
+                    <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                        ${item.penulis_komentar}
+                    </p>
+                    </div>
+                </div>
+
+                    <p class="fs-12 mt-3">
+                        ${item.isi_balas_komentar}
+                    </p>
+                </div>
+                `).join('')
+            }
+        })
+    }
 </script>
 <?= $this->endSection(); ?>

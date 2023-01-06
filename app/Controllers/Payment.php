@@ -12,6 +12,8 @@ use App\Models\AkunModel;
 
 use App\Models\InvoiceModel;
 
+use App\Models\LaporanModel;
+
 use Carbon\Carbon;
 
 class Payment extends BaseController
@@ -22,6 +24,7 @@ class Payment extends BaseController
     protected $pembayaranModel;
     protected $invoiceModel;
     protected $akunModel;
+    protected $laporanModel;
     protected $carbon;
     protected $helpers = ['tanggal_helper', 'auth'];
 
@@ -32,6 +35,7 @@ class Payment extends BaseController
         $this->pembayaranModel = new PembayaranModel();
         $this->akunModel = new AkunModel();
         $this->invoiceModel = new InvoiceModel();
+        $this->laporanModel = new LaporanModel();
         $this->carbon = new Carbon();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }
@@ -73,6 +77,7 @@ class Payment extends BaseController
             'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'data_langganan' => $data_langganan,
+            'data_laporan' => $this->laporanModel->getDataLaporan(),
             'data_pembayaran' => $this->pembayaranModel->getDataPembayaranByUsername(user()->username),
         ];
 

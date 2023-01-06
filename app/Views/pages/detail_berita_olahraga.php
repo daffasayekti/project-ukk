@@ -101,10 +101,30 @@
                                                     <?= $value['isi_komentar']; ?>
                                                 </p>
                                                 <?php if (in_groups('User') || in_groups('Admin')) : ?>
-                                                    <h5 class="text-primary balas-komentar" data-index="<?= $i ?>" style="font-size: 14px; cursor:pointer"><b>Balas Komentar</b></h5>
+                                                    <h5 class="text-primary balas-komentar" data-index="<?= $i ?>" style="font-size: 14px; cursor:pointer" data-id="<?= $value['id_komentar']; ?>"><b>Balas Komentar</b></h5>
                                                     <div class="textarea-balas"></div>
                                                 <?php endif; ?>
                                             </div>
+                                            <div id="balasan" class="balasan"></div>
+                                            <?php if ($value['komentar_id']) : ?>
+                                                <div class="comment-box from">
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="/assets/images/profile_users/<?= $value['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
+                                                        <div>
+                                                            <p class="fs-12 mb-1 line-height-xs">
+                                                                <?= tgl_indo_model_2(date($value['tanggal_balas_komentar'])); ?>
+                                                            </p>
+                                                            <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                                                                <?= $value['penulis_komentar']; ?>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <p class="fs-12 mt-3">
+                                                        <?= $value['isi_balas_komentar']; ?>
+                                                    </p>
+                                                </div>
+                                            <?php endif; ?>
                                         <?php } ?>
                                     </div>
                                 </div>
@@ -214,12 +234,63 @@
 
     $('.content-wrapper').on('click', '.balas-komentar', function() {
         var index = $(this).data('index');
+        var komentar_id = $(this).data('id');
+
         if (!document.querySelectorAll('.textarea-balas')[index].querySelector('textarea')) {
             document.querySelectorAll('.textarea-balas')[index].innerHTML = `<textarea class="form-control komentar mt-3" cols="30" name="balas_komentar" id="balas_komentar" placeholder="Tulis Komentar..."></textarea>
-            <button class="btn btn-primary mt-3" id="komentarEkonomi">Kirim</button>`
+            <button class="btn btn-primary mt-3 balaskomentarOlahraga" id="balaskomentarOlahraga" data-id="${komentar_id}" data-index="${index}">Kirim</button>`
         } else {
             document.querySelectorAll('.textarea-balas')[index].innerHTML = ''
         }
     });
+
+    $('body').on('click', '.balaskomentarOlahraga', function() {
+        var index = $(this).data('index');
+        var komentar_id = $(this).data('id');
+        var balas_komentar = document.getElementById('balas_komentar');
+        var tbl_balas_komentar = document.getElementById('balaskomentarPolitik');
+
+        $.ajax({
+            url: '/home/balas_ekonomi',
+            method: 'POST',
+            data: {
+                komentar_id: komentar_id,
+                created_by: '<?= in_groups('User') || in_groups('Admin') ? user()->username : 'Guest'; ?>',
+                balas_komentar: balas_komentar.value
+            },
+            success: function(res) {
+                getBalasKomentar(komentar_id, index)
+                document.querySelectorAll('.textarea-balas')[index].innerHTML = '';
+            }
+        })
+    });
+
+    function getBalasKomentar(komentar_id, index) {
+        $.ajax({
+            url: "/home/get_balas_ekonomi/" + komentar_id,
+            method: 'GET',
+            success: function(data) {
+                document.querySelectorAll('.balasan')[index].innerHTML = data.map((item) => `
+                <div class="comment-box from">
+                    <div class="d-flex align-items-center">
+                        <img src="/assets/images/profile_users/${item.profile_penulis}" alt="banner" class="img-fluid img-rounded mr-3" />
+                    <div>
+                    <p class="fs-12 mb-1 line-height-xs">
+                        ${item.tanggal_balas_komentar}
+                    </p>
+                    <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                        ${item.penulis_komentar}
+                    </p>
+                    </div>
+                </div>
+
+                    <p class="fs-12 mt-3">
+                        ${item.isi_balas_komentar}
+                    </p>
+                </div>
+                `).join('')
+            }
+        })
+    }
 </script>
 <?= $this->endSection(); ?>

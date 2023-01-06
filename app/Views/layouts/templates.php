@@ -35,6 +35,23 @@
     <script src="/assets/js/aos.js"></script>
     <script src="/assets/js/demo.js"></script>
     <script src="/assets/js/jquery.easeScroll.js"></script>
+
+    <script>
+        function editProfile() {
+            const gambar = document.querySelector('#profile_img');
+            const gambarLabel = document.querySelector('.form-control');
+            const imgProfile = document.querySelector('.previewImg');
+
+            gambarLabel.textContent = gambar.files[0].name;
+
+            const fileSampul = new FileReader();
+            fileSampul.readAsDataURL(gambar.files[0]);
+
+            fileSampul.onload = function(e) {
+                imgProfile.src = e.target.result;
+            }
+        }
+    </script>
 </body>
 
 </html>

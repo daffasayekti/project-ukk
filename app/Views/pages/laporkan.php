@@ -6,9 +6,9 @@
         <div class="d-lg-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <span class="badge badge-dark mr-3">Flash News</span>
-                <p class="mb-0">
+                <marquee class="mb-0" direction="right">
                     <?= $data_laporan['isi_pesan']; ?>
-                </p>
+                </marquee>
             </div>
             <div class="d-flex">
                 <span class="mr-3 text-danger">
@@ -25,7 +25,7 @@
                 <div class="card" data-aos="fade-up">
                     <div class="card-body">
                         <div class="aboutus-wrapper">
-                            <h1 class="mt-5 text-center mb-5">
+                            <h1 class="mt-3 text-center mb-4">
                                 Laporkan Kejadian Disekitarmu
                             </h1>
                             <?php if (session()->getFlashdata('success')) : ?>
@@ -66,7 +66,7 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-lg btn-dark font-weight-bold mt-3" id="kirim_whatsapp">Kirim Whatsapp</button>
+                                                <button type="submit" class="btn btn-dark font-weight-bold mt-3" id="kirim_whatsapp">Kirim Whatsapp</button>
                                             </div>
                                         </div>
                                     </div>

@@ -10,6 +10,8 @@ use App\Models\JenisLanggananModel;
 
 use App\Models\LaporanModel;
 
+use App\Models\AkunModel;
+
 use CodeIgniter\API\ResponseTrait;
 
 use App\Models\BalasModel;
@@ -23,6 +25,7 @@ class Home extends BaseController
     protected $jenisLanggananModel;
     protected $laporanModel;
     protected $balasModel;
+    protected $akunModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
@@ -32,6 +35,7 @@ class Home extends BaseController
         $this->jenisLanggananModel  = new JenisLanggananModel();
         $this->laporanModel  = new LaporanModel();
         $this->balasModel = new BalasModel();
+        $this->akunModel = new AkunModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }
 
@@ -429,5 +433,93 @@ class Home extends BaseController
         ];
 
         return view('/pages/pilih_langganan', $data);
+    }
+
+    public function balas_ekonomi()
+    {
+        if ($this->request->isAJAX()) {
+            $this->balasModel->save([
+                'komentar_id' => $this->request->getVar('komentar_id'),
+                'penulis_komentar' => $this->request->getVar('created_by'),
+                'isi_balas_komentar' => $this->request->getVar('balas_komentar'),
+                'profile_penulis' => user()->profile_img
+            ]);
+        }
+    }
+
+    public function get_balas_ekonomi($komentar_id)
+    {
+        if ($this->request->isAJAX()) {
+            $balas_komentar = $this->balasModel->getBalasKomentarById($komentar_id);
+            $datas = [];
+            foreach ($balas_komentar as $value) {
+                $value['tanggal_balas_komentar'] = tgl_indo_model_2($value['tanggal_balas_komentar']);
+                $datas[] = $value;
+            }
+            return $this->respond($datas);
+        }
+    }
+
+    public function edit_profile()
+    {
+        $data = [
+            'title' => 'Edit Profile',
+            'data_laporan' => $this->laporanModel->getDataLaporan(),
+            'uri' => $this->uri,
+            'validation' => \Config\Services::validation(),
+            'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+        ];
+
+        return view('/pages/edit_profile', $data);
+    }
+
+    public function proses_edit_profile($id)
+    {
+        if (!$this->validate([
+            'profile_img'   => [
+                'label'  => 'Foto Profile',
+                'rules'  => 'max_size[profile_img,1024]|is_image[profile_img]|mime_in[profile_img,image/jpg,image/jpeg,/image/png]',
+                'errors' => [
+                    'max_size' => 'Ukuran gambar terlalu besar!',
+                    'is_image' => 'Yang anda pilih bukan gambar!',
+                    'mime_in'  => 'Yang anda pilih bukan gambar!'
+                ]
+            ],
+        ])) {
+            return redirect()->to('/home/edit_profile')->withInput();
+        }
+
+        $file_gambar = $this->request->getFile('profile_img');
+
+        $profile_lama = $this->request->getVar('profile_lama');
+
+        if ($profile_lama == 'default.png') {
+            $nama_gambar = $file_gambar->getRandomName();
+
+            $file_gambar->move('assets/images/profile_users', $nama_gambar);
+        } else {
+            $nama_gambar = $file_gambar->getRandomName();
+
+            $file_gambar->move('assets/images/profile_users', $nama_gambar);
+
+            unlink('assets/images/profile_users/' . $this->request->getVar('profile_lama'));
+        }
+
+        $builder = $this->akunModel->table('users');
+
+        $data = [
+            'profile_img' => $nama_gambar,
+            'email' => $this->request->getVar('email'),
+            'username' => $this->request->getVar('username'),
+            'fullname' => $this->request->getVar('nama_lengkap')
+        ];
+
+        $where = ['id' => $id];
+
+        $builder->set($data)
+            ->where($where)
+            ->update();
+
+        return redirect()->to('/');
     }
 }
