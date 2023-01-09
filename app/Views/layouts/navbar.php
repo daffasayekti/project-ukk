@@ -57,7 +57,7 @@
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>
-                                    <a href="#" data-toggle="modal" data-target="#editprofile" class="dropdown-item mb-3">
+                                    <a href="/home/edit_post" class="dropdown-item mb-3">
                                         <i class="fa-solid fa-edit fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Post
                                     </a>

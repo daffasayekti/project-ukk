@@ -38,6 +38,21 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->get('/admin/dashboard', 'Admin::dashboard', ['filter' => 'role:Admin']);
+$routes->get('/admin/data_kecelakaan', 'Admin::data_kecelakaan', ['filter' => 'role:Admin']);
+$routes->get('/admin/data_politik', 'Admin::data_politik', ['filter' => 'role:Admin']);
+$routes->get('/admin/data_ekonomi', 'Admin::data_ekonomi', ['filter' => 'role:Admin']);
+$routes->get('/admin/data_olahraga', 'Admin::data_olahraga', ['filter' => 'role:Admin']);
+$routes->get('/admin/moderasi_berita', 'Admin::moderasi_berita', ['filter' => 'role:Admin']);
+$routes->get('/admin/moderasi_laporan', 'Admin::moderasi_laporan', ['filter' => 'role:Admin']);
+$routes->get('/admin/user_free', 'Admin::user_free', ['filter' => 'role:Admin']);
+$routes->get('/admin/user_premium', 'Admin::user_premium', ['filter' => 'role:Admin']);
+$routes->get('/admin/admin', 'Admin::admin', ['filter' => 'role:Admin']);
+$routes->get('/admin/data_komentar', 'Admin::data_komentar', ['filter' => 'role:Admin']);
+$routes->get('/admin/data_pembayaran', 'Admin::data_pembayaran', ['filter' => 'role:Admin']);
+$routes->get('/admin/data_invoice', 'Admin::data_invoice', ['filter' => 'role:Admin']);
+$routes->get('/home/edit_profile', 'Home::edit_profile', ['filter' => 'role:Admin,User']);
+$routes->get('/home/edit_post', 'Home::edit_post', ['filter' => 'role:User']);
+$routes->get('/home/pilih_langganan', 'Home::pilih_langganan', ['filter' => 'role:User']);
 
 /*
  * --------------------------------------------------------------------

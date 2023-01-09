@@ -4764,7 +4764,7 @@ input[type="button"].btn-block {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #007bff;
+  background-color: #032a63;
   border-color: #007bff;
 }
 
@@ -9879,16 +9879,15 @@ h6, .h6 {
 
 /* Pagination */
 .pagination {
-  padding-bottom: 100px;
-  padding-top: 92px;
+  padding-top: 30px;
 }
 
 .pagination .page-item .page-link {
   border-color: #e6e7e8;
-  color: #ababac;
+  color: black;
   font-size: 14px;
   font-weight: 500;
-  padding: 15px 64px;
+  padding: 10px 15px;
 }
 
 .pagination .page-item .active {
@@ -9896,7 +9895,7 @@ h6, .h6 {
 }
 
 .pagination .page-item.active .page-link, .pagination .page-item:hover .page-link, .pagination .page-item:focus .page-link, .pagination .page-item:active .page-link {
-  color: #007bff;
+  color: white;
 }
 
 /* Buttons */
@@ -9909,7 +9908,7 @@ h6, .h6 {
 
 .btn.btn-sm, .btn-group-sm > .btn {
   font-size: 0.875rem;
-  padding: 10px 24px;
+  padding: 10px 10px;
   line-height: 0;
 }
 

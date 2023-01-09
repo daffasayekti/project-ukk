@@ -522,4 +522,19 @@ class Home extends BaseController
 
         return redirect()->to('/');
     }
+
+    public function edit_post()
+    {
+        $data = [
+            'title' => 'Edit Post Berita',
+            'data_laporan' => $this->laporanModel->getDataLaporan(),
+            'uri' => $this->uri,
+            'data_postku' => $this->beritaModel->where('created_by', user()->username)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'pager' => $this->beritaModel->pager,
+            'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
+            'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+        ];
+
+        return view('/pages/edit_post', $data);
+    }
 }

@@ -103,9 +103,7 @@ class Payment extends BaseController
                 'tanggal_pembayaran' => $this->request->getVar('transaction_time')
             ]);
 
-            $cekStatus = $this->pembayaranModel->getStatusPembayaran($this->request->getVar('order_id'));
-
-            if ($cekStatus['status_pembayaran'] == 'settlement') {
+            if ($this->request->getVar('transaction_status') == 'settlement') {
                 $builder = $this->akunModel->table('users');
 
                 $where = ['id' => $dataPelanggan['id']];
@@ -121,11 +119,11 @@ class Payment extends BaseController
                     ->where($where)
                     ->update();
                 return redirect()->to('/payment/detail_payment/' . $dataPembayaran['id_langganan']);
-            } else if ($cekStatus['status_pembayaran'] == 'pending') {
+            } else if ($this->request->getVar('transaction_status') == 'pending') {
                 return redirect()->to('/payment/detail_payment/' . $dataPembayaran['id_langganan']);
-            } else if ($cekStatus['status_pembayaran'] == 'cancel') {
+            } else if ($this->request->getVar('transaction_status') == 'cancel') {
                 return redirect()->to('/payment/detail_payment/' . $dataPembayaran['id_langganan']);
-            } else if ($cekStatus['status_pembayaran'] == 'expire') {
+            } else if ($this->request->getVar('transaction_status') == 'expire') {
                 return redirect()->to('/payment/detail_payment/' . $dataPembayaran['id_langganan']);
             }
         }

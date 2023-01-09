@@ -37,6 +37,7 @@ class Pager extends BaseConfig
         'pagination_data_pembayaran' => 'App\Views\Pagers\pagination_data_pembayaran',
         'pagination_data_invoice'    => 'App\Views\Pagers\pagination_data_invoice',
         'pagination_data_moderasi_laporan' => 'App\Views\Pagers\pagination_data_moderasi_laporan',
+        'pagination_data_berita_premium' => 'App\Views\Pagers\pagination_data_berita_premium',
     ];
 
     /**
