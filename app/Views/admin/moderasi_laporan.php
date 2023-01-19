@@ -52,11 +52,17 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="/admin/proses_moderasi_laporan/<?= $value['id_laporan']; ?>" class="btn btn-success ml-1 btn-sm"><i class="fas fa-check-circle"></i></a>
-                                        <a href="/admin/gagal_moderasi_laporan/<?= $value['id_laporan']; ?>" class="btn btn-danger ml-1 btn-sm"><i class="fa-sharp fa-solid fa-circle-xmark"></i></a>
+                                        <a href="/admin/gagal_moderasi_laporan/<?= $value['id_laporan']; ?>" class="btn btn-danger ml-1 btn-sm"><i class="fa-sharp fa-solid fa-circle-xmark" onclick="return confirm('Apakah Anda Yakin Ingin Menggagalkan Moderasi Laporan Tersebut ?');"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
+
+                        <?php if (empty($data_laporan_moderasi)) : ?>
+                            <div class="alert alert-danger text-center" role="alert">
+                                Tidak Ada Laporan Yang Perlu Dimoderasi!
+                            </div>
+                        <?php endif; ?>
                         <?= $pager->links('tb_laporan_masyarakat', 'pagination_data_moderasi_laporan'); ?>
                     </div>
                 </div>

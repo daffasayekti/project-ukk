@@ -6,9 +6,11 @@
         <div class="d-lg-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <span class="badge badge-dark mr-3">Flash News</span>
-                <marquee class="mb-0" direction="right">
-                    <?= $data_laporan['isi_pesan']; ?>
-                </marquee>
+                <?php if ($data_laporan) : ?>
+                    <marquee class="mb-0" direction="right">
+                        <?= $data_laporan['isi_pesan']; ?>
+                    </marquee>
+                <?php endif; ?>
             </div>
             <div class="d-flex">
                 <span class="mr-3 text-danger">
@@ -25,39 +27,17 @@
                 <div class="card" data-aos="fade-up">
                     <div class="card-body">
                         <div class="aboutus-wrapper">
-                            <h1 class="mt-5 text-center mb-3">
+                            <h1 class="mt-5 text-center mb-5">
                                 Tentang Kami
                             </h1>
-                            <p class="font-weight-600 fs-15" style="text-align: justify;">
-                                He has led a remarkable campaign, defying the traditional
-                                mainstream parties courtesy of his En Marche! movement.
-                                For many, however, the campaign has become less about
-                                backing Macron and instead about voting against Le Pen,
-                                the National Front candidate.
-                            </p>
-                            <p class="font-weight-600 fs-15 mb-5 mt-4" style="text-align: justify;">
-                                He has led a remarkable campaign, defying the traditional
-                                mainstream parties courtesy of his En Marche! movement.
-                                For many, however, the campaign has become less about
-                                backing Macron and instead about voting against Le Pen,
-                                the National Front candidate.
-                            </p>
-                            <img src="../assets/images/about/about.jpg" alt="banner" class="img-fluid mb-5" />
-
-                            <p class="font-weight-600 fs-15" style="text-align: justify;">
-                                He has led a remarkable campaign, defying the traditional
-                                mainstream parties courtesy of his En Marche! movement.
-                                For many, however, the campaign has become less about
-                                backing Macron and instead about voting against Le Pen,
-                                the National Front candidate.
-                            </p>
-                            <p class="font-weight-600 fs-15 mb-5 mt-4" style="text-align: justify;">
-                                He has led a remarkable campaign, defying the traditional
-                                mainstream parties courtesy of his En Marche! movement.
-                                For many, however, the campaign has become less about
-                                backing Macron and instead about voting against Le Pen,
-                                the National Front candidate.
-                            </p>
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <img src="/assets/images/sekolahku.png" alt="sekolahku" width="270" height="270" class="img-fluid">
+                                </div>
+                                <div class="col-md-6" style="text-align: justify;">
+                                    <p>Perkenalkan nama saya Daffa Pratama A.S, saya sekolah di <b>SMKN 2 Surabaya</b> Jurusan <b>RPL (Rekayasa Perangkat Lunak)</b>. Pada Kelas 12 ini kita diwajibkan membuat Project. Saya memilih untuk membuat Website Portal Berita yang bernama <b>World Time</b>. World Time adalah sebuah Website Portal Berita yang mempunyai banyak fitur diantaranya adalah fitur berlangganan <b>Users Premium</b>.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

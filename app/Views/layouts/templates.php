@@ -19,6 +19,10 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
     <link rel="shortcut icon" href="/assets/images/favicon.png" />
+
+    <!-- Trix Editor -->
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/trix.css'); ?>">
+    <script type="text/javascript" src="<?= base_url('/assets/js/trix.js'); ?>"></script>
 </head>
 
 <body>

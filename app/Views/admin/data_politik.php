@@ -62,11 +62,16 @@
                                     <td style="width: 15%;" class="text-center">
                                         <a href="/admin/detail_politik/<?= $value['slug']; ?>" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="/admin/edit_berita_politik/<?= $value['slug']; ?>" class="btn btn-warning btn-sm ml-1"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="/admin/hapus_politik/<?= $value['slug']; ?>" class="btn btn-danger btn-sm ml-1"><i class="fas fa-trash"></i></a>
+                                        <a href="/admin/hapus_politik/<?= $value['slug']; ?>" class="btn btn-danger btn-sm ml-1" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Berita Tersebut ?');"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
+                        <?php if (empty($data_berita)) : ?>
+                            <div class="alert alert-danger text-center" role="alert">
+                                Data Berita Politik Tidak Tersedia!
+                            </div>
+                        <?php endif; ?>
                         <?= $pager->links('tb_berita', 'pagination_data_politik'); ?>
                     </div>
                 </div>

@@ -45,6 +45,12 @@
                                 </tr>
                             <?php endforeach; ?>
                         </table>
+
+                        <?php if (empty($data_komentar)) : ?>
+                            <div class="alert alert-danger text-center" role="alert">
+                                Data Komentar Tidak Tersedia!
+                            </div>
+                        <?php endif; ?>
                         <?= $pager->links('tb_komentar', 'pagination_data_komentar'); ?>
                     </div>
                 </div>

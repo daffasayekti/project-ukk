@@ -20,7 +20,7 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Email</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <input type="email" class="form-control <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" name="email" value="<?= old('email'); ?>" required autofocus autocomplete="off">
+                                        <input type="email" class="form-control <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" name="email" value="<?= old('email'); ?>" autofocus autocomplete="off">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('email'); ?>
                                         </div>
@@ -29,16 +29,16 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Username</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <input type="text" class="form-control <?= ($validation->hasError('username')) ? 'is-invalid' : ''; ?>" name="username" required autocomplete="off">
+                                        <input type="text" class="form-control <?= ($validation->hasError('username')) ? 'is-invalid' : ''; ?>" value="<?= old('username'); ?>" name="username" autocomplete="off">
                                         <div class=" invalid-feedback">
                                             <?= $validation->getError('username'); ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-4">
-                                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Fullname</label>
+                                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nama Lengkap</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <input type="text" class="form-control <?= ($validation->hasError('fullname')) ? 'is-invalid' : ''; ?>" name="fullname" autocomplete="off">
+                                        <input type="text" class="form-control <?= ($validation->hasError('fullname')) ? 'is-invalid' : ''; ?>" value="<?= old('fullname'); ?>" name="fullname" autocomplete="off">
                                         <div class=" invalid-feedback">
                                             <?= $validation->getError('fullname'); ?>
                                         </div>
@@ -47,7 +47,7 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Password</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <input type="text" class="form-control <?= ($validation->hasError('password_hash')) ? 'is-invalid' : ''; ?>" name="password_hash" required autocomplete="off">
+                                        <input type="password" class="form-control <?= ($validation->hasError('password_hash')) ? 'is-invalid' : ''; ?>" name="password_hash" autocomplete="off">
                                         <div class=" invalid-feedback">
                                             <?= $validation->getError('password_hash'); ?>
                                         </div>

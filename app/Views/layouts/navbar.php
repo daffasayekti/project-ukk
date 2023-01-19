@@ -12,9 +12,6 @@
                         </li>
                     </ul>
                     <ul class="navbar-top-right-menu">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link"><i class="mdi mdi-magnify"></i></a>
-                        </li>
                         <li class="dropdown">
                             <a href="#" data-toggle="dropdown" class="nav-link nav-link-lg nav-link-user">
                                 <?php if (in_groups('User')) : ?>
@@ -78,7 +75,7 @@
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>
-                                    <a href="<?= base_url('/admin/dashboard'); ?>" class="dropdown-item mb-3">
+                                    <a href="<?= base_url('/admin/dashboard'); ?>" class="dropdown-item mb-3" target="_blank">
                                         <i class="fa-solid fa-users-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         My Admin
                                     </a>
@@ -212,18 +209,18 @@
                     </div>
                     <ul class="social-media">
                         <li>
-                            <a href="#">
+                            <a href="https://www.facebook.com/daffa.sayekti.733/" target="_blank">
                                 <i class="mdi mdi-facebook"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="https://www.youtube.com/channel/UCFlbmXEPFLh68zA4oLORovw" target="_blank">
                                 <i class="mdi mdi-youtube"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
-                                <i class="mdi mdi-twitter"></i>
+                            <a href="https://github.com/daffasayekti" target="_blank">
+                                <i class="mdi mdi-github-circle"></i>
                             </a>
                         </li>
                     </ul>

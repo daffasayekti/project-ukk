@@ -682,30 +682,41 @@ class Admin extends BaseController
     {
         if (!$this->validate([
             'judul_berita'   => [
-                'label'  => 'Judul Berita',
-                'rules'  => 'required',
+                'label' => 'Judul Berita',
+                'rules'  => 'required|is_unique[tb_berita.judul_berita]|min_length[50]|max_length[100]',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'is_unique' => '{field} Tersebut Sudah Digunakan!',
+                    'min_length' => '{field} Minimal 50 Karakter!',
+                    'max_length' => '{field} Maksimal 100 Karakter!'
                 ]
             ],
             'created_by'   => [
-                'label'  => 'Penulis Berita',
+                'label' => 'Penulis Berita',
                 'rules'  => 'required',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!'
                 ]
             ],
             'gambar_berita'   => [
-                'label'  => 'Gambar Berita',
-                'rules'  => 'uploaded[gambar_berita]|max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,/image/png]',
+                'label' => 'Gambar',
+                'rules'  => 'uploaded[gambar_berita]|max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'uploaded' => 'Pilih {field} terlebih dahulu!',
-                    'max_size' => 'Ukuran gambar terlalu besar!',
-                    'is_image' => 'Yang anda pilih bukan gambar!',
-                    'mime_in'  => 'Yang anda pilih bukan gambar!'
+                    'uploaded' => 'Pilih {field} Terlebih Dahulu!',
+                    'max_size' => 'Ukuran Gambar Terlalu Besar!',
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar!',
+                    'mime_in'  => 'Yang Anda Pilih Bukan Gambar!'
                 ]
             ],
-
+            'isi_berita' => [
+                'label' => 'Isi Berita',
+                'rules' => 'required|min_length[100]|max_length[10000]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 100 Karakter!',
+                    'max_length' => '{field} Maksimal 10.000 Karakter!'
+                ]
+            ],
         ])) {
             return redirect()->to('/admin/create_berita_kecelakaan')->withInput();
         }
@@ -717,6 +728,7 @@ class Admin extends BaseController
         $fileGambar->move('assets/images/resource_berita', $namaGambar);
 
         $slug = url_title($this->request->getVar('judul_berita'), '-', true);
+
         $this->beritaModel->save([
             'judul_berita'    => $this->request->getVar('judul_berita'),
             'slug'            => $slug,
@@ -768,29 +780,39 @@ class Admin extends BaseController
     {
         if (!$this->validate([
             'judul_berita'   => [
-                'label'  => 'Judul Berita',
-                'rules'  => 'required',
+                'label' => 'Judul Berita',
+                'rules'  => 'required|min_length[50]|max_length[100]',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 50 Karakter!',
+                    'max_length' => '{field} Maksimal 100 Karakter!'
                 ]
             ],
             'created_by'   => [
                 'label'  => 'Penulis Berita',
                 'rules'  => 'required',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!'
                 ]
             ],
             'gambar_berita'   => [
-                'label'  => 'Gambar Berita',
-                'rules'  => 'max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,/image/png]',
+                'label'  => 'Gambar',
+                'rules'  => 'max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'max_size' => 'Ukuran gambar terlalu besar!',
-                    'is_image' => 'Yang anda pilih bukan gambar!',
-                    'mime_in'  => 'Yang anda pilih bukan gambar!'
+                    'max_size' => 'Ukuran Gambar Terlalu Besar!',
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar!',
+                    'mime_in'  => 'Yang Anda Pilih Bukan Gambar!'
                 ]
             ],
-
+            'isi_berita' => [
+                'label' => 'Isi Berita',
+                'rules' => 'required|min_length[100]|max_length[10000]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 100 Karakter!',
+                    'max_length' => '{field} Maksimal 10.000 Karakter!'
+                ]
+            ],
         ])) {
             return redirect()->to('/admin/edit_berita_kecelakaan/' . $this->request->getVar('slug'))->withInput();
         }
@@ -802,7 +824,7 @@ class Admin extends BaseController
         } else {
             $namaGambar = $fileGambar->getRandomName();
             $fileGambar->move('assets/images/resource_berita/', $namaGambar);
-            unlink('images/resource_berita/' . $this->request->getVar('gambarLamaBerita'));
+            unlink('assets/images/resource_berita/' . $this->request->getVar('gambarLamaBerita'));
         }
 
         $builder = $this->beritaModel->table('tb_berita');
@@ -860,30 +882,41 @@ class Admin extends BaseController
     {
         if (!$this->validate([
             'judul_berita'   => [
-                'label'  => 'Judul Berita',
-                'rules'  => 'required',
+                'label' => 'Judul Berita',
+                'rules'  => 'required|is_unique[tb_berita.judul_berita]|min_length[50]|max_length[100]',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'is_unique' => '{field} Tersebut Sudah Digunakan!',
+                    'min_length' => '{field} Minimal 50 Karakter!',
+                    'max_length' => '{field} Maksimal 100 Karakter!'
                 ]
             ],
             'created_by'   => [
-                'label'  => 'Penulis Berita',
+                'label' => 'Penulis Berita',
                 'rules'  => 'required',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!'
                 ]
             ],
             'gambar_berita'   => [
-                'label'  => 'Gambar Berita',
-                'rules'  => 'uploaded[gambar_berita]|max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,/image/png]',
+                'label' => 'Gambar',
+                'rules'  => 'uploaded[gambar_berita]|max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'uploaded' => 'Pilih {field} terlebih dahulu!',
-                    'max_size' => 'Ukuran gambar terlalu besar!',
-                    'is_image' => 'Yang anda pilih bukan gambar!',
-                    'mime_in'  => 'Yang anda pilih bukan gambar!'
+                    'uploaded' => 'Pilih {field} Terlebih Dahulu!',
+                    'max_size' => 'Ukuran Gambar Terlalu Besar!',
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar!',
+                    'mime_in'  => 'Yang Anda Pilih Bukan Gambar!'
                 ]
             ],
-
+            'isi_berita' => [
+                'label' => 'Isi Berita',
+                'rules' => 'required|min_length[100]|max_length[10000]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 100 Karakter!',
+                    'max_length' => '{field} Maksimal 10.000 Karakter!'
+                ]
+            ],
         ])) {
             return redirect()->to('/admin/create_berita_politik')->withInput();
         }
@@ -946,29 +979,39 @@ class Admin extends BaseController
     {
         if (!$this->validate([
             'judul_berita'   => [
-                'label'  => 'Judul Berita',
-                'rules'  => 'required',
+                'label' => 'Judul Berita',
+                'rules'  => 'required|min_length[50]|max_length[100]',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 50 Karakter!',
+                    'max_length' => '{field} Maksimal 100 Karakter!'
                 ]
             ],
             'created_by'   => [
                 'label'  => 'Penulis Berita',
                 'rules'  => 'required',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!'
                 ]
             ],
             'gambar_berita'   => [
                 'label'  => 'Gambar Berita',
-                'rules'  => 'max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,/image/png]',
+                'rules'  => 'max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'max_size' => 'Ukuran gambar terlalu besar!',
-                    'is_image' => 'Yang anda pilih bukan gambar!',
-                    'mime_in'  => 'Yang anda pilih bukan gambar!'
+                    'max_size' => 'Ukuran Gambar Terlalu Besar!',
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar!',
+                    'mime_in'  => 'Yang Anda Pilih Bukan Gambar!'
                 ]
             ],
-
+            'isi_berita' => [
+                'label' => 'Isi Berita',
+                'rules' => 'required|min_length[100]|max_length[10000]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 100 Karakter!',
+                    'max_length' => '{field} Maksimal 10.000 Karakter!'
+                ]
+            ],
         ])) {
             return redirect()->to('/admin/edit_berita_politik/' . $this->request->getVar('slug'))->withInput();
         }
@@ -980,7 +1023,7 @@ class Admin extends BaseController
         } else {
             $namaGambar = $fileGambar->getRandomName();
             $fileGambar->move('assets/images/resource_berita/', $namaGambar);
-            unlink('images/resource_berita/' . $this->request->getVar('gambarLamaBerita'));
+            unlink('assets/images/resource_berita/' . $this->request->getVar('gambarLamaBerita'));
         }
 
         $builder = $this->beritaModel->table('tb_berita');
@@ -1038,30 +1081,41 @@ class Admin extends BaseController
     {
         if (!$this->validate([
             'judul_berita'   => [
-                'label'  => 'Judul Berita',
-                'rules'  => 'required',
+                'label' => 'Judul Berita',
+                'rules'  => 'required|is_unique[tb_berita.judul_berita]|min_length[50]|max_length[100]',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'is_unique' => '{field} Tersebut Sudah Digunakan!',
+                    'min_length' => '{field} Minimal 50 Karakter!',
+                    'max_length' => '{field} Maksimal 100 Karakter!'
                 ]
             ],
             'created_by'   => [
-                'label'  => 'Penulis Berita',
+                'label' => 'Penulis Berita',
                 'rules'  => 'required',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!'
                 ]
             ],
             'gambar_berita'   => [
-                'label'  => 'Gambar Berita',
-                'rules'  => 'uploaded[gambar_berita]|max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,/image/png]',
+                'label' => 'Gambar',
+                'rules'  => 'uploaded[gambar_berita]|max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'uploaded' => 'Pilih {field} terlebih dahulu!',
-                    'max_size' => 'Ukuran gambar terlalu besar!',
-                    'is_image' => 'Yang anda pilih bukan gambar!',
-                    'mime_in'  => 'Yang anda pilih bukan gambar!'
+                    'uploaded' => 'Pilih {field} Terlebih Dahulu!',
+                    'max_size' => 'Ukuran Gambar Terlalu Besar!',
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar!',
+                    'mime_in'  => 'Yang Anda Pilih Bukan Gambar!'
                 ]
             ],
-
+            'isi_berita' => [
+                'label' => 'Isi Berita',
+                'rules' => 'required|min_length[100]|max_length[10000]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 100 Karakter!',
+                    'max_length' => '{field} Maksimal 10.000 Karakter!'
+                ]
+            ],
         ])) {
             return redirect()->to('/admin/create_berita_ekonomi')->withInput();
         }
@@ -1073,6 +1127,7 @@ class Admin extends BaseController
         $fileGambar->move('assets/images/resource_berita', $namaGambar);
 
         $slug = url_title($this->request->getVar('judul_berita'), '-', true);
+
         $this->beritaModel->save([
             'judul_berita'    => $this->request->getVar('judul_berita'),
             'slug'            => $slug,
@@ -1124,29 +1179,39 @@ class Admin extends BaseController
     {
         if (!$this->validate([
             'judul_berita'   => [
-                'label'  => 'Judul Berita',
-                'rules'  => 'required',
+                'label' => 'Judul Berita',
+                'rules'  => 'required|min_length[50]|max_length[100]',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 50 Karakter!',
+                    'max_length' => '{field} Maksimal 100 Karakter!'
                 ]
             ],
             'created_by'   => [
                 'label'  => 'Penulis Berita',
                 'rules'  => 'required',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!'
                 ]
             ],
             'gambar_berita'   => [
                 'label'  => 'Gambar Berita',
-                'rules'  => 'max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,/image/png]',
+                'rules'  => 'max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'max_size' => 'Ukuran gambar terlalu besar!',
-                    'is_image' => 'Yang anda pilih bukan gambar!',
-                    'mime_in'  => 'Yang anda pilih bukan gambar!'
+                    'max_size' => 'Ukuran Gambar Terlalu Besar!',
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar!',
+                    'mime_in'  => 'Yang Anda Pilih Bukan Gambar!'
                 ]
             ],
-
+            'isi_berita' => [
+                'label' => 'Isi Berita',
+                'rules' => 'required|min_length[100]|max_length[10000]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 100 Karakter!',
+                    'max_length' => '{field} Maksimal 10.000 Karakter!'
+                ]
+            ],
         ])) {
             return redirect()->to('/admin/edit_berita_ekonomi/' . $this->request->getVar('slug'))->withInput();
         }
@@ -1158,7 +1223,7 @@ class Admin extends BaseController
         } else {
             $namaGambar = $fileGambar->getRandomName();
             $fileGambar->move('assets/images/resource_berita/', $namaGambar);
-            unlink('images/resource_berita/' . $this->request->getVar('gambarLamaBerita'));
+            unlink('assets/images/resource_berita/' . $this->request->getVar('gambarLamaBerita'));
         }
 
         $builder = $this->beritaModel->table('tb_berita');
@@ -1216,30 +1281,41 @@ class Admin extends BaseController
     {
         if (!$this->validate([
             'judul_berita'   => [
-                'label'  => 'Judul Berita',
-                'rules'  => 'required',
+                'label' => 'Judul Berita',
+                'rules'  => 'required|is_unique[tb_berita.judul_berita]|min_length[50]|max_length[100]',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'is_unique' => '{field} Tersebut Sudah Digunakan!',
+                    'min_length' => '{field} Minimal 50 Karakter!',
+                    'max_length' => '{field} Maksimal 100 Karakter!'
                 ]
             ],
             'created_by'   => [
-                'label'  => 'Penulis Berita',
+                'label' => 'Penulis Berita',
                 'rules'  => 'required',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!'
                 ]
             ],
             'gambar_berita'   => [
-                'label'  => 'Gambar Berita',
-                'rules'  => 'uploaded[gambar_berita]|max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,/image/png]',
+                'label' => 'Gambar',
+                'rules'  => 'uploaded[gambar_berita]|max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'uploaded' => 'Pilih {field} terlebih dahulu!',
-                    'max_size' => 'Ukuran gambar terlalu besar!',
-                    'is_image' => 'Yang anda pilih bukan gambar!',
-                    'mime_in'  => 'Yang anda pilih bukan gambar!'
+                    'uploaded' => 'Pilih {field} Terlebih Dahulu!',
+                    'max_size' => 'Ukuran Gambar Terlalu Besar!',
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar!',
+                    'mime_in'  => 'Yang Anda Pilih Bukan Gambar!'
                 ]
             ],
-
+            'isi_berita' => [
+                'label' => 'Isi Berita',
+                'rules' => 'required|min_length[100]|max_length[10000]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 100 Karakter!',
+                    'max_length' => '{field} Maksimal 10.000 Karakter!'
+                ]
+            ],
         ])) {
             return redirect()->to('/admin/create_berita_olahraga')->withInput();
         }
@@ -1251,6 +1327,7 @@ class Admin extends BaseController
         $fileGambar->move('assets/images/resource_berita', $namaGambar);
 
         $slug = url_title($this->request->getVar('judul_berita'), '-', true);
+
         $this->beritaModel->save([
             'judul_berita'    => $this->request->getVar('judul_berita'),
             'slug'            => $slug,
@@ -1302,29 +1379,39 @@ class Admin extends BaseController
     {
         if (!$this->validate([
             'judul_berita'   => [
-                'label'  => 'Judul Berita',
-                'rules'  => 'required',
+                'label' => 'Judul Berita',
+                'rules'  => 'required|min_length[50]|max_length[100]',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 50 Karakter!',
+                    'max_length' => '{field} Maksimal 100 Karakter!'
                 ]
             ],
             'created_by'   => [
                 'label'  => 'Penulis Berita',
                 'rules'  => 'required',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!'
                 ]
             ],
             'gambar_berita'   => [
                 'label'  => 'Gambar Berita',
-                'rules'  => 'max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,/image/png]',
+                'rules'  => 'max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'max_size' => 'Ukuran gambar terlalu besar!',
-                    'is_image' => 'Yang anda pilih bukan gambar!',
-                    'mime_in'  => 'Yang anda pilih bukan gambar!'
+                    'max_size' => 'Ukuran Gambar Terlalu Besar!',
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar!',
+                    'mime_in'  => 'Yang Anda Pilih Bukan Gambar!'
                 ]
             ],
-
+            'isi_berita' => [
+                'label' => 'Isi Berita',
+                'rules' => 'required|min_length[100]|max_length[10000]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 100 Karakter!',
+                    'max_length' => '{field} Maksimal 10.000 Karakter!'
+                ]
+            ],
         ])) {
             return redirect()->to('/admin/edit_berita_olahraga/' . $this->request->getVar('slug'))->withInput();
         }
@@ -1336,7 +1423,7 @@ class Admin extends BaseController
         } else {
             $namaGambar = $fileGambar->getRandomName();
             $fileGambar->move('assets/images/resource_berita/', $namaGambar);
-            unlink('images/resource_berita/' . $this->request->getVar('gambarLamaBerita'));
+            unlink('assets/images/resource_berita/' . $this->request->getVar('gambarLamaBerita'));
         }
 
         $builder = $this->beritaModel->table('tb_berita');
@@ -1559,7 +1646,7 @@ class Admin extends BaseController
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
         ];
 
-        return view('/pages/invoice', $data);
+        return view('/pages/invoice_admin', $data);
     }
 
     public function create_data_admin()
@@ -1581,23 +1668,41 @@ class Admin extends BaseController
         if (!$this->validate([
             'email'   => [
                 'label'  => 'Email',
-                'rules'  => 'required',
+                'rules'  => 'required|is_unique[users.email]|valid_email',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'is_unique' => '{field} Anda Sudah Terdaftar!',
+                    'valid_email' => 'Format {field} Anda Salah!',
                 ]
             ],
             'username'   => [
                 'label'  => 'Username',
-                'rules'  => 'required',
+                'rules'  => 'required|is_unique[users.username]|min_length[5]|max_length[20]|alpha_numeric',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'is_unique' => '{field} Anda Sudah Terdaftar!',
+                    'min_length' => '{field} Minimal 5 Karakter!',
+                    'max_length' => '{field} Maksimal 20 Karakter!',
+                    'alpha_numeric' => '{field} Tidak Boleh Menggunakan Spesial Karakter!',
+                ]
+            ],
+            'fullname'   => [
+                'label'  => 'Nama Lengkap',
+                'rules'  => 'required|is_unique[users.fullname]|min_length[10]|max_length[50]|alpha_numeric',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'is_unique' => '{field} Anda Sudah Terdaftar!',
+                    'min_length' => '{field} Minimal 10 Karakter!',
+                    'max_length' => '{field} Maksimal 50 Karakter!',
+                    'alpha_numeric' => '{field} Tidak Boleh Menggunakan Spesial Karakter!',
                 ]
             ],
             'password_hash'   => [
                 'label'  => 'Password',
-                'rules'  => 'required',
+                'rules'  => 'required|min_length[8]',
                 'errors' => [
-                    'required' => '{field} tidak boleh kosong'
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 8 Karakter!',
                 ]
             ],
         ])) {

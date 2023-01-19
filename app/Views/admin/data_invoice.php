@@ -45,6 +45,12 @@
                                 </tr>
                             <?php endforeach; ?>
                         </table>
+
+                        <?php if (empty($data_invoice)) : ?>
+                            <div class="alert alert-danger text-center" role="alert">
+                                Data Invoice Tidak Tersedia!
+                            </div>
+                        <?php endif; ?>
                         <?= $pager->links('tb_invoice', 'pagination_data_invoice'); ?>
                     </div>
                 </div>

@@ -6,9 +6,11 @@
         <div class="d-lg-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <span class="badge badge-dark mr-3">Flash News</span>
-                <marquee class="mb-0" direction="right">
-                    <?= $data_laporan['isi_pesan']; ?>
-                </marquee>
+                <?php if ($data_laporan) : ?>
+                    <marquee class="mb-0" direction="right">
+                        <?= $data_laporan['isi_pesan']; ?>
+                    </marquee>
+                <?php endif; ?>
             </div>
             <div class="d-flex">
                 <span class="mr-3 text-danger">

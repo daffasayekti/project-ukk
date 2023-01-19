@@ -57,6 +57,12 @@
                                 </tr>
                             <?php endforeach; ?>
                         </table>
+
+                        <?php if (empty($data_users_premium)) : ?>
+                            <div class="alert alert-danger text-center" role="alert">
+                                Data Users Premium Tidak Tersedia!
+                            </div>
+                        <?php endif; ?>
                         <?= $pager->links('users', 'pagination_users_premium'); ?>
                     </div>
                 </div>

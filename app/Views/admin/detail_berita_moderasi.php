@@ -5,7 +5,7 @@
     <section class="section">
         <div class="section-header">
             <div class="section-header-back">
-                <a href="/admin/moderasi_data" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+                <a href="/admin/moderasi_berita" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
             </div>
             <h1>Detail Berita</h1>
         </div>

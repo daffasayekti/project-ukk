@@ -6,9 +6,11 @@
         <div class="d-lg-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <span class="badge badge-dark mr-3">Flash News</span>
-                <marquee class="mb-0" direction="right">
-                    <?= $data_laporan['isi_pesan']; ?>
-                </marquee>
+                <?php if ($data_laporan) : ?>
+                    <marquee class="mb-0" direction="right">
+                        <?= $data_laporan['isi_pesan']; ?>
+                    </marquee>
+                <?php endif; ?>
             </div>
             <div class="d-flex">
                 <span class="mr-3 text-danger">
@@ -46,17 +48,23 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email *" autocomplete="off" value="<?= user()->email; ?>" />
+                                                    <input type="email" class="form-control <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" id="email" name="email" placeholder="Email *" autocomplete="off" value="<?= (old('email')) ? old('email') : user()->email ?>" />
+                                                    <div class="invalid-feedback">
+                                                        <?= $validation->getError('email'); ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username *" autocomplete="off" value="<?= user()->username; ?>" />
+                                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username *" autocomplete="off" value="<?= (old('username')) ? old('username') : user()->username ?>" readonly />
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control mt-3" id="nama_lengkap" name="nama_lengkap" placeholder="Nama Lengkap *" autocomplete="off" value="<?= user()->fullname; ?>" />
+                                                    <input type="text" class="form-control <?= ($validation->hasError('fullname')) ? 'is-invalid' : ''; ?> mt-3" id="fullname" name="fullname" placeholder="Nama Lengkap *" autocomplete="off" value="<?= (old('fullname')) ? old('fullname') : user()->fullname ?>" autofocus />
+                                                    <div class="invalid-feedback">
+                                                        <?= $validation->getError('fullname'); ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

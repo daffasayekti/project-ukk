@@ -22,7 +22,7 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Judul Berita</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <input type="text" class="form-control <?= ($validation->hasError('judul_berita')) ? 'is-invalid' : ''; ?>" name="judul_berita" value="<?= (old('judul_berita')) ? old('judul_berita') : $beritaEkonomi['judul_berita'] ?>" autofocus required>
+                                        <input type="text" class="form-control <?= ($validation->hasError('judul_berita')) ? 'is-invalid' : ''; ?>" name="judul_berita" value="<?= (old('judul_berita')) ? old('judul_berita') : $beritaEkonomi['judul_berita'] ?>" autofocus autocomplete="off">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('judul_berita'); ?>
                                         </div>
@@ -31,7 +31,7 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Penulis Berita</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <input type="text" class="form-control <?= ($validation->hasError('created_by')) ? 'is-invalid' : ''; ?>" name="created_by" value="<?= (old('created_by')) ? old('created_by') : $beritaEkonomi['created_by'] ?>" required>
+                                        <input type="text" class="form-control <?= ($validation->hasError('created_by')) ? 'is-invalid' : ''; ?>" name="created_by" value="<?= (old('created_by')) ? old('created_by') : $beritaEkonomi['created_by'] ?>" autocomplete="off" readonly>
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('created_by'); ?>
                                         </div>
@@ -69,17 +69,23 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Isi Berita</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <input id="isi_berita" type="hidden" name="isi_berita" value="<?= (old('isi_berita')) ? old('isi_berita') : $beritaEkonomi['isi_berita'] ?>" required>
+                                        <input id="isi_berita" type="hidden" name="isi_berita" value="<?= (old('isi_berita')) ? old('isi_berita') : $beritaEkonomi['isi_berita'] ?>" class="form-control <?= ($validation->hasError('isi_berita')) ? 'is-invalid' : ''; ?>">
                                         <trix-editor input="isi_berita"></trix-editor>
+                                        <div class="invalid-feedback">
+                                            <?= $validation->getError('isi_berita'); ?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Gambar Berita</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <div id="image-preview" class="image-preview h-100">
-                                            <img src="/assets/images/resource_berita/<?= $beritaEkonomi['gambar_berita']; ?>" class="img-thumbnail preview-img" />
-                                            <label for="image-upload" id="image-label"><?= $beritaEkonomi['gambar_berita']; ?></label>
-                                            <input type="file" class="form-control" name="gambar_berita" id="image-upload" onchange="previewImg()" style="position:fixed;" />
+                                        <img src="/assets/images/resource_berita/<?= $beritaEkonomi['gambar_berita']; ?>" class="img-thumbnail preview-img mb-4" width="250" />
+                                        <div class="custom-file">
+                                            <input type="file" class="form-control custom-file-input <?= ($validation->hasError('gambar_berita')) ? 'is-invalid' : ''; ?>" name="gambar_berita" id="gambar_berita" onchange="previewImg()" />
+                                            <div class="invalid-feedback">
+                                                <?= $validation->getError('gambar_berita'); ?>
+                                            </div>
+                                            <label class="custom-file-label"><?= $beritaEkonomi['gambar_berita']; ?></label>
                                         </div>
                                     </div>
                                 </div>
@@ -102,5 +108,20 @@
     document.addEventListener('trix-file-accept', function(e) {
         e.preventDefault()
     })
+
+    function previewImg() {
+        const gambar = document.querySelector('#gambar_berita');
+        const gambarLabel = document.querySelector('.custom-file-label');
+        const imgProfile = document.querySelector('.preview-img');
+
+        gambarLabel.textContent = gambar.files[0].name;
+
+        const fileSampul = new FileReader();
+        fileSampul.readAsDataURL(gambar.files[0]);
+
+        fileSampul.onload = function(e) {
+            imgProfile.src = e.target.result;
+        }
+    }
 </script>
 <?= $this->endSection(); ?>

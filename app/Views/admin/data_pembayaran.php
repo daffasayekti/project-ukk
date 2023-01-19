@@ -61,6 +61,12 @@
                                 </tr>
                             <?php endforeach; ?>
                         </table>
+
+                        <?php if (empty($data_pembayaran)) : ?>
+                            <div class="alert alert-danger text-center" role="alert">
+                                Tidak Ada Status Pembayaran Yang Perlu Dicek!
+                            </div>
+                        <?php endif; ?>
                         <?= $pager->links('tb_pembayaran', 'pagination_data_pembayaran'); ?>
                     </div>
                 </div>

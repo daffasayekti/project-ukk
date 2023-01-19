@@ -58,23 +58,6 @@
     <script src="<?= base_url('/assets/js/stisla.js'); ?>"></script>
     <script src="<?= base_url('/assets/js/scripts.js'); ?>"></script>
     <script src="<?= base_url('/assets/js/custom.js'); ?>"></script>
-
-    <script>
-        function previewImg() {
-            const gambar = document.querySelector('#image-upload');
-            const gambarLabel = document.querySelector('#image-label');
-            const imgProfile = document.querySelector('.preview-img');
-
-            gambarLabel.textContent = gambar.files[0].name;
-
-            const fileSampul = new FileReader();
-            fileSampul.readAsDataURL(gambar.files[0]);
-
-            fileSampul.onload = function(e) {
-                imgProfile.src = e.target.result;
-            }
-        }
-    </script>
 </body>
 
 </html>

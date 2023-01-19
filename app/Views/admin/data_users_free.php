@@ -59,6 +59,12 @@
                                 </tr>
                             <?php endforeach; ?>
                         </table>
+
+                        <?php if (empty($data_users_free)) : ?>
+                            <div class="alert alert-danger text-center" role="alert">
+                                Data Users Free Tidak Tersedia!
+                            </div>
+                        <?php endif; ?>
                         <?= $pager->links('users', 'pagination_users_free'); ?>
                     </div>
                 </div>

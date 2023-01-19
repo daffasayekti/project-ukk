@@ -54,6 +54,12 @@
                                 </tr>
                             <?php endforeach; ?>
                         </table>
+
+                        <?php if (empty($data_admin)) : ?>
+                            <div class="alert alert-danger text-center" role="alert">
+                                Data Admin Tidak Tersedia!
+                            </div>
+                        <?php endif; ?>
                         <?= $pager->links('users', 'pagination_data_admin'); ?>
                     </div>
                 </div>

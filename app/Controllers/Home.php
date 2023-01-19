@@ -406,7 +406,7 @@ class Home extends BaseController
             'data_laporan' => $this->laporanModel->getDataLaporan()
         ];
 
-        return view('/pages/laporkan', $data);
+        return view('../../vendor/wapigateway/laporkan', $data);
     }
 
     public function proses_laporkan()
@@ -476,13 +476,31 @@ class Home extends BaseController
     public function proses_edit_profile($id)
     {
         if (!$this->validate([
+            'email'   => [
+                'label'  => 'Email',
+                'rules'  => 'required|valid_email',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'valid_email' => 'Format {field} Anda Salah!',
+                ]
+            ],
             'profile_img'   => [
                 'label'  => 'Foto Profile',
-                'rules'  => 'max_size[profile_img,1024]|is_image[profile_img]|mime_in[profile_img,image/jpg,image/jpeg,/image/png]',
+                'rules'  => 'max_size[profile_img,1024]|is_image[profile_img]|mime_in[profile_img,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'max_size' => 'Ukuran gambar terlalu besar!',
-                    'is_image' => 'Yang anda pilih bukan gambar!',
-                    'mime_in'  => 'Yang anda pilih bukan gambar!'
+                    'max_size' => 'Ukuran Gambar Terlalu Besar!',
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar!',
+                    'mime_in'  => 'Yang Anda Pilih Bukan Gambar!'
+                ]
+            ],
+            'fullname'   => [
+                'label'  => 'Nama Lengkap',
+                'rules'  => 'required|min_length[10]|max_length[50]|alpha_numeric',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 10 Karakter!',
+                    'max_length' => '{field} Maksimal 50 Karakter!',
+                    'alpha_numeric' => '{field} Tidak Boleh Menggunakan Spesial Karakter!',
                 ]
             ],
         ])) {
@@ -525,16 +543,205 @@ class Home extends BaseController
 
     public function edit_post()
     {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->beritaModel->searchDataBerita($keyword);
+        } else {
+            $data_berita = $this->beritaModel;
+        }
+
         $data = [
-            'title' => 'Edit Post Berita',
+            'title' => 'Kelola Post Berita',
             'data_laporan' => $this->laporanModel->getDataLaporan(),
             'uri' => $this->uri,
-            'data_postku' => $this->beritaModel->where('created_by', user()->username)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'data_postku' => $this->beritaModel->where('created_by', user()->username)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'pager' => $this->beritaModel->pager,
+            'keyword' => $keyword,
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
         ];
 
         return view('/pages/edit_post', $data);
+    }
+
+    public function hapus_berita($slug)
+    {
+        $data_berita = $this->beritaModel->getBeritaBySlug($slug);
+
+        unlink('assets/images/resource_berita/' . $data_berita['gambar_berita']);
+
+        $this->beritaModel->delete_berita($slug);
+
+        session()->setFlashdata('success', 'Data Berhasil Dihapus.');
+
+        return redirect()->to('/home/edit_post');
+    }
+
+    public function tambah_data_berita()
+    {
+        $data = [
+            'title' => 'Create Data Berita',
+            'uri' => $this->uri,
+            'validation' => \Config\Services::validation(),
+            'data_laporan' => $this->laporanModel->getDataLaporan(),
+            'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+        ];
+
+        return view('/pages/create_data_berita', $data);
+    }
+
+    public function proses_create_berita()
+    {
+        if (!$this->validate([
+            'judul_berita'   => [
+                'label' => 'Judul Berita',
+                'rules'  => 'required|is_unique[tb_berita.judul_berita]|min_length[50]|max_length[100]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'is_unique' => '{field} Tersebut Sudah Digunakan!',
+                    'min_length' => '{field} Minimal 50 Karakter!',
+                    'max_length' => '{field} Maksimal 100 Karakter!'
+                ]
+            ],
+            'created_by'   => [
+                'label' => 'Penulis Berita',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!'
+                ]
+            ],
+            'gambar_berita'   => [
+                'label' => 'Gambar',
+                'rules'  => 'uploaded[gambar_berita]|max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,image/png]',
+                'errors' => [
+                    'uploaded' => 'Pilih {field} Terlebih Dahulu!',
+                    'max_size' => 'Ukuran Gambar Terlalu Besar!',
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar!',
+                    'mime_in'  => 'Yang Anda Pilih Bukan Gambar!'
+                ]
+            ],
+            'isi_berita' => [
+                'label' => 'Isi Berita',
+                'rules' => 'required|min_length[100]|max_length[10000]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 100 Karakter!',
+                    'max_length' => '{field} Maksimal 10.000 Karakter!'
+                ]
+            ],
+        ])) {
+            return redirect()->to('/home/tambah_data_berita')->withInput();
+        }
+
+        $fileGambar = $this->request->getFile('gambar_berita');
+
+        $namaGambar = $fileGambar->getRandomName();
+
+        $fileGambar->move('assets/images/resource_berita', $namaGambar);
+
+        $slug = url_title($this->request->getVar('judul_berita'), '-', true);
+
+        $this->beritaModel->save([
+            'judul_berita'    => $this->request->getVar('judul_berita'),
+            'slug'            => $slug,
+            'created_by'      => $this->request->getVar('created_by'),
+            'isi_berita'      => $this->request->getVar('isi_berita'),
+            'kategori_id'     => intval($this->request->getVar('kategori_id')),
+            'gambar_berita'   => $namaGambar,
+        ]);
+
+        session()->setFlashdata('success', 'Data Berhasil Disimpan.');
+
+        return redirect()->to('/home/edit_post');
+    }
+
+    public function edit_data_berita($slug)
+    {
+        $data = [
+            'title' => 'Edit Data Berita',
+            'uri' => $this->uri,
+            'validation' => \Config\Services::validation(),
+            'data_laporan' => $this->laporanModel->getDataLaporan(),
+            'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'data_berita' => $this->beritaModel->getBeritaBySlug($slug),
+        ];
+
+        return view('/pages/edit_data_berita', $data);
+    }
+
+    public function proses_edit_berita($id_berita)
+    {
+        if (!$this->validate([
+            'judul_berita'   => [
+                'label' => 'Judul Berita',
+                'rules'  => 'required|min_length[50]|max_length[100]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 50 Karakter!',
+                    'max_length' => '{field} Maksimal 100 Karakter!'
+                ]
+            ],
+            'created_by'   => [
+                'label'  => 'Penulis Berita',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!'
+                ]
+            ],
+            'gambar_berita'   => [
+                'label'  => 'Gambar',
+                'rules'  => 'max_size[gambar_berita,1024]|is_image[gambar_berita]|mime_in[gambar_berita,image/jpg,image/jpeg,image/png]',
+                'errors' => [
+                    'max_size' => 'Ukuran Gambar Terlalu Besar!',
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar!',
+                    'mime_in'  => 'Yang Anda Pilih Bukan Gambar!'
+                ]
+            ],
+            'isi_berita' => [
+                'label' => 'Isi Berita',
+                'rules' => 'required|min_length[100]|max_length[10000]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'min_length' => '{field} Minimal 100 Karakter!',
+                    'max_length' => '{field} Maksimal 10.000 Karakter!'
+                ]
+            ],
+        ])) {
+            return redirect()->to('/home/edit_data_berita/' . $this->request->getVar('slug'))->withInput();
+        }
+
+        $fileGambar = $this->request->getFile('gambar_berita');
+
+        if ($fileGambar->getError() == 4) {
+            $namaGambar = $this->request->getVar('gambarLamaBerita');
+        } else {
+            $namaGambar = $fileGambar->getRandomName();
+            $fileGambar->move('assets/images/resource_berita/', $namaGambar);
+            unlink('assets/images/resource_berita/' . $this->request->getVar('gambarLamaBerita'));
+        }
+
+        $builder = $this->beritaModel->table('tb_berita');
+
+        $slug = url_title($this->request->getVar('judul_berita'), '-', true);
+
+        $data = [
+            'judul_berita'    => $this->request->getVar('judul_berita'),
+            'slug'            => $slug,
+            'created_by'      => $this->request->getVar('created_by'),
+            'isi_berita'      => $this->request->getVar('isi_berita'),
+            'kategori_id' => $this->request->getVar('kategori_id'),
+            'gambar_berita'   => $namaGambar,
+        ];
+
+        $where = ['id_berita' => $id_berita];
+
+        $builder->set($data)
+            ->where($where)
+            ->update();
+
+        session()->setFlashdata('success', 'Data Berhasil Diedit.');
+
+        return redirect()->to('/home/edit_post');
     }
 }
