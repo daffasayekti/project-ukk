@@ -8,7 +8,7 @@ class InvoiceModel extends Model
 {
     protected $table            = 'tb_invoice';
 
-    protected $allowedFields = ['transaksi_id', 'order_id', 'nama_pelanggan', 'email', 'nama_produk', 'jenis_langganan', 'total_pembayaran', 'tipe_pembayaran', 'status_pembayaran', 'id_pembayaran'];
+    protected $allowedFields = ['transaksi_id', 'order_id', 'nama_pelanggan', 'email', 'nama_produk', 'jenis_langganan', 'total_pembayaran', 'tipe_pembayaran', 'status_pembayaran', 'id_pembayaran', 'tanggal_pembayaran'];
 
     protected $createdField  = 'tanggal_pembayaran';
 
@@ -22,5 +22,21 @@ class InvoiceModel extends Model
     public function searchDataInvoice($keyword)
     {
         return $this->table('tb_invoice')->like('nama_pelanggan', $keyword);
+    }
+
+    public function getDataInvoiceExport($tanggal)
+    {
+        $sql = "SELECT * FROM tb_invoice WHERE tanggal_pembayaran = '$tanggal' ORDER BY id_invoice DESC";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
+
+    public function getInvoiceByOrderId($order_id)
+    {
+        $sql = "SELECT * FROM tb_invoice WHERE order_id = '$order_id'";
+        $execute = $this->db->query($sql);
+        return $execute->getRowArray();
     }
 }

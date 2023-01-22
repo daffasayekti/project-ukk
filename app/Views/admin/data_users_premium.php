@@ -39,6 +39,7 @@
                                 <th>Email</th>
                                 <th>Jenis Akun</th>
                                 <th>Tanggal Expired</th>
+                                <th>Aksi</th>
                             </tr>
                             <?php
                             $no = 1 + (10 * ($currentPage - 1));
@@ -53,7 +54,25 @@
                                             echo 'Premium';
                                         } ?>
                                     </td>
-                                    <td class="text-center"><?= tgl_indo_model_1(date($value['tanggal_expired'])); ?></td>
+                                    <td class="text-center">
+                                        <?php
+                                        $date = strtotime($value['tanggal_expired']);
+                                        $date_expired = date('Y-m-d', $date);
+                                        $date_now = date('Y-m-d');
+                                        ?>
+                                        <?php if ($date_expired == $date_now || $date_expired < $date_now) : ?>
+                                            <a class="badge badge-warning text-white">Expired</a>
+                                        <?php else : ?>
+                                            <?= tgl_indo_model_1(date($value['tanggal_expired'])); ?>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php if ($date_expired == $date_now || $date_expired < $date_now) : ?>
+                                            <a href="/admin/hapus_users_premium/<?= $value['id']; ?>" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                        <?php else : ?>
+                                            -
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>

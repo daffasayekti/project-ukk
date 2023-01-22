@@ -495,12 +495,11 @@ class Home extends BaseController
             ],
             'fullname'   => [
                 'label'  => 'Nama Lengkap',
-                'rules'  => 'required|min_length[10]|max_length[50]|alpha_numeric',
+                'rules'  => 'required|min_length[10]|max_length[50]',
                 'errors' => [
                     'required' => '{field} Tidak Boleh Kosong!',
                     'min_length' => '{field} Minimal 10 Karakter!',
                     'max_length' => '{field} Maksimal 50 Karakter!',
-                    'alpha_numeric' => '{field} Tidak Boleh Menggunakan Spesial Karakter!',
                 ]
             ],
         ])) {
@@ -649,6 +648,7 @@ class Home extends BaseController
             'isi_berita'      => $this->request->getVar('isi_berita'),
             'kategori_id'     => intval($this->request->getVar('kategori_id')),
             'gambar_berita'   => $namaGambar,
+            'tanggal_buat' => date('Y-m-d')
         ]);
 
         session()->setFlashdata('success', 'Data Berhasil Disimpan.');
@@ -732,6 +732,7 @@ class Home extends BaseController
             'isi_berita'      => $this->request->getVar('isi_berita'),
             'kategori_id' => $this->request->getVar('kategori_id'),
             'gambar_berita'   => $namaGambar,
+            'tanggal_update' => date('Y-m-d')
         ];
 
         $where = ['id_berita' => $id_berita];

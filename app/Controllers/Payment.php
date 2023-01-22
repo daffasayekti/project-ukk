@@ -16,6 +16,9 @@ use App\Models\LaporanModel;
 
 use Carbon\Carbon;
 
+use Dompdf\Dompdf;
+
+
 class Payment extends BaseController
 {
     protected $jenisLanggananModel;

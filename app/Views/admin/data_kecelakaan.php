@@ -6,13 +6,15 @@
         <div class="section-header">
             <h1>Berita Kecelakaan</h1>
             <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item"><a href="/admin/create_berita_kecelakaan" class="badge badge-primary">Add Post</a></div>
-                <div class="breadcrumb-item"><a href="/admin/export_berita_kecelakaan" class="badge badge-info">Export Excel</a></div>
+                <div class="breadcrumb-item"><a href="/admin/create_berita_kecelakaan" class="badge badge-primary py-lg-2" style="box-shadow:0 2px 6px #6777ef">Add Post</a></div>
+                <div class="breadcrumb-item">
+                    <button class="btn btn-info btn-sm px-3" data-target="#export-data" data-toggle="modal" style="border-radius: 30px;">Export Data</button>
+                </div>
             </div>
         </div>
 
         <?php if (session()->getFlashdata('success')) : ?>
-            <div class="alert alert-success alert-dismissible show fade">
+            <div class=" alert alert-success alert-dismissible show fade">
                 <div class="alert-body">
                     <button class="close" data-dismiss="alert">
                         <span>&times;</span>
@@ -79,4 +81,82 @@
         </div>
     </section>
 </div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="export-data">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Export Data Kecelakaan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="post" id="form-download">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                            <input type="date" class="form-control" name="tanggal" id="tanggal" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Jenis Export</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-file-download"></i>
+                                </div>
+                            </div>
+                            <select class="custom-select" name="tipe-file" id="tipe-file">
+                                <option selected>-- Pilih Tipe File --</option>
+                                <option value="excel">File Excel</option>
+                                <option value="pdf">File PDF</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama File</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="nama-file" id="nama-file" required autocomplete="off">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" id="ekstensi">
+                                    -
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="download">Download</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('tipe-file').addEventListener('change', function() {
+        var tipeFile = document.getElementById('tipe-file').value;
+
+        if (tipeFile === 'excel') {
+            document.getElementById('ekstensi').innerHTML = '.xlsx';
+            document.getElementById('download').innerHTML = 'Download Excel';
+            document.getElementById('form-download').action = '/admin/export_excel_berita_kecelakaan';
+        } else if (tipeFile === 'pdf') {
+            document.getElementById('ekstensi').innerHTML = '.pdf';
+            document.getElementById('download').innerHTML = 'Download PDF';
+            document.getElementById('form-download').action = '/admin/export_pdf_berita_kecelakaan';
+        } else {
+            document.getElementById('ekstensi').innerHTML = '-';
+            document.getElementById('download').innerHTML = 'Download';
+            document.getElementById('form-download').action = '';
+        }
+    })
+</script>
 <?= $this->endSection(); ?>

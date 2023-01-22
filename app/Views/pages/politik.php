@@ -56,7 +56,7 @@
                                                 <a href="/home/detail_berita_politik/<?= $value['slug']; ?>" style="text-decoration: none; color: #434a54"><?= $value['judul_berita']; ?></a>
                                             </h2>
                                             <p class="fs-13 text-muted mb-0">
-                                                <span class="mr-2"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_1(date($value['tanggal_buat'])); ?>
+                                                <span class="mr-2"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_2(date($value['tanggal_buat'])); ?>
                                             </p>
                                             <?php
                                             $data_excerpt = $value['isi_berita'];

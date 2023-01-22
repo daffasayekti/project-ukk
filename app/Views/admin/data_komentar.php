@@ -40,7 +40,7 @@
                                     <td class="text-center"><?= $value['created_by'] ?></td>
                                     <td class="text-center"><?= tgl_indo_sekarang(date($value['tanggal_komentar'])); ?></td>
                                     <td style="width: 15%;" class="text-center">
-                                        <a href="/admin/hapus_komentar/<?= $value['id_komentar']; ?>" class="btn btn-danger btn-sm ml-1"><i class="fas fa-trash"></i></a>
+                                        <a href="/admin/hapus_komentar/<?= $value['id_komentar']; ?>" class="btn btn-danger btn-sm ml-1" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Komentar Tersebut ?');"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

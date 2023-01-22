@@ -24,12 +24,17 @@ use App\Models\UserAkunModel;
 
 use App\Models\AuthPermissionsModel;
 
+use App\Models\BalasModel;
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 use Carbon\Carbon;
+
 use PhpOffice\PhpSpreadsheet\Reader\Xls\MD5;
+
+use Dompdf\Dompdf;
 
 class Admin extends BaseController
 {
@@ -46,6 +51,7 @@ class Admin extends BaseController
     protected $jenisLanggananModel;
     protected $userModel;
     protected $authModel;
+    protected $balasModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
@@ -60,6 +66,7 @@ class Admin extends BaseController
         $this->laporanModel = new LaporanModel();
         $this->userModel = new UserAkunModel();
         $this->carbon = new Carbon();
+        $this->balasModel = new BalasModel();
         $this->authModel = new AuthPermissionsModel();
         $this->jenisLanggananModel  = new JenisLanggananModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
@@ -94,6 +101,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/dashboard_admin', $data);
@@ -119,6 +127,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/moderasi_data', $data);
@@ -144,6 +153,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/moderasi_laporan', $data);
@@ -196,6 +206,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/detail_berita_moderasi', $data);
@@ -221,6 +232,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/data_kecelakaan', $data);
@@ -246,6 +258,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/data_politik', $data);
@@ -271,6 +284,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/data_ekonomi', $data);
@@ -296,6 +310,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/data_olahraga', $data);
@@ -321,6 +336,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/data_users_free', $data);
@@ -357,6 +373,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/data_users_premium', $data);
@@ -382,6 +399,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/data_admin', $data);
@@ -396,272 +414,367 @@ class Admin extends BaseController
         return redirect()->to('/admin/admin');
     }
 
-    public function export_berita_kecelakaan()
+    public function export_excel_berita_kecelakaan()
     {
-        $beritaKecelakaan = $this->beritaModel->getBeritaKecelakaanExport();
+        $beritaKecelakaan = $this->beritaModel->getBeritaKecelakaanExport($this->request->getVar('tanggal'));
 
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'No.');
-        $sheet->setCellValue('B1', 'Judul Berita');
-        $sheet->setCellValue('C1', 'Penulis Berita');
-        $sheet->setCellValue('D1', 'Kategori Berita');
-        $sheet->setCellValue('E1', 'Gambar Berita');
-        $sheet->setCellValue('F1', 'Jumlah View');
-        $sheet->setCellValue('G1', 'Created At');
+        if (empty($beritaKecelakaan)) {
+            echo '<script>
+                alert("Data Berita Kecelakaan Tidak Tersedia!");
+                window.location.href = "/admin/data_kecelakaan";
+            </script';
+        } else {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setCellValue('A1', 'No.');
+            $sheet->setCellValue('B1', 'Judul Berita');
+            $sheet->setCellValue('C1', 'Penulis Berita');
+            $sheet->setCellValue('D1', 'Kategori Berita');
+            $sheet->setCellValue('E1', 'Gambar Berita');
+            $sheet->setCellValue('F1', 'Jumlah View');
+            $sheet->setCellValue('G1', 'Created At');
 
-        $column = 2;
-        foreach ($beritaKecelakaan as $value) {
-            $sheet->setCellValue('A' . $column, ($column - 1));
-            $sheet->setCellValue('B' . $column, $value['judul_berita']);
-            $sheet->setCellValue('C' . $column, $value['created_by']);
-            $sheet->setCellValue('D' . $column, $value['nama_kategori']);
-            $sheet->setCellValue('E' . $column, $value['gambar_berita']);
-            $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
-            $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
-            $column++;
-        };
+            $column = 2;
+            foreach ($beritaKecelakaan as $value) {
+                $sheet->setCellValue('A' . $column, ($column - 1));
+                $sheet->setCellValue('B' . $column, $value['judul_berita']);
+                $sheet->setCellValue('C' . $column, $value['created_by']);
+                $sheet->setCellValue('D' . $column, $value['nama_kategori']);
+                $sheet->setCellValue('E' . $column, $value['gambar_berita']);
+                $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
+                $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
+                $column++;
+            };
 
-        $sheet->getStyle('A1:G1')->getFont()->setBold(true);
-        $styleArray1 = [
-            'borders' => [
-                'outline' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                    'color' => ['argb' => '000000'],
+            $sheet->getStyle('A1:G1')->getFont()->setBold(true);
+            $styleArray1 = [
+                'borders' => [
+                    'outline' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
+                    ],
+                    'inside' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
+                    ]
                 ],
-                'inside' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                    'color' => ['argb' => '000000'],
-                ]
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            ],
-        ];
-        $styleArray2 = [
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-            ],
-        ];
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                ],
+            ];
+            $styleArray2 = [
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                ],
+            ];
 
-        $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
-        $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
+            $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
+            $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
 
-        $sheet->getColumnDimension('A')->setAutoSize(true);
-        $sheet->getColumnDimension('B')->setAutoSize(true);
-        $sheet->getColumnDimension('C')->setAutoSize(true);
-        $sheet->getColumnDimension('D')->setAutoSize(true);
-        $sheet->getColumnDimension('E')->setAutoSize(true);
-        $sheet->getColumnDimension('F')->setAutoSize(true);
-        $sheet->getColumnDimension('G')->setAutoSize(true);
+            $sheet->getColumnDimension('A')->setAutoSize(true);
+            $sheet->getColumnDimension('B')->setAutoSize(true);
+            $sheet->getColumnDimension('C')->setAutoSize(true);
+            $sheet->getColumnDimension('D')->setAutoSize(true);
+            $sheet->getColumnDimension('E')->setAutoSize(true);
+            $sheet->getColumnDimension('F')->setAutoSize(true);
+            $sheet->getColumnDimension('G')->setAutoSize(true);
 
-        $writer = new Xlsx($spreadsheet);
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-disposition: attachment;filename=data_berita_kecelakaan.xlsx');
-        header('Cache-Control: max-age=0');
-        $writer->save('php://output');
-        exit();
+            $writer = new Xlsx($spreadsheet);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-disposition: attachment;filename=' . $this->request->getVar('nama-file') . '.xlsx');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+        }
     }
 
-    public function export_berita_ekonomi()
+    public function export_excel_berita_ekonomi()
     {
-        $beritaEkonomi = $this->beritaModel->getBeritaEkonomiExport();
+        $beritaEkonomi = $this->beritaModel->getBeritaEkonomiExport($this->request->getVar('tanggal'));
 
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'No.');
-        $sheet->setCellValue('B1', 'Judul Berita');
-        $sheet->setCellValue('C1', 'Penulis Berita');
-        $sheet->setCellValue('D1', 'Kategori Berita');
-        $sheet->setCellValue('E1', 'Gambar Berita');
-        $sheet->setCellValue('F1', 'Jumlah View');
-        $sheet->setCellValue('G1', 'Created At');
+        if (empty($beritaEkonomi)) {
+            echo '<script>
+                alert("Data Berita Ekonomi Tidak Tersedia!");
+                window.location.href = "/admin/data_ekonomi";
+            </script';
+        } else {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setCellValue('A1', 'No.');
+            $sheet->setCellValue('B1', 'Judul Berita');
+            $sheet->setCellValue('C1', 'Penulis Berita');
+            $sheet->setCellValue('D1', 'Kategori Berita');
+            $sheet->setCellValue('E1', 'Gambar Berita');
+            $sheet->setCellValue('F1', 'Jumlah View');
+            $sheet->setCellValue('G1', 'Created At');
 
-        $column = 2;
-        foreach ($beritaEkonomi as $value) {
-            $sheet->setCellValue('A' . $column, ($column - 1));
-            $sheet->setCellValue('B' . $column, $value['judul_berita']);
-            $sheet->setCellValue('C' . $column, $value['created_by']);
-            $sheet->setCellValue('D' . $column, $value['nama_kategori']);
-            $sheet->setCellValue('E' . $column, $value['gambar_berita']);
-            $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
-            $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
-            $column++;
-        };
+            $column = 2;
+            foreach ($beritaEkonomi as $value) {
+                $sheet->setCellValue('A' . $column, ($column - 1));
+                $sheet->setCellValue('B' . $column, $value['judul_berita']);
+                $sheet->setCellValue('C' . $column, $value['created_by']);
+                $sheet->setCellValue('D' . $column, $value['nama_kategori']);
+                $sheet->setCellValue('E' . $column, $value['gambar_berita']);
+                $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
+                $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
+                $column++;
+            };
 
-        $sheet->getStyle('A1:G1')->getFont()->setBold(true);
-        $styleArray1 = [
-            'borders' => [
-                'outline' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                    'color' => ['argb' => '000000'],
+            $sheet->getStyle('A1:G1')->getFont()->setBold(true);
+            $styleArray1 = [
+                'borders' => [
+                    'outline' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
+                    ],
+                    'inside' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
+                    ]
                 ],
-                'inside' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                    'color' => ['argb' => '000000'],
-                ]
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            ],
-        ];
-        $styleArray2 = [
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-            ],
-        ];
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                ],
+            ];
+            $styleArray2 = [
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                ],
+            ];
 
-        $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
-        $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
+            $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
+            $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
 
-        $sheet->getColumnDimension('A')->setAutoSize(true);
-        $sheet->getColumnDimension('B')->setAutoSize(true);
-        $sheet->getColumnDimension('C')->setAutoSize(true);
-        $sheet->getColumnDimension('D')->setAutoSize(true);
-        $sheet->getColumnDimension('E')->setAutoSize(true);
-        $sheet->getColumnDimension('F')->setAutoSize(true);
-        $sheet->getColumnDimension('G')->setAutoSize(true);
+            $sheet->getColumnDimension('A')->setAutoSize(true);
+            $sheet->getColumnDimension('B')->setAutoSize(true);
+            $sheet->getColumnDimension('C')->setAutoSize(true);
+            $sheet->getColumnDimension('D')->setAutoSize(true);
+            $sheet->getColumnDimension('E')->setAutoSize(true);
+            $sheet->getColumnDimension('F')->setAutoSize(true);
+            $sheet->getColumnDimension('G')->setAutoSize(true);
 
-        $writer = new Xlsx($spreadsheet);
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-disposition: attachment;filename=data_berita_ekonomi.xlsx');
-        header('Cache-Control: max-age=0');
-        $writer->save('php://output');
-        exit();
+            $writer = new Xlsx($spreadsheet);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-disposition: attachment;filename=' . $this->request->getVar('nama-file') . '.xlsx');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+        }
     }
 
-    public function export_berita_politik()
+    public function export_excel_berita_politik()
     {
-        $beritaPolitik = $this->beritaModel->getBeritaPolitikExport();
+        $beritaPolitik = $this->beritaModel->getBeritaPolitikExport($this->request->getVar('tanggal'));
 
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'No.');
-        $sheet->setCellValue('B1', 'Judul Berita');
-        $sheet->setCellValue('C1', 'Penulis Berita');
-        $sheet->setCellValue('D1', 'Kategori Berita');
-        $sheet->setCellValue('E1', 'Gambar Berita');
-        $sheet->setCellValue('F1', 'Jumlah View');
-        $sheet->setCellValue('G1', 'Created At');
+        if (empty($beritaPolitik)) {
+            echo '<script>
+                alert("Data Berita Politik Tidak Tersedia!");
+                window.location.href = "/admin/data_politik";
+            </script';
+        } else {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setCellValue('A1', 'No.');
+            $sheet->setCellValue('B1', 'Judul Berita');
+            $sheet->setCellValue('C1', 'Penulis Berita');
+            $sheet->setCellValue('D1', 'Kategori Berita');
+            $sheet->setCellValue('E1', 'Gambar Berita');
+            $sheet->setCellValue('F1', 'Jumlah View');
+            $sheet->setCellValue('G1', 'Created At');
 
-        $column = 2;
-        foreach ($beritaPolitik as $value) {
-            $sheet->setCellValue('A' . $column, ($column - 1));
-            $sheet->setCellValue('B' . $column, $value['judul_berita']);
-            $sheet->setCellValue('C' . $column, $value['created_by']);
-            $sheet->setCellValue('D' . $column, $value['nama_kategori']);
-            $sheet->setCellValue('E' . $column, $value['gambar_berita']);
-            $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
-            $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
-            $column++;
-        };
+            $column = 2;
+            foreach ($beritaPolitik as $value) {
+                $sheet->setCellValue('A' . $column, ($column - 1));
+                $sheet->setCellValue('B' . $column, $value['judul_berita']);
+                $sheet->setCellValue('C' . $column, $value['created_by']);
+                $sheet->setCellValue('D' . $column, $value['nama_kategori']);
+                $sheet->setCellValue('E' . $column, $value['gambar_berita']);
+                $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
+                $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
+                $column++;
+            };
 
-        $sheet->getStyle('A1:G1')->getFont()->setBold(true);
-        $styleArray1 = [
-            'borders' => [
-                'outline' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                    'color' => ['argb' => '000000'],
+            $sheet->getStyle('A1:G1')->getFont()->setBold(true);
+            $styleArray1 = [
+                'borders' => [
+                    'outline' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
+                    ],
+                    'inside' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
+                    ]
                 ],
-                'inside' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                    'color' => ['argb' => '000000'],
-                ]
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            ],
-        ];
-        $styleArray2 = [
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-            ],
-        ];
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                ],
+            ];
+            $styleArray2 = [
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                ],
+            ];
 
-        $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
-        $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
+            $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
+            $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
 
-        $sheet->getColumnDimension('A')->setAutoSize(true);
-        $sheet->getColumnDimension('B')->setAutoSize(true);
-        $sheet->getColumnDimension('C')->setAutoSize(true);
-        $sheet->getColumnDimension('D')->setAutoSize(true);
-        $sheet->getColumnDimension('E')->setAutoSize(true);
-        $sheet->getColumnDimension('F')->setAutoSize(true);
-        $sheet->getColumnDimension('G')->setAutoSize(true);
+            $sheet->getColumnDimension('A')->setAutoSize(true);
+            $sheet->getColumnDimension('B')->setAutoSize(true);
+            $sheet->getColumnDimension('C')->setAutoSize(true);
+            $sheet->getColumnDimension('D')->setAutoSize(true);
+            $sheet->getColumnDimension('E')->setAutoSize(true);
+            $sheet->getColumnDimension('F')->setAutoSize(true);
+            $sheet->getColumnDimension('G')->setAutoSize(true);
 
-        $writer = new Xlsx($spreadsheet);
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-disposition: attachment;filename=data_berita_politik.xlsx');
-        header('Cache-Control: max-age=0');
-        $writer->save('php://output');
-        exit();
+            $writer = new Xlsx($spreadsheet);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-disposition: attachment;filename=' . $this->request->getVar('nama-file') . '.xlsx');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+        }
     }
 
-    public function export_berita_olahraga()
+    public function export_excel_berita_olahraga()
     {
-        $beritaOlahraga = $this->beritaModel->getBeritaOlahragaExport();
+        $beritaOlahraga = $this->beritaModel->getBeritaOlahragaExport($this->request->getVar('tanggal'));
 
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'No.');
-        $sheet->setCellValue('B1', 'Judul Berita');
-        $sheet->setCellValue('C1', 'Penulis Berita');
-        $sheet->setCellValue('D1', 'Kategori Berita');
-        $sheet->setCellValue('E1', 'Gambar Berita');
-        $sheet->setCellValue('F1', 'Jumlah View');
-        $sheet->setCellValue('G1', 'Created At');
+        if (empty($beritaOlahraga)) {
+            echo '<script>
+                alert("Data Berita Olahraga Tidak Tersedia!");
+                window.location.href = "/admin/data_olahraga";
+            </script';
+        } else {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setCellValue('A1', 'No.');
+            $sheet->setCellValue('B1', 'Judul Berita');
+            $sheet->setCellValue('C1', 'Penulis Berita');
+            $sheet->setCellValue('D1', 'Kategori Berita');
+            $sheet->setCellValue('E1', 'Gambar Berita');
+            $sheet->setCellValue('F1', 'Jumlah View');
+            $sheet->setCellValue('G1', 'Created At');
 
-        $column = 2;
-        foreach ($beritaOlahraga as $value) {
-            $sheet->setCellValue('A' . $column, ($column - 1));
-            $sheet->setCellValue('B' . $column, $value['judul_berita']);
-            $sheet->setCellValue('C' . $column, $value['created_by']);
-            $sheet->setCellValue('D' . $column, $value['nama_kategori']);
-            $sheet->setCellValue('E' . $column, $value['gambar_berita']);
-            $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
-            $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
-            $column++;
-        };
+            $column = 2;
+            foreach ($beritaOlahraga as $value) {
+                $sheet->setCellValue('A' . $column, ($column - 1));
+                $sheet->setCellValue('B' . $column, $value['judul_berita']);
+                $sheet->setCellValue('C' . $column, $value['created_by']);
+                $sheet->setCellValue('D' . $column, $value['nama_kategori']);
+                $sheet->setCellValue('E' . $column, $value['gambar_berita']);
+                $sheet->setCellValue('F' . $column, $value['banyak_dilihat']);
+                $sheet->setCellValue('G' . $column, $value['tanggal_buat']);
+                $column++;
+            };
 
-        $sheet->getStyle('A1:G1')->getFont()->setBold(true);
-        $styleArray1 = [
-            'borders' => [
-                'outline' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                    'color' => ['argb' => '000000'],
+            $sheet->getStyle('A1:G1')->getFont()->setBold(true);
+            $styleArray1 = [
+                'borders' => [
+                    'outline' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
+                    ],
+                    'inside' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
+                    ]
                 ],
-                'inside' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                    'color' => ['argb' => '000000'],
-                ]
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            ],
-        ];
-        $styleArray2 = [
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-            ],
-        ];
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                ],
+            ];
+            $styleArray2 = [
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                ],
+            ];
 
-        $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
-        $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
+            $sheet->getStyle('A1:G' . ($column - 1))->applyFromArray($styleArray1);
+            $sheet->getStyle('B2:B' . ($column - 1))->applyFromArray($styleArray2);
 
-        $sheet->getColumnDimension('A')->setAutoSize(true);
-        $sheet->getColumnDimension('B')->setAutoSize(true);
-        $sheet->getColumnDimension('C')->setAutoSize(true);
-        $sheet->getColumnDimension('D')->setAutoSize(true);
-        $sheet->getColumnDimension('E')->setAutoSize(true);
-        $sheet->getColumnDimension('F')->setAutoSize(true);
-        $sheet->getColumnDimension('G')->setAutoSize(true);
+            $sheet->getColumnDimension('A')->setAutoSize(true);
+            $sheet->getColumnDimension('B')->setAutoSize(true);
+            $sheet->getColumnDimension('C')->setAutoSize(true);
+            $sheet->getColumnDimension('D')->setAutoSize(true);
+            $sheet->getColumnDimension('E')->setAutoSize(true);
+            $sheet->getColumnDimension('F')->setAutoSize(true);
+            $sheet->getColumnDimension('G')->setAutoSize(true);
 
-        $writer = new Xlsx($spreadsheet);
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-disposition: attachment;filename=data_berita_olahraga.xlsx');
-        header('Cache-Control: max-age=0');
-        $writer->save('php://output');
-        exit();
+            $writer = new Xlsx($spreadsheet);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-disposition: attachment;filename=' . $this->request->getVar('nama-file') . '.xlsx');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+        }
+    }
+
+    public function export_excel_data_invoice()
+    {
+        $dataInvoice = $this->invoiceModel->getDataInvoiceExport($this->request->getVar('tanggal'));
+
+        if (empty($dataInvoice)) {
+            echo '<script>
+                alert("Data Invoice Tidak Tersedia!");
+                window.location.href = "/admin/data_invoice";
+            </script';
+        } else {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setCellValue('A1', 'No.');
+            $sheet->setCellValue('B1', 'Order ID');
+            $sheet->setCellValue('C1', 'Nama Pemesan');
+            $sheet->setCellValue('D1', 'Nama Produk');
+            $sheet->setCellValue('E1', 'Status Pembayaran');
+            $sheet->setCellValue('F1', 'Total Pembayaran');
+
+            $column = 2;
+            foreach ($dataInvoice as $value) {
+                $sheet->setCellValue('A' . $column, ($column - 1));
+                $sheet->setCellValue('B' . $column, $value['order_id']);
+                $sheet->setCellValue('C' . $column, $value['nama_pelanggan']);
+                $sheet->setCellValue('D' . $column, 'Layanan ' . $value['nama_produk']);
+                $sheet->setCellValue('E' . $column, $value['status_pembayaran']);
+                $sheet->setCellValue('F' . $column, 'Rp. ' . number_format($value['total_pembayaran'], 0, ",", "."));
+                $column++;
+            };
+
+            $sheet->getStyle('A1:F1')->getFont()->setBold(true);
+
+            $styleArray1 = [
+                'borders' => [
+                    'outline' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
+                    ],
+                    'inside' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
+                    ]
+                ],
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                ],
+            ];
+
+
+            $sheet->getStyle('A1:F' . ($column - 1))->applyFromArray($styleArray1);
+
+            $sheet->getColumnDimension('A')->setAutoSize(true);
+            $sheet->getColumnDimension('B')->setAutoSize(true);
+            $sheet->getColumnDimension('C')->setAutoSize(true);
+            $sheet->getColumnDimension('D')->setAutoSize(true);
+            $sheet->getColumnDimension('E')->setAutoSize(true);
+            $sheet->getColumnDimension('F')->setAutoSize(true);
+
+            $writer = new Xlsx($spreadsheet);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-disposition: attachment;filename=' . $this->request->getVar('nama-file') . '.xlsx');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+            exit();
+        }
     }
 
     public function create_berita_kecelakaan()
@@ -673,6 +786,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/create_berita_kecelakaan', $data);
@@ -736,6 +850,7 @@ class Admin extends BaseController
             'isi_berita'      => $this->request->getVar('isi_berita'),
             'kategori_id'     => intval($this->request->getVar('kategori_id')),
             'gambar_berita'   => $namaGambar,
+            'tanggal_buat' => date('Y-m-d')
         ]);
 
         session()->setFlashdata('success', 'Data Berhasil Disimpan.');
@@ -754,6 +869,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/detail_berita_kecelakaan', $data);
@@ -771,6 +887,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/edit_berita_kecelakaan', $data);
@@ -838,6 +955,7 @@ class Admin extends BaseController
             'isi_berita'      => $this->request->getVar('isi_berita'),
             'kategori_id' => $this->request->getVar('kategori_id'),
             'gambar_berita'   => $namaGambar,
+            'tanggal_update' => date('Y-m-d')
         ];
 
         $where = ['id_berita' => $id_berita];
@@ -873,6 +991,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/create_berita_politik', $data);
@@ -935,6 +1054,7 @@ class Admin extends BaseController
             'isi_berita'      => $this->request->getVar('isi_berita'),
             'kategori_id'     => intval($this->request->getVar('kategori_id')),
             'gambar_berita'   => $namaGambar,
+            'tanggal_buat' => date('Y-m-d')
         ]);
 
         session()->setFlashdata('success', 'Data Berhasil Disimpan.');
@@ -953,6 +1073,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/detail_berita_politik', $data);
@@ -970,6 +1091,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/edit_berita_politik', $data);
@@ -1037,6 +1159,7 @@ class Admin extends BaseController
             'isi_berita'      => $this->request->getVar('isi_berita'),
             'kategori_id' => $this->request->getVar('kategori_id'),
             'gambar_berita'   => $namaGambar,
+            'tanggal_update' => date('Y-m-d')
         ];
 
         $where = ['id_berita' => $id_berita];
@@ -1072,6 +1195,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/create_berita_ekonomi', $data);
@@ -1135,6 +1259,7 @@ class Admin extends BaseController
             'isi_berita'      => $this->request->getVar('isi_berita'),
             'kategori_id'     => intval($this->request->getVar('kategori_id')),
             'gambar_berita'   => $namaGambar,
+            'tanggal_buat' => date('Y-m-d')
         ]);
 
         session()->setFlashdata('success', 'Data Berhasil Disimpan.');
@@ -1153,6 +1278,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/detail_berita_ekonomi', $data);
@@ -1170,6 +1296,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/edit_berita_ekonomi', $data);
@@ -1237,6 +1364,7 @@ class Admin extends BaseController
             'isi_berita'      => $this->request->getVar('isi_berita'),
             'kategori_id' => $this->request->getVar('kategori_id'),
             'gambar_berita'   => $namaGambar,
+            'tanggal_update' => date('Y-m-d')
         ];
 
         $where = ['id_berita' => $id_berita];
@@ -1272,6 +1400,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/create_berita_olahraga', $data);
@@ -1335,6 +1464,7 @@ class Admin extends BaseController
             'isi_berita'      => $this->request->getVar('isi_berita'),
             'kategori_id'     => intval($this->request->getVar('kategori_id')),
             'gambar_berita'   => $namaGambar,
+            'tanggal_buat' => date('Y-m-d')
         ]);
 
         session()->setFlashdata('success', 'Data Berhasil Disimpan.');
@@ -1353,6 +1483,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/detail_berita_olahraga', $data);
@@ -1370,6 +1501,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/edit_berita_olahraga', $data);
@@ -1437,6 +1569,7 @@ class Admin extends BaseController
             'isi_berita'      => $this->request->getVar('isi_berita'),
             'kategori_id' => $this->request->getVar('kategori_id'),
             'gambar_berita'   => $namaGambar,
+            'tanggal_update' => date('Y-m-d')
         ];
 
         $where = ['id_berita' => $id_berita];
@@ -1498,6 +1631,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/data_komentar', $data);
@@ -1505,11 +1639,25 @@ class Admin extends BaseController
 
     public function hapus_komentar($id_komentar)
     {
-        $this->komentarModel->delete_komentar($id_komentar);
+        $balas_komentar = $this->balasModel->getBalasKomentarByKomentarId($id_komentar);
 
-        session()->setFlashdata('success', 'Komentar Berhasil Dihapus.');
+        if ($balas_komentar) {
+            foreach ($balas_komentar as $value) {
+                $this->balasModel->delete_balas_komentar($value['komentar_id']);
+            }
 
-        return redirect()->to('/admin/data_komentar');
+            $this->komentarModel->delete_komentar($id_komentar);
+
+            session()->setFlashdata('success', 'Komentar Berhasil Dihapus.');
+
+            return redirect()->to('/admin/data_komentar');
+        } else {
+            $this->komentarModel->delete_komentar($id_komentar);
+
+            session()->setFlashdata('success', 'Komentar Berhasil Dihapus.');
+
+            return redirect()->to('/admin/data_komentar');
+        }
     }
 
     public function data_pembayaran()
@@ -1531,6 +1679,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/data_pembayaran', $data);
@@ -1629,6 +1778,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/data_invoice', $data);
@@ -1644,6 +1794,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/pages/invoice_admin', $data);
@@ -1658,6 +1809,7 @@ class Admin extends BaseController
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
         return view('/admin/create_data_admin', $data);
@@ -1677,24 +1829,22 @@ class Admin extends BaseController
             ],
             'username'   => [
                 'label'  => 'Username',
-                'rules'  => 'required|is_unique[users.username]|min_length[5]|max_length[20]|alpha_numeric',
+                'rules'  => 'required|is_unique[users.username]|min_length[5]|max_length[20]',
                 'errors' => [
                     'required' => '{field} Tidak Boleh Kosong!',
                     'is_unique' => '{field} Anda Sudah Terdaftar!',
                     'min_length' => '{field} Minimal 5 Karakter!',
                     'max_length' => '{field} Maksimal 20 Karakter!',
-                    'alpha_numeric' => '{field} Tidak Boleh Menggunakan Spesial Karakter!',
                 ]
             ],
             'fullname'   => [
                 'label'  => 'Nama Lengkap',
-                'rules'  => 'required|is_unique[users.fullname]|min_length[10]|max_length[50]|alpha_numeric',
+                'rules'  => 'required|is_unique[users.fullname]|min_length[10]|max_length[50]',
                 'errors' => [
                     'required' => '{field} Tidak Boleh Kosong!',
                     'is_unique' => '{field} Anda Sudah Terdaftar!',
                     'min_length' => '{field} Minimal 10 Karakter!',
                     'max_length' => '{field} Maksimal 50 Karakter!',
-                    'alpha_numeric' => '{field} Tidak Boleh Menggunakan Spesial Karakter!',
                 ]
             ],
             'password_hash'   => [
@@ -1732,5 +1882,118 @@ class Admin extends BaseController
         session()->setFlashdata('success', 'Data Admin Berhasil Disimpan.');
 
         return redirect()->to('/admin/admin');
+    }
+
+    public function hapus_users_premium($id)
+    {
+        $builder = $this->akunModel->table('users');
+
+        $where = ['id' => $id];
+
+        $data = [
+            'jenis_akun_id' => 1,
+            'tanggal_expired' => NULL
+        ];
+
+        $builder->set($data)
+            ->where($where)
+            ->update();
+
+        return redirect()->to('/admin/user_free');
+    }
+
+    public function export_pdf_data_invoice()
+    {
+        $data_invoice = $this->invoiceModel->getDataInvoiceExport($this->request->getVar('tanggal'));
+
+        if (empty($data_invoice)) {
+            echo '<script>
+                alert("Data Invoice Tidak Tersedia!");
+                window.location.href = "/admin/data_invoice";
+            </script';
+        } else {
+            $filename = $this->request->getVar('nama-file');
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml(view('/pages/export_invoice', ['data_invoice' => $data_invoice]));
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+            $dompdf->stream($filename);
+        }
+    }
+
+    public function export_pdf_berita_kecelakaan()
+    {
+        $beritaKecelakaan = $this->beritaModel->getBeritaKecelakaanExport($this->request->getVar('tanggal'));
+
+        if (empty($beritaKecelakaan)) {
+            echo '<script>
+                alert("Data Berita Kecelakaan Tidak Tersedia!");
+                window.location.href = "/admin/data_kecelakaan";
+            </script';
+        } else {
+            $filename = $this->request->getVar('nama-file');
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml(view('/pages/export_kecelakaan', ['beritaKecelakaan' => $beritaKecelakaan]));
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+            $dompdf->stream($filename);
+        }
+    }
+
+    public function export_pdf_berita_ekonomi()
+    {
+        $beritaEkonomi = $this->beritaModel->getBeritaEkonomiExport($this->request->getVar('tanggal'));
+
+        if (empty($beritaEkonomi)) {
+            echo '<script>
+                alert("Data Berita Ekonomi Tidak Tersedia!");
+                window.location.href = "/admin/data_ekonomi";
+            </script';
+        } else {
+            $filename = $this->request->getVar('nama-file');
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml(view('/pages/export_ekonomi', ['beritaEkonomi' => $beritaEkonomi]));
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+            $dompdf->stream($filename);
+        }
+    }
+
+    public function export_pdf_berita_politik()
+    {
+        $beritaPolitik = $this->beritaModel->getBeritaPolitikExport($this->request->getVar('tanggal'));
+
+        if (empty($beritaPolitik)) {
+            echo '<script>
+                alert("Data Berita Politik Tidak Tersedia!");
+                window.location.href = "/admin/data_politik";
+            </script';
+        } else {
+            $filename = $this->request->getVar('nama-file');
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml(view('/pages/export_politik', ['beritaPolitik' => $beritaPolitik]));
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+            $dompdf->stream($filename);
+        }
+    }
+
+    public function export_pdf_berita_olahraga()
+    {
+        $beritaOlahraga = $this->beritaModel->getBeritaOlahragaExport($this->request->getVar('tanggal'));
+
+        if (empty($beritaOlahraga)) {
+            echo '<script>
+                alert("Data Berita Olahraga Tidak Tersedia!");
+                window.location.href = "/admin/data_olahraga";
+            </script';
+        } else {
+            $filename = $this->request->getVar('nama-file');
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml(view('/pages/export_olahraga', ['beritaOlahraga' => $beritaOlahraga]));
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+            $dompdf->stream($filename);
+        }
     }
 }

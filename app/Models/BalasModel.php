@@ -18,4 +18,22 @@ class BalasModel extends Model
 
         return $execute->getResultArray();
     }
+
+    public function getBalasKomentarByKomentarId($id_komentar)
+    {
+        $sql = "SELECT * FROM tb_balas_komentar WHERE komentar_id = '$id_komentar' ORDER BY id DESC";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
+
+    public function delete_balas_komentar($id_komentar)
+    {
+        $sql = "DELETE FROM tb_balas_komentar WHERE komentar_id = '$id_komentar'";
+
+        $this->db->query($sql);
+
+        return;
+    }
 }

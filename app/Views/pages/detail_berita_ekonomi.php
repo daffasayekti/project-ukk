@@ -42,18 +42,18 @@
                                             </div>
                                             <ul class="social-media mb-3">
                                                 <li>
-                                                    <a href="#">
+                                                    <a href="https: //www.facebook.com/daffa.sayekti.733/" target="_blank">
                                                         <i class="mdi mdi-facebook"></i>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">
+                                                    <a href="https://www.youtube.com/channel/UCFlbmXEPFLh68zA4oLORovw" target="_blank">
                                                         <i class="mdi mdi-youtube"></i>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">
-                                                        <i class="mdi mdi-twitter"></i>
+                                                    <a href="https://github.com/daffasayekti" target="_blank">
+                                                        <i class="mdi mdi-github-circle"></i>
                                                     </a>
                                                 </li>
                                             </ul>

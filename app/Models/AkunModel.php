@@ -71,4 +71,13 @@ class AkunModel extends Model
 
         return;
     }
+
+    public function getUsersPremium($tanggal)
+    {
+        $sql = "SELECT * FROM users WHERE tanggal_expired < '$tanggal'";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getResultArray();
+    }
 }

@@ -8,7 +8,7 @@ class BeritaModel extends Model
 {
     protected $table = 'tb_berita';
 
-    protected $allowedFields = ['judul_berita', 'slug', 'created_by', 'kategori_id', 'isi_berita', 'gambar_berita', 'banyak_dilihat', 'status_berita'];
+    protected $allowedFields = ['judul_berita', 'slug', 'created_by', 'kategori_id', 'isi_berita', 'gambar_berita', 'banyak_dilihat', 'status_berita', 'tanggal_buat', 'tanggal_update'];
 
     protected $createdField  = 'tanggal_buat';
     protected $updatedField  = 'tanggal_update';
@@ -273,36 +273,36 @@ class BeritaModel extends Model
         return $this->table('tb_berita')->like('judul_berita', $keyword);
     }
 
-    public function getBeritaKecelakaanExport()
+    public function getBeritaKecelakaanExport($tanggal)
     {
-        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Kecelakaan' AND status_berita = '1' ORDER BY id_berita DESC";
+        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Kecelakaan' AND status_berita = '1' AND tanggal_buat = '$tanggal' ORDER BY id_berita DESC";
 
         $execute = $this->db->query($sql);
 
         return $execute->getResultArray();
     }
 
-    public function getBeritaEkonomiExport()
+    public function getBeritaEkonomiExport($tanggal)
     {
-        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Ekonomi' AND status_berita = '1' ORDER BY id_berita DESC";
+        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Ekonomi' AND status_berita = '1' AND tanggal_buat = '$tanggal' ORDER BY id_berita DESC";
 
         $execute = $this->db->query($sql);
 
         return $execute->getResultArray();
     }
 
-    public function getBeritaPolitikExport()
+    public function getBeritaPolitikExport($tanggal)
     {
-        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Politik' AND status_berita = '1' ORDER BY id_berita DESC";
+        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Politik' AND status_berita = '1' AND tanggal_buat = '$tanggal' ORDER BY id_berita DESC";
 
         $execute = $this->db->query($sql);
 
         return $execute->getResultArray();
     }
 
-    public function getBeritaOlahragaExport()
+    public function getBeritaOlahragaExport($tanggal)
     {
-        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Olahraga' AND status_berita = '1' ORDER BY id_berita DESC";
+        $sql = "SELECT tb_berita.*, kategori_berita.nama_kategori FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE nama_kategori = 'Olahraga' AND status_berita = '1' AND tanggal_buat = '$tanggal' ORDER BY id_berita DESC";
 
         $execute = $this->db->query($sql);
 

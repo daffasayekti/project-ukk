@@ -276,7 +276,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        <a href="/" class="btn btn-primary btn-sm"><i class="fas fa-arrow-alt-circle-left mr-1"></i> Kembali Halaman Utama</a>
+                        <a href="/" class="btn btn-primary btn-sm"><i class="fa-solid fa-backward"></i> Kembali</a>
                     </div>
                 </div>
             </div>
