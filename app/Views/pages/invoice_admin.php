@@ -249,7 +249,7 @@
                                     <th><b>No.</b></th>
                                     <th><b>Nama Produk</b></th>
                                     <th><b>Jenis Langganan</b></th>
-                                    <th><b>Tipe Pembayaran</b></th>
+                                    <th><b>Metode Pembayaran</b></th>
                                     <th><b>Harga</b></th>
                                 </tr>
                             </thead>
@@ -266,7 +266,7 @@
                                         <?= $data_invoice['jenis_langganan']; ?>
                                     </td>
                                     <td>
-                                        Transfer
+                                        Midtrans
                                     </td>
                                     <td>Rp. <?= number_format($data_invoice['total_pembayaran'], 0, ",", "."); ?></td>
                                 </tr>
@@ -280,6 +280,7 @@
                             </tfoot>
                         </table>
                         <a href="/admin/data_invoice" class="btn btn-primary btn-sm"><i class="fa-solid fa-backward"></i> Kembali</a>
+                        <a href="/admin/cetak_pdf/<?= $data_invoice['order_id']; ?>" class="btn btn-success btn-sm"><i class="fas fa-print"></i> Cetak PDF</a>
                     </div>
                 </div>
             </div>

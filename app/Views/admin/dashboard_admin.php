@@ -18,62 +18,53 @@
         <?php endif; ?>
         <div class="section-body">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="card card-statistic-1">
-                        <div class="card-icon bg-primary">
-                            <i class="fas fa-running"></i>
+                        <div class="card-icon bg-info">
+                            <i class="fas fa-scroll"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Olahraga</h4>
+                                <h4>Riwayat Transaksi</h4>
                             </div>
-                            <div class="card-body" style="font-size: 16px;">
-                                <?= $count_olahraga; ?> Berita
+                            <div class="card-body" style="font-size: 14px;">
+                                <?= $riwayat_transaksi; ?> Transaksi
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-warning">
                             <i class="fas fa-user-tie"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Berita Politik</h4>
+                                <h4>Pelanggan Aktif</h4>
                             </div>
-                            <div class="card-body" style="font-size: 16px;">
-                                <?= $count_politik; ?> Berita
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-danger">
-                            <i class="fas fa-car-crash"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Kecelakaan</h4>
-                            </div>
-                            <div class="card-body" style="font-size: 16px;">
-                                <?= $count_kecelakaan; ?> Berita
+                            <div class="card-body" style="font-size: 14px;">
+                                <?= $count_users_premium; ?> Orang
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
                             <i class="fas fa-money-bill"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Berita Ekonomi</h4>
+                                <h4>Total Pendapatan</h4>
                             </div>
-                            <div class="card-body" style="font-size: 16px;">
-                                <?= $count_ekonomi; ?> Berita
+                            <div class="card-body" style="font-size: 14px;">
+                                <?php
+                                $total_saldo = 0;
+                                foreach ($total_pendapatan as $value) {
+                                    $total_saldo = $value;
+                                ?>
+                                    <?= "Rp. " . number_format($total_saldo, 0, ",", "."); ?>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

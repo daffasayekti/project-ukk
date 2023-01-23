@@ -33,10 +33,24 @@ class InvoiceModel extends Model
         return $execute->getResultArray();
     }
 
+    public function getRiwayatTransaksi()
+    {
+        $sql = $this->db->query("SELECT * FROM tb_invoice");
+        $riwayat_transaksi = $sql->getNumRows();
+        return $riwayat_transaksi;
+    }
+
     public function getInvoiceByOrderId($order_id)
     {
         $sql = "SELECT * FROM tb_invoice WHERE order_id = '$order_id'";
         $execute = $this->db->query($sql);
+        return $execute->getRowArray();
+    }
+
+    public function getTotalPendapatan()
+    {
+        $total_pendapatan = "SELECT SUM(total_pembayaran) AS total_pendapatan FROM tb_invoice";
+        $execute = $this->db->query($total_pendapatan);
         return $execute->getRowArray();
     }
 }

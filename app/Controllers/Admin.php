@@ -98,7 +98,9 @@ class Admin extends BaseController
             'count_data_admin' => $this->akunModel->getCountDataAdmin(),
             'count_users_free' => $this->akunModel->getCountUsersFree(),
             'count_users_premium' => $this->akunModel->getCountUsersPremium(),
+            'riwayat_transaksi' => $this->invoiceModel->getRiwayatTransaksi(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'total_pendapatan' => $this->invoiceModel->getTotalPendapatan(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
             'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
@@ -1914,7 +1916,10 @@ class Admin extends BaseController
         } else {
             $filename = $this->request->getVar('nama-file');
             $dompdf = new Dompdf();
-            $dompdf->loadHtml(view('/pages/export_invoice', ['data_invoice' => $data_invoice]));
+            $dompdf->loadHtml(view('/pages/export_invoice', [
+                'data_invoice' => $data_invoice,
+                'periode' => tgl_indo_model_2(date($this->request->getVar('tanggal')))
+            ]));
             $dompdf->setPaper('A4', 'landscape');
             $dompdf->render();
             $dompdf->stream($filename);
@@ -1933,7 +1938,10 @@ class Admin extends BaseController
         } else {
             $filename = $this->request->getVar('nama-file');
             $dompdf = new Dompdf();
-            $dompdf->loadHtml(view('/pages/export_kecelakaan', ['beritaKecelakaan' => $beritaKecelakaan]));
+            $dompdf->loadHtml(view('/pages/export_kecelakaan', [
+                'beritaKecelakaan' => $beritaKecelakaan,
+                'periode' => tgl_indo_model_2(date($this->request->getVar('tanggal')))
+            ]));
             $dompdf->setPaper('A4', 'landscape');
             $dompdf->render();
             $dompdf->stream($filename);
@@ -1952,7 +1960,10 @@ class Admin extends BaseController
         } else {
             $filename = $this->request->getVar('nama-file');
             $dompdf = new Dompdf();
-            $dompdf->loadHtml(view('/pages/export_ekonomi', ['beritaEkonomi' => $beritaEkonomi]));
+            $dompdf->loadHtml(view('/pages/export_ekonomi', [
+                'beritaEkonomi' => $beritaEkonomi,
+                'periode' => tgl_indo_model_2(date($this->request->getVar('tanggal')))
+            ]));
             $dompdf->setPaper('A4', 'landscape');
             $dompdf->render();
             $dompdf->stream($filename);
@@ -1971,7 +1982,10 @@ class Admin extends BaseController
         } else {
             $filename = $this->request->getVar('nama-file');
             $dompdf = new Dompdf();
-            $dompdf->loadHtml(view('/pages/export_politik', ['beritaPolitik' => $beritaPolitik]));
+            $dompdf->loadHtml(view('/pages/export_politik', [
+                'beritaPolitik' => $beritaPolitik,
+                'periode' => tgl_indo_model_2(date($this->request->getVar('tanggal')))
+            ]));
             $dompdf->setPaper('A4', 'landscape');
             $dompdf->render();
             $dompdf->stream($filename);
@@ -1990,10 +2004,27 @@ class Admin extends BaseController
         } else {
             $filename = $this->request->getVar('nama-file');
             $dompdf = new Dompdf();
-            $dompdf->loadHtml(view('/pages/export_olahraga', ['beritaOlahraga' => $beritaOlahraga]));
+            $dompdf->loadHtml(view('/pages/export_olahraga', [
+                'beritaOlahraga' => $beritaOlahraga,
+                'periode' => tgl_indo_model_2(date($this->request->getVar('tanggal')))
+            ]));
             $dompdf->setPaper('A4', 'landscape');
             $dompdf->render();
             $dompdf->stream($filename);
         }
+    }
+
+    public function cetak_pdf($order_id)
+    {
+        $data_invoice = $this->invoiceModel->getInvoiceByOrderId($order_id);
+
+        $filename = 'Laporan Invoice Order-ID #' . $order_id;
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('/pages/export_invoice1', [
+            'data_invoice' => $data_invoice,
+        ]));
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream($filename);
     }
 }

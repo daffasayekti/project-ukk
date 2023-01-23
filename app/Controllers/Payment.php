@@ -166,4 +166,18 @@ class Payment extends BaseController
 
         return view('/pages/invoice', $data);
     }
+
+    public function cetak_pdf($order_id)
+    {
+        $data_invoice = $this->invoiceModel->getInvoiceByOrderId($order_id);
+
+        $filename = 'Laporan Invoice Order-ID #' . $order_id;
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('/pages/export_invoice2', [
+            'data_invoice' => $data_invoice,
+        ]));
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream($filename);
+    }
 }

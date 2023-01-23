@@ -68,7 +68,7 @@
                                     </td>
                                     <td class="text-center">
                                         <?php if ($date_expired == $date_now || $date_expired < $date_now) : ?>
-                                            <a href="/admin/hapus_users_premium/<?= $value['id']; ?>" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                            <a href="/admin/hapus_users_premium/<?= $value['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Akun Tersebut ?');"><i class="fas fa-trash"></i></a>
                                         <?php else : ?>
                                             -
                                         <?php endif; ?>

@@ -4,6 +4,10 @@
 <head>
   <title>Data Invoice</title>
   <style type="text/css">
+    body {
+      font-family: Calibri, Helvetica, Arial, sans-serif;
+    }
+
     table,
     td,
     th {
@@ -22,7 +26,7 @@
     }
 
     th {
-      background-color: #6777ef;
+      background-color: #0d6efd;
       color: white;
     }
   </style>
@@ -32,6 +36,7 @@
 <body>
   <center>
     <h1>Data Invoice</h1>
+    <h4><?= $periode; ?></h4>
   </center>
 
   <table class='table table-bordered'>
