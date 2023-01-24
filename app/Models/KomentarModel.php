@@ -14,7 +14,7 @@ class KomentarModel extends Model
 
     public function getKomentarByBeritaId($id_berita)
     {
-        $sql = "SELECT tb_komentar.*, tb_balas_komentar.*, users.* FROM tb_komentar LEFT JOIN tb_balas_komentar ON tb_komentar.id_komentar = tb_balas_komentar.komentar_id INNER JOIN users ON tb_komentar.created_by = users.username WHERE berita_id = '$id_berita' ORDER BY id_komentar DESC";
+        $sql = "SELECT tb_komentar.*, users.* FROM tb_komentar INNER JOIN users ON tb_komentar.created_by = users.username WHERE berita_id = '$id_berita' ORDER BY id_komentar DESC";
 
         $execute = $this->db->query($sql);
 

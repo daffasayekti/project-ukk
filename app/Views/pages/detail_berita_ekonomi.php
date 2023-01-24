@@ -104,25 +104,30 @@
                                                 <?php endif; ?>
                                             </div>
                                             <div id="balasan" class="balasan"></div>
-                                            <?php if ($value['komentar_id']) : ?>
-                                                <div class="comment-box from">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="/assets/images/profile_users/<?= $value['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
-                                                        <div>
-                                                            <p class="fs-12 mb-1 line-height-xs">
-                                                                <?= tgl_indo_model_2(date($value['tanggal_balas_komentar'])); ?>
-                                                            </p>
-                                                            <p class="fs-16 font-weight-600 mb-0 line-height-xs">
-                                                                <?= $value['penulis_komentar']; ?>
-                                                            </p>
-                                                        </div>
-                                                    </div>
 
-                                                    <p class="fs-12 mt-3">
-                                                        <?= $value['isi_balas_komentar']; ?>
-                                                    </p>
-                                                </div>
-                                            <?php endif; ?>
+                                            <?php
+                                            $balas_komentar = $balasKomentar->getBalasKomentarById($value['id_komentar']);
+                                            foreach ($balas_komentar as $balas) : ?>
+                                                <?php if ($value['id_komentar'] == $balas['komentar_id']) : ?>
+                                                    <div class="comment-box from">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="/assets/images/profile_users/<?= $balas['profile_penulis']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
+                                                            <div>
+                                                                <p class="fs-12 mb-1 line-height-xs">
+                                                                    <?= tgl_indo_model_2(date($balas['tanggal_balas_komentar'])); ?>
+                                                                </p>
+                                                                <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                                                                    <?= $balas['penulis_komentar']; ?>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+                                                        <p class="fs-12 mt-3">
+                                                            <?= $balas['isi_balas_komentar']; ?>
+                                                        </p>
+                                                    </div>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
                                         <?php } ?>
                                     </div>
                                 </div>

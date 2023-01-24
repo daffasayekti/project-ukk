@@ -102,7 +102,8 @@ class Home extends BaseController
             'detailEkonomi' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
             'komentarEkonomi' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
-            'berita_ekonomi_trending' => $this->beritaModel->getBeritaEkonomiTrending()
+            'berita_ekonomi_trending' => $this->beritaModel->getBeritaEkonomiTrending(),
+            'balasKomentar' => $this->balasModel,
         ];
 
         $builder = $this->beritaModel->table('tb_berita');
@@ -251,6 +252,7 @@ class Home extends BaseController
             'berita_politik_terbaru' => $this->beritaModel->getBeritaPolitikTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_politik_trending' => $this->beritaModel->getBeritaPolitikTrending(),
+            'balasKomentar' => $this->balasModel,
         ];
 
         $builder = $this->beritaModel->table('tb_berita');
@@ -310,6 +312,7 @@ class Home extends BaseController
             'berita_kecelakaan_terbaru' => $this->beritaModel->getBeritaKecelakaanTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_kecelakaan_trending' => $this->beritaModel->getBeritaKecelakaanTrending(),
+            'balasKomentar' => $this->balasModel,
         ];
 
         $builder = $this->beritaModel->table('tb_berita');
@@ -369,6 +372,7 @@ class Home extends BaseController
             'berita_olahraga_terbaru' => $this->beritaModel->getBeritaOlahragaTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_olahraga_trending' => $this->beritaModel->getBeritaOlahragaTerbaru(),
+            'balasKomentar' => $this->balasModel,
         ];
 
         $builder = $this->beritaModel->table('tb_berita');
