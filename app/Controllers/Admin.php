@@ -1639,6 +1639,32 @@ class Admin extends BaseController
         return view('/admin/data_komentar', $data);
     }
 
+    public function detail_balas_komentar($id_komentar)
+    {
+        helper(['tanggal_helper']);
+
+        $data = [
+            'title' => 'Data Balas Komentar',
+            'uri' => $this->uri,
+            'balasKomentar' => $this->balasModel->getBalasKomentarByKomentarId($id_komentar),
+            'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
+        ];
+
+        return view('/admin/detail_komentar', $data);
+    }
+
+    public function hapus_balas_komentar($id_komentar)
+    {
+        $this->balasModel->delete_balas($id_komentar);
+
+        session()->setFlashdata('success', 'Balas Komentar Berhasil Dihapus.');
+
+        return redirect()->to('/admin/data_komentar');
+    }
+
     public function hapus_komentar($id_komentar)
     {
         $balas_komentar = $this->balasModel->getBalasKomentarByKomentarId($id_komentar);

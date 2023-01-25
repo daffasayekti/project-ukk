@@ -36,4 +36,13 @@ class BalasModel extends Model
 
         return;
     }
+
+    public function delete_balas($id_komentar)
+    {
+        $sql = "DELETE FROM tb_balas_komentar WHERE id = '$id_komentar'";
+
+        $this->db->query($sql);
+
+        return;
+    }
 }

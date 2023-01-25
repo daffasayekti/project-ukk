@@ -201,7 +201,7 @@
                 getKomentarEkonomi();
                 isi_komentar.value = "";
             }
-        })
+        });
     });
 
     function getKomentarEkonomi() {
@@ -230,7 +230,7 @@
                     <h5 class="text-primary balas-komentar" data-index="${i}" style="font-size: 14px; cursor:pointer"><b>Balas Komentar</b></h5>
                     <div class="textarea-balas"></div>
                 </div>
-                `).join('')
+                `).join('');
             }
         })
     }
