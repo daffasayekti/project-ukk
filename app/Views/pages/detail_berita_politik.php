@@ -23,9 +23,10 @@
                                 </div>
                             </div>
                             <div class="d-lg-flex mt-3">
-                                <span class="fs-16 font-weight-600 mr-2 mb-1">Tags</span>
-                                <span class="badge badge-outline-dark mr-2 mb-1">Politik</span>
-                                <span class="badge badge-outline-dark mr-2 mb-1">Politik</span><span class="badge badge-outline-dark mr-2 mb-1">Politik</span><span class="badge badge-outline-dark mr-2 mb-1">Politik</span><span class="badge badge-outline-dark mb-1">Politik</span>
+                                <span class="fs-16 font-weight-600 mr-2 mb-1">Tags : </span>
+                                <?php foreach ($data_tagline as $value) : ?>
+                                    <span class="badge badge-outline-dark mr-2 mb-1">#<?= $value['nama_tags']; ?></span>
+                                <?php endforeach; ?>
                             </div>
                             <div class="post-comment-section">
                                 <?php if (in_groups('User') || in_groups('Admin')) : ?>

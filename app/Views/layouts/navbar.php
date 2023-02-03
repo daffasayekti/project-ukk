@@ -54,9 +54,13 @@
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>
-                                    <a href="/home/edit_post" class="dropdown-item mb-3">
+                                    <a href="/home/edit_post" class="dropdown-item">
                                         <i class="fa-solid fa-edit fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Post
+                                    </a>
+                                    <a href="/home/history_pembayaran" class="dropdown-item mb-3">
+                                        <i class="fa-solid fa-history fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        History
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="<?= base_url('/logout'); ?>">

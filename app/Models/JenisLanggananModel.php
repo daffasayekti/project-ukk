@@ -27,4 +27,18 @@ class JenisLanggananModel extends Model
 
         return $execute->getRowArray();
     }
+
+    public function searchDataLangganan($keyword)
+    {
+        return $this->table('jenis_langganan')->like('nama_langganan', $keyword);
+    }
+
+    public function delete_jenis_langganan($id_langganan)
+    {
+        $sql = "DELETE FROM jenis_langganan WHERE id_langganan = '$id_langganan'";
+
+        $this->db->query($sql);
+
+        return;
+    }
 }

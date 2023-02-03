@@ -1,7 +1,7 @@
 <?= $this->extend('/auth/templates/index'); ?>
 
 <?= $this->section('title'); ?>
-<title>Pages Login</title>
+<title>World Time | Login</title>
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>

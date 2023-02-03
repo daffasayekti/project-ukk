@@ -75,7 +75,7 @@ class Payment extends BaseController
         ];
 
         $data = [
-            'title' => 'Detail Pembayaran',
+            'title' => 'World Time | Detail Pembayaran',
             'snapToken' => \Midtrans\Snap::getSnapToken($params),
             'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),

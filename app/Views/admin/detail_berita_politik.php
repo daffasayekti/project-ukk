@@ -24,6 +24,12 @@
                             <?= $detailPolitik['isi_berita']; ?>
                         </div>
                     </div>
+                    <div class="d-lg-flex mt-3">
+                        <span class="fs-16 font-weight-600 mr-2 mb-1"><b>Tags : </b></span>
+                        <?php foreach ($data_tagline as $value) : ?>
+                            <span class="mr-2 mb-1"><b>#<?= $value['nama_tags']; ?></b></span>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
         </div>

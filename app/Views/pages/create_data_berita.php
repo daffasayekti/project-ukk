@@ -42,7 +42,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <input type="text" class="form-control <?= ($validation->hasError('created_by')) ? 'is-invalid' : ''; ?>" id="created_by" name="created_by" placeholder="Penulis Berita *" autocomplete="off" value="<?= user()->username; ?>" readonly />
                                                     <div class="invalid-feedback">
@@ -50,15 +50,21 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <select class="custom-select form-control" id="kategori_id" name="kategori_id" id="kategori_id">
+                                                        <option selected>Pilih Kategori Berita</option>
+                                                        <?php foreach ($kategoriBerita as $value) : ?>
+                                                            <option value="<?= $value['id_kategori']; ?>"><?= $value['nama_kategori']; ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div class="col-sm-12">
                                                 <div class="form-group">
-                                                    <select class="custom-select form-control" id="kategori_id" name="kategori_id">
-                                                        <option selected>-- Pilih Kategori Berita --</option>
-                                                        <option value="1">Kecelakaan</option>
-                                                        <option value="2">Ekonomi</option>
-                                                        <option value="3">Politik</option>
-                                                        <option value="4">Olahraga</option>
-                                                    </select>
+                                                    <div id="field-tagline">
+                                                        <input type="text" class="form-control" id="tagline" placeholder="Pilih Tagline Berita" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-12">
@@ -74,13 +80,11 @@
                                                 <div class="form-group">
                                                     <img src="/assets/images/default.jpg" class="img-thumbnail preview-img mb-3" width="300" />
                                                     <div class="input-group">
-                                                        <div class="custom-file">
-                                                            <input type="file" class="custom-file-input form-control <?= ($validation->hasError('gambar_berita')) ? 'is-invalid' : ''; ?>" id="gambar_berita" name="gambar_berita" onchange="previewImg()">
-                                                            <div class="invalid-feedback">
-                                                                <?= $validation->getError('gambar_berita'); ?>
-                                                            </div>
-                                                            <label class="custom-file-label">Pilih File</label>
+                                                        <input type="file" class="custom-file-input form-control <?= ($validation->hasError('gambar_berita')) ? 'is-invalid' : ''; ?>" id="gambar_berita" name="gambar_berita" onchange="previewImg()">
+                                                        <div class="invalid-feedback">
+                                                            <?= $validation->getError('gambar_berita'); ?>
                                                         </div>
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -119,5 +123,25 @@
             imgProfile.src = e.target.result;
         }
     }
+
+    document.querySelector('#kategori_id').addEventListener('change', function() {
+        var kategoriBerita = document.querySelector('#kategori_id').value;
+
+        $.ajax({
+            url: '/admin/getTagline/' + kategoriBerita,
+            method: 'POST',
+            success: function(data) {
+                document.querySelector('#field-tagline').innerHTML = `
+                    <select class="js-example-basic-multiple form-control" name="tagline[]" multiple="multiple" id="tagline">
+                    ${data.map(item => `<option value="${item.nama_tags}">#${item.nama_tags}</option>`).join('')}
+                    </select>
+                `;
+
+                $('.js-example-basic-multiple').select2({
+                    tags: true
+                });
+            }
+        })
+    });
 </script>
 <?= $this->endSection(); ?>

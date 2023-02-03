@@ -45,7 +45,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <input type="text" class="form-control <?= ($validation->hasError('created_by')) ? 'is-invalid' : ''; ?>" id="created_by" name="created_by" placeholder="Penulis Berita *" autocomplete="off" value="<?= (old('created_by')) ? old('created_by') : $data_berita['created_by'] ?>" readonly />
                                                     <div class="invalid-feedback">
@@ -53,31 +53,25 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <select class="custom-select form-control" id="kategori_id" name="kategori_id">
-                                                        <?php
-                                                        if ($data_berita['kategori_id'] == '1') {
-                                                            echo '<option value="1" selected>Kecelakaan</option>';
-                                                        } else {
-                                                            echo '<option value="1">Kecelakaan</option>';
-                                                        }
-                                                        if ($data_berita['kategori_id'] == '2') {
-                                                            echo '<option value="2" selected>Ekonomi</option>';
-                                                        } else {
-                                                            echo '<option value="2">Ekonomi</option>';
-                                                        }
-                                                        if ($data_berita['kategori_id'] == '3') {
-                                                            echo '<option value="3" selected>Politik</option>';
-                                                        } else {
-                                                            echo '<option value="3">Politik</option>';
-                                                        }
-                                                        if ($data_berita['kategori_id'] == '4') {
-                                                            echo '<option value="4" selected>Olahraga</option>';
-                                                        } else {
-                                                            echo '<option value="4">Olahraga</option>';
-                                                        }
-                                                        ?>
+                                                        <?php foreach ($kategoriBerita as $value) : ?>
+                                                            <?php if ($data_berita['id_kategori'] == $value['id_kategori']) : ?>
+                                                                <option value="<?= $data_berita['id_kategori']; ?>" selected><?= $data_berita['nama_kategori']; ?></option>
+                                                            <?php else : ?>
+                                                                <option value="<?= $value['id_kategori']; ?>"><?= $value['nama_kategori']; ?></option>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <select class="js-example-basic-multiple form-control" name="tagline[]" multiple="multiple" id="tagline">
+                                                        <?php foreach ($data_tagline as $value) : ?>
+                                                            <option value="<?= $value['nama_tags']; ?>" selected>#<?= $value['nama_tags']; ?></option>
+                                                        <?php endforeach; ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -107,7 +101,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group">
-                                                    <button type="submit" class="btn btn-dark font-weight-bold mt-3">Create Berita</button>
+                                                    <button type="submit" class="btn btn-dark font-weight-bold mt-3">Edit Berita</button>
                                                 </div>
                                             </div>
                                         </div>

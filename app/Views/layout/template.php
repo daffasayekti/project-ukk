@@ -25,6 +25,9 @@
     <!-- ChartJS -->
     <script type="text/javascript" src="<?= base_url('/assets/js/Chart.min.js'); ?>"></script>
 
+    <!-- Select 2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <style>
         trix-toolbar [data-trix-button-group="file-tools"] {
             display: none;
@@ -47,6 +50,16 @@
 
     <!-- JQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(() => {
+                $('.js-example-basic-multiple').select2({
+                    tags: true
+                });
+            }, 200);
+        });
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 
     <!-- JS Bootstrap -->

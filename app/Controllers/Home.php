@@ -12,9 +12,17 @@ use App\Models\LaporanModel;
 
 use App\Models\AkunModel;
 
+use App\Models\KategoriModel;
+
 use CodeIgniter\API\ResponseTrait;
 
 use App\Models\BalasModel;
+
+use App\Models\TaglineModel;
+
+use App\Models\TagsBeritaModel;
+
+use App\Models\InvoiceModel;
 
 class Home extends BaseController
 {
@@ -22,17 +30,26 @@ class Home extends BaseController
     protected $uri;
     protected $beritaModel;
     protected $komentarModel;
+    protected $kategoriModel;
     protected $jenisLanggananModel;
+    protected $taglineModel;
     protected $laporanModel;
     protected $balasModel;
     protected $akunModel;
+    protected $tagsBeritaModel;
+    protected $invoiceModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
     {
         $this->beritaModel    = new BeritaModel();
         $this->komentarModel  = new KomentarModel();
+        $this->kategoriModel = new KategoriModel();
         $this->jenisLanggananModel  = new JenisLanggananModel();
+        $this->tagsBeritaModel  = new TagsBeritaModel();
+        $this->tagsBeritaModel  = new TagsBeritaModel();
+        $this->taglineModel  = new TaglineModel();
+        $this->invoiceModel  = new InvoiceModel();
         $this->laporanModel  = new LaporanModel();
         $this->balasModel = new BalasModel();
         $this->akunModel = new AkunModel();
@@ -45,7 +62,7 @@ class Home extends BaseController
         helper(['auth']);
 
         $data = [
-            'title' => 'World Time',
+            'title' => 'World Time | Beranda',
             'uri' => $this->uri,
             'global_berita' => $this->beritaModel->getGlobalBerita(),
             'berita_terbaru_kecelakaan' => $this->beritaModel->getBeritaTerbaruKecelakaan(),
@@ -65,7 +82,7 @@ class Home extends BaseController
     public function tentang_kami()
     {
         $data = [
-            'title' => 'Tentang Kami',
+            'title' => 'World Time | Tentang Kami',
             'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'data_laporan' => $this->laporanModel->getDataLaporan()
@@ -79,7 +96,7 @@ class Home extends BaseController
         helper(['tanggal_helper']);
 
         $data = [
-            'title' => 'Berita Ekonomi',
+            'title' => 'World Time | Berita Ekonomi',
             'uri' => $this->uri,
             'berita_ekonomi' => $this->beritaModel->getBeritaEkonomi(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
@@ -97,12 +114,13 @@ class Home extends BaseController
         $id = $this->beritaModel->getBeritaBySlugAndAuthor($slug);
 
         $data = [
-            'title' => 'Detail Berita Ekonomi',
+            'title' => $id['judul_berita'],
             'uri' => $this->uri,
             'detailEkonomi' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
             'komentarEkonomi' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'berita_ekonomi_trending' => $this->beritaModel->getBeritaEkonomiTrending(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($id['id_berita'], $id['kategori_id']),
             'balasKomentar' => $this->balasModel,
         ];
 
@@ -226,7 +244,7 @@ class Home extends BaseController
         helper(['tanggal_helper']);
 
         $data = [
-            'title' => 'Berita Politik',
+            'title' => 'World Time | Berita Politik',
             'uri' => $this->uri,
             'berita_politik' => $this->beritaModel->getBeritaPolitik(),
             'berita_politik_terbaru' => $this->beritaModel->getBeritaPolitikTerbaru(),
@@ -245,12 +263,13 @@ class Home extends BaseController
         $id = $this->beritaModel->getBeritaBySlugAndAuthor($slug);
 
         $data = [
-            'title' => 'Detail Berita Politik',
+            'title' => $id['judul_berita'],
             'uri' => $this->uri,
             'detailPolitik' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
             'komentarPolitik' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_politik_terbaru' => $this->beritaModel->getBeritaPolitikTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($id['id_berita'], $id['kategori_id']),
             'berita_politik_trending' => $this->beritaModel->getBeritaPolitikTrending(),
             'balasKomentar' => $this->balasModel,
         ];
@@ -286,7 +305,7 @@ class Home extends BaseController
         helper(['tanggal_helper']);
 
         $data = [
-            'title' => 'Berita Kecelakaan',
+            'title' => 'World Time | Berita Kecelakaan',
             'uri' => $this->uri,
             'berita_kecelakaan' => $this->beritaModel->getBeritaKecelakaan(),
             'berita_kecelakaan_terbaru' => $this->beritaModel->getBeritaKecelakaanTerbaru(),
@@ -305,12 +324,13 @@ class Home extends BaseController
         $id = $this->beritaModel->getBeritaBySlugAndAuthor($slug);
 
         $data = [
-            'title' => 'Detail Berita Kecelakaan',
+            'title' => $id['judul_berita'],
             'uri' => $this->uri,
             'detailKecelakaan' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
             'komentarKecelakaan' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_kecelakaan_terbaru' => $this->beritaModel->getBeritaKecelakaanTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($id['id_berita'], $id['kategori_id']),
             'berita_kecelakaan_trending' => $this->beritaModel->getBeritaKecelakaanTrending(),
             'balasKomentar' => $this->balasModel,
         ];
@@ -346,7 +366,7 @@ class Home extends BaseController
         helper(['tanggal_helper']);
 
         $data = [
-            'title' => 'Berita Olahraga',
+            'title' => 'World Time | Berita Olahraga',
             'uri' => $this->uri,
             'berita_olahraga' => $this->beritaModel->getBeritaOlahraga(),
             'berita_olahraga_terbaru' => $this->beritaModel->getBeritaOlahragaTerbaru(),
@@ -365,12 +385,13 @@ class Home extends BaseController
         $id = $this->beritaModel->getBeritaBySlugAndAuthor($slug);
 
         $data = [
-            'title' => 'Detail Berita Olahraga',
+            'title' => $id['judul_berita'],
             'uri' => $this->uri,
             'detailOlahraga' => $this->beritaModel->getBeritaBySlugAndAuthor($slug),
             'komentarOlahraga' => $this->komentarModel->getKomentarByBeritaId($id['id_berita']),
             'berita_olahraga_terbaru' => $this->beritaModel->getBeritaOlahragaTerbaru(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($id['id_berita'], $id['kategori_id']),
             'berita_olahraga_trending' => $this->beritaModel->getBeritaOlahragaTerbaru(),
             'balasKomentar' => $this->balasModel,
         ];
@@ -404,7 +425,7 @@ class Home extends BaseController
     public function laporkan()
     {
         $data = [
-            'title' => 'Laporkan Kejadian Disekitarmu',
+            'title' => 'World Time | Laporkan Kejadian Disekitarmu',
             'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'data_laporan' => $this->laporanModel->getDataLaporan()
@@ -429,7 +450,7 @@ class Home extends BaseController
     public function pilih_langganan()
     {
         $data = [
-            'title' => 'Pilih Langganan',
+            'title' => 'World Time | Pilih Langganan',
             'uri' => $this->uri,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
             'data_langganan' => $this->jenisLanggananModel->findAll(),
@@ -467,7 +488,7 @@ class Home extends BaseController
     public function edit_profile()
     {
         $data = [
-            'title' => 'Edit Profile',
+            'title' => 'World Time | Edit Profile',
             'data_laporan' => $this->laporanModel->getDataLaporan(),
             'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
@@ -555,7 +576,7 @@ class Home extends BaseController
         }
 
         $data = [
-            'title' => 'Kelola Post Berita',
+            'title' => 'World Time | Kelola Postingan Berita',
             'data_laporan' => $this->laporanModel->getDataLaporan(),
             'uri' => $this->uri,
             'data_postku' => $this->beritaModel->where('created_by', user()->username)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
@@ -572,6 +593,14 @@ class Home extends BaseController
     {
         $data_berita = $this->beritaModel->getBeritaBySlug($slug);
 
+        $data_tags_berita = $this->tagsBeritaModel->getTagsById($data_berita['id_berita']);
+
+        foreach ($data_tags_berita as $value) {
+            if ($data_berita['id_berita'] == $value['berita_id']) {
+                $this->tagsBeritaModel->hapus_tags($value['id_tags_berita']);
+            }
+        }
+
         unlink('assets/images/resource_berita/' . $data_berita['gambar_berita']);
 
         $this->beritaModel->delete_berita($slug);
@@ -584,14 +613,24 @@ class Home extends BaseController
     public function tambah_data_berita()
     {
         $data = [
-            'title' => 'Create Data Berita',
+            'title' => 'World Time | Create Data Berita',
             'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
             'data_laporan' => $this->laporanModel->getDataLaporan(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
         ];
 
         return view('/pages/create_data_berita', $data);
+    }
+
+    public function getTagline($kategri_id)
+    {
+        if ($this->request->isAJAX()) {
+            $dataTagline = $this->taglineModel->getTaglineByKategoriId($kategri_id);
+
+            return $this->respond($dataTagline);
+        }
     }
 
     public function proses_create_berita()
@@ -655,6 +694,46 @@ class Home extends BaseController
             'tanggal_buat' => date('Y-m-d')
         ]);
 
+        $data_berita = $this->beritaModel->getBeritaByJudul($this->request->getVar('judul_berita'));
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags = $this->taglineModel->getTaglineByName($tags);
+
+            if (empty($data_tags)) {
+                $this->taglineModel->save([
+                    'nama_tags' => $tags,
+                    'kategori_id' => $data_berita['kategori_id'],
+                    'banyak_digunakan' => 1
+                ]);
+            }
+
+
+            foreach ($data_tags as $datatag) {
+                $builder = $this->taglineModel->table('tags');
+
+                $data = [
+                    'banyak_digunakan' => $datatag['banyak_digunakan'] + 1,
+                ];
+
+                $where = ['id_tags' => $datatag['id_tags']];
+
+                $builder->set($data)
+                    ->where($where)
+                    ->update();
+            }
+        }
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags_berita = $this->taglineModel->getTaglineByName($tags);
+
+            foreach ($data_tags_berita as $data_tag) {
+                $this->tagsBeritaModel->save([
+                    'berita_id' => $data_berita['id_berita'],
+                    'tags_id' => $data_tag['id_tags']
+                ]);
+            }
+        }
+
         session()->setFlashdata('success', 'Data Berhasil Disimpan.');
 
         return redirect()->to('/home/edit_post');
@@ -662,12 +741,16 @@ class Home extends BaseController
 
     public function edit_data_berita($slug)
     {
+        $beritaEkonomi = $this->beritaModel->getBeritaBySlug($slug);
+
         $data = [
-            'title' => 'Edit Data Berita',
+            'title' => 'World Time | Edit Data Berita',
             'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
             'data_laporan' => $this->laporanModel->getDataLaporan(),
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($beritaEkonomi['id_berita'], $beritaEkonomi['kategori_id']),
             'data_berita' => $this->beritaModel->getBeritaBySlug($slug),
         ];
 
@@ -745,8 +828,57 @@ class Home extends BaseController
             ->where($where)
             ->update();
 
+        $data_berita = $this->beritaModel->getBeritaByJudul($this->request->getVar('judul_berita'));
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags = $this->taglineModel->getTaglineByName($tags);
+
+            if (empty($data_tags)) {
+                $this->taglineModel->save([
+                    'nama_tags' => $tags,
+                    'kategori_id' => $data_berita['kategori_id'],
+                    'banyak_digunakan' => 1
+                ]);
+            }
+        }
+
+        $this->tagsBeritaModel->delete_tags($data_berita['id_berita']);
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags_berita = $this->taglineModel->getTaglineByName($tags);
+            foreach ($data_tags_berita as $data_tag) {
+                $this->tagsBeritaModel->save([
+                    'berita_id' => $data_berita['id_berita'],
+                    'tags_id' => $data_tag['id_tags']
+                ]);
+            }
+        }
+
         session()->setFlashdata('success', 'Data Berhasil Diedit.');
 
         return redirect()->to('/home/edit_post');
+    }
+
+    public function history_pembayaran()
+    {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->invoiceModel->searchDataInvoice($keyword);
+        } else {
+            $data_invoice = $this->invoiceModel;
+        }
+
+        $data = [
+            'title' => 'World Time | History Pembayaran',
+            'data_pembayaran' => $this->invoiceModel->where('nama_pelanggan', user()->username)->orderBy('id_invoice', 'DESC')->paginate(10, 'tb_invoice'),
+            'data_laporan' => $this->laporanModel->getDataLaporan(),
+            'pager' => $this->invoiceModel->pager,
+            'uri' => $this->uri,
+            'keyword' => $keyword,
+            'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
+        ];
+
+        return view('/pages/history_pembayaran', $data);
     }
 }

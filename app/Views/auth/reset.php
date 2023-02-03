@@ -1,7 +1,7 @@
 <?= $this->extend('/auth/templates/index'); ?>
 
 <?= $this->section('title'); ?>
-<title>Pages Reset Password</title>
+<title>World Time | Reset Password</title>
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>

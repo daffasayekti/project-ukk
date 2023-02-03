@@ -27,7 +27,7 @@
                 <div class="card" data-aos="fade-up">
                     <div class="card-body">
                         <h1 class="mt-3 text-center mb-5">
-                            Kelola Post Berita
+                            Kelola Postingan Berita
                         </h1>
 
                         <form action="" method="get" autocomplete="off" style="display:flex">

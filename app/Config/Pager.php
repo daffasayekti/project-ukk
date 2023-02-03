@@ -38,6 +38,11 @@ class Pager extends BaseConfig
         'pagination_data_invoice'    => 'App\Views\Pagers\pagination_data_invoice',
         'pagination_data_moderasi_laporan' => 'App\Views\Pagers\pagination_data_moderasi_laporan',
         'pagination_data_berita_premium' => 'App\Views\Pagers\pagination_data_berita_premium',
+        'pagination_data_kategori' => 'App\Views\Pagers\pagination_data_kategori',
+        'pagination_data_jenis_langganan' => 'App\Views\Pagers\pagination_data_jenis_langganan',
+        'pagination_data_tagline' => 'App\Views\Pagers\pagination_data_tagline',
+        'pagination_data_laporan' => 'App\Views\Pagers\pagination_data_laporan',
+        'pagination_history_pembayaran' => 'App\Views\Pagers\pagination_history_pembayaran',
     ];
 
     /**

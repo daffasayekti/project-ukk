@@ -41,28 +41,23 @@
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Kategori Berita</label>
                                     <div class="col-sm-12 col-md-7">
                                         <select class="form-control selectric" name="kategori_id">
-                                            <?php
-                                            if ($beritaOlahraga['kategori_id'] == '1') {
-                                                echo '<option value="1" selected>Kecelakaan</option>';
-                                            } else {
-                                                echo '<option value="1">Kecelakaan</option>';
-                                            }
-                                            if ($beritaOlahraga['kategori_id'] == '2') {
-                                                echo '<option value="2" selected>Ekonomi</option>';
-                                            } else {
-                                                echo '<option value="2">Ekonomi</option>';
-                                            }
-                                            if ($beritaOlahraga['kategori_id'] == '3') {
-                                                echo '<option value="3" selected>Politik</option>';
-                                            } else {
-                                                echo '<option value="3">Politik</option>';
-                                            }
-                                            if ($beritaOlahraga['kategori_id'] == '4') {
-                                                echo '<option value="4" selected>Olahraga</option>';
-                                            } else {
-                                                echo '<option value="4">Olahraga</option>';
-                                            }
-                                            ?>
+                                            <?php foreach ($kategoriBerita as $value) : ?>
+                                                <?php if ($beritaOlahraga['id_kategori'] == $value['id_kategori']) : ?>
+                                                    <option value="<?= $beritaOlahraga['id_kategori']; ?>" selected><?= $beritaOlahraga['nama_kategori']; ?></option>
+                                                <?php else : ?>
+                                                    <option value="<?= $value['id_kategori']; ?>"><?= $value['nama_kategori']; ?></option>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-4">
+                                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Tagline Berita</label>
+                                    <div class="col-sm-12 col-md-7">
+                                        <select class="js-example-basic-multiple form-control" name="tagline[]" multiple="multiple" id="tagline">
+                                            <?php foreach ($data_tagline as $value) : ?>
+                                                <option value="<?= $value['nama_tags']; ?>" selected>#<?= $value['nama_tags']; ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>

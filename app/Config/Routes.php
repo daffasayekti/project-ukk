@@ -38,6 +38,10 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->get('/admin/dashboard', 'Admin::dashboard', ['filter' => 'role:Admin']);
+$routes->get('/admin/kategori_berita', 'Admin::kategori_berita', ['filter' => 'role:Admin']);
+$routes->get('/admin/jenis_langganan', 'Admin::jenis_langganan', ['filter' => 'role:Admin']);
+$routes->get('/admin/laporan_masyarakat', 'Admin::laporan_masyarakat', ['filter' => 'role:Admin']);
+$routes->get('/admin/tagline', 'Admin::tagline', ['filter' => 'role:Admin']);
 $routes->get('/admin/data_kecelakaan', 'Admin::data_kecelakaan', ['filter' => 'role:Admin']);
 $routes->get('/admin/data_politik', 'Admin::data_politik', ['filter' => 'role:Admin']);
 $routes->get('/admin/data_ekonomi', 'Admin::data_ekonomi', ['filter' => 'role:Admin']);
@@ -53,6 +57,7 @@ $routes->get('/admin/data_invoice', 'Admin::data_invoice', ['filter' => 'role:Ad
 $routes->get('/home/edit_profile', 'Home::edit_profile', ['filter' => 'role:Admin,User']);
 $routes->get('/home/edit_post', 'Home::edit_post', ['filter' => 'role:User']);
 $routes->get('/home/pilih_langganan', 'Home::pilih_langganan', ['filter' => 'role:User']);
+$routes->get('/home/history_pembayaran', 'Home::history_pembayaran', ['filter' => 'role:User']);
 
 /*
  * --------------------------------------------------------------------

@@ -18,13 +18,19 @@ use App\Models\JenisLanggananModel;
 
 use App\Models\InvoiceModel;
 
+use App\Models\TaglineModel;
+
 use App\Models\LaporanModel;
 
 use App\Models\UserAkunModel;
 
+use App\Models\KategoriModel;
+
 use App\Models\AuthPermissionsModel;
 
 use App\Models\BalasModel;
+
+use App\Models\TagsBeritaModel;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -36,30 +42,38 @@ use PhpOffice\PhpSpreadsheet\Reader\Xls\MD5;
 
 use Dompdf\Dompdf;
 
+use CodeIgniter\API\ResponseTrait;
+
 class Admin extends BaseController
 {
+    use ResponseTrait;
     protected $beritaModel;
     protected $loginsModel;
     protected $usersModel;
     protected $akunModel;
+    protected $kategoriModel;
     protected $invoiceModel;
     protected $komentarModel;
     protected $pembayaranModel;
     protected $laporanModel;
     protected $uri;
+    protected $taglineModel;
     protected $carbon;
     protected $jenisLanggananModel;
     protected $userModel;
     protected $authModel;
     protected $balasModel;
+    protected $tagsBeritaModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
     public function __construct()
     {
         $this->beritaModel = new BeritaModel();
+        $this->kategoriModel = new KategoriModel();
         $this->loginsModel = new LoginsModel();
         $this->usersModel  = new UsersModel();
         $this->akunModel   = new AkunModel();
+        $this->taglineModel = new TaglineModel();
         $this->komentarModel = new KomentarModel();
         $this->invoiceModel = new InvoiceModel();
         $this->pembayaranModel = new PembayaranModel();
@@ -69,6 +83,7 @@ class Admin extends BaseController
         $this->balasModel = new BalasModel();
         $this->authModel = new AuthPermissionsModel();
         $this->jenisLanggananModel  = new JenisLanggananModel();
+        $this->tagsBeritaModel = new TagsBeritaModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }
 
@@ -85,7 +100,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Dashboard Admin',
+            'title' => 'My Admin | Dashboard Admin',
             'data_users_login' => $this->loginsModel->where('success', 1)->orderBy('id', 'DESC')->paginate(10, 'auth_logins'),
             'pager' => $this->loginsModel->pager,
             'currentPage' => $this->request->getVar('page_auth_logins') ? $this->request->getVar('page_auth_logins') : 1,
@@ -120,7 +135,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Moderasi Berita',
+            'title' => 'My Admin | Moderasi Berita',
             'uri' => $this->uri,
             'data_berita_moderasi' => $this->beritaModel->where('status_berita', 0)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
@@ -146,7 +161,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Moderasi Laporan',
+            'title' => 'My Admin | Moderasi Laporan',
             'uri' => $this->uri,
             'data_laporan_moderasi' => $this->laporanModel->where('status_laporan', 0)->orderBy('id_laporan', 'DESC')->paginate(10, 'tb_laporan_masyarakat'),
             'currentPage' => $this->request->getVar('page_tb_laporan_masyarakat') ? $this->request->getVar('page_tb_laporan_masyarakat') : 1,
@@ -201,13 +216,16 @@ class Admin extends BaseController
 
     public function detail_berita_moderasi($slug)
     {
+        $beritaModerasi = $this->beritaModel->getBeritaBySlug($slug);
+
         $data = [
-            'title' => 'Detail Berita',
+            'title' => $beritaModerasi['judul_berita'],
             'uri' => $this->uri,
             'detail_berita' => $this->beritaModel->getBeritaBySlug($slug),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($beritaModerasi['id_berita'], $beritaModerasi['kategori_id']),
             'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
@@ -225,7 +243,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Data Berita Kecelakaan',
+            'title' => 'My Admin | Data Berita Kecelakaan',
             'uri' => $this->uri,
             'data_berita' => $this->beritaModel->where('kategori_id', 1)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
@@ -251,7 +269,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Data Berita Politik',
+            'title' => 'My Admin | Data Berita Politik',
             'uri' => $this->uri,
             'data_berita' => $this->beritaModel->where('kategori_id', 3)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
@@ -277,7 +295,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Data Berita Ekonomi',
+            'title' => 'My Admin | Data Berita Ekonomi',
             'uri' => $this->uri,
             'data_berita' => $this->beritaModel->where('kategori_id', 2)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
@@ -303,7 +321,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Data Berita Olahraga',
+            'title' => 'My Admin | Data Berita Olahraga',
             'uri' => $this->uri,
             'data_berita' => $this->beritaModel->where('kategori_id', 4)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,
@@ -329,7 +347,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Data Users Free',
+            'title' => 'My Admin | Data Users Free',
             'uri' => $this->uri,
             'data_users_free' => $this->akunModel->where('jenis_akun_id', 1)->orderBy('id', 'DESC')->paginate(10, 'users'),
             'currentPage' => $this->request->getVar('page_users') ? $this->request->getVar('page_users') : 1,
@@ -366,7 +384,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Data Users Premium',
+            'title' => 'My Admin | Data Users Premium',
             'uri' => $this->uri,
             'data_users_premium' => $this->akunModel->where('jenis_akun_id', 2)->orderBy('id', 'DESC')->paginate(10, 'users'),
             'currentPage' => $this->request->getVar('page_users') ? $this->request->getVar('page_users') : 1,
@@ -392,7 +410,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Data Admin',
+            'title' => 'My Admin | Data Admin',
             'uri' => $this->uri,
             'data_admin' => $this->akunModel->where('jenis_akun_id', 3)->orderBy('id', 'DESC')->paginate(10, 'users'),
             'currentPage' => $this->request->getVar('page_users') ? $this->request->getVar('page_users') : 1,
@@ -782,9 +800,10 @@ class Admin extends BaseController
     public function create_berita_kecelakaan()
     {
         $data = [
-            'title' => 'Create Berita Kecelakaan',
+            'title' => 'My Admin | Create Berita Kecelakaan',
             'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
@@ -852,12 +871,61 @@ class Admin extends BaseController
             'isi_berita'      => $this->request->getVar('isi_berita'),
             'kategori_id'     => intval($this->request->getVar('kategori_id')),
             'gambar_berita'   => $namaGambar,
-            'tanggal_buat' => date('Y-m-d')
+            'tanggal_buat'    => date('Y-m-d')
         ]);
+
+        $data_berita = $this->beritaModel->getBeritaByJudul($this->request->getVar('judul_berita'));
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags = $this->taglineModel->getTaglineByName($tags);
+
+            if (empty($data_tags)) {
+                $this->taglineModel->save([
+                    'nama_tags' => $tags,
+                    'kategori_id' => $data_berita['kategori_id'],
+                    'banyak_digunakan' => 1
+                ]);
+            }
+
+
+            foreach ($data_tags as $datatag) {
+                $builder = $this->taglineModel->table('tags');
+
+                $data = [
+                    'banyak_digunakan' => $datatag['banyak_digunakan'] + 1,
+                ];
+
+                $where = ['id_tags' => $datatag['id_tags']];
+
+                $builder->set($data)
+                    ->where($where)
+                    ->update();
+            }
+        }
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags_berita = $this->taglineModel->getTaglineByName($tags);
+
+            foreach ($data_tags_berita as $data_tag) {
+                $this->tagsBeritaModel->save([
+                    'berita_id' => $data_berita['id_berita'],
+                    'tags_id' => $data_tag['id_tags']
+                ]);
+            }
+        }
 
         session()->setFlashdata('success', 'Data Berhasil Disimpan.');
 
         return redirect()->to('/admin/data_kecelakaan');
+    }
+
+    public function getTagline($kategri_id)
+    {
+        if ($this->request->isAJAX()) {
+            $dataTagline = $this->taglineModel->getTaglineByKategoriId($kategri_id);
+
+            return $this->respond($dataTagline);
+        }
     }
 
     public function detail_kecelakaan($slug)
@@ -865,12 +933,13 @@ class Admin extends BaseController
         $detailKecelakaan = $this->beritaModel->getBeritaBySlug($slug);
 
         $data = [
-            'title' => 'Detail Berita Kecelakaan',
+            'title' => $detailKecelakaan['judul_berita'],
             'uri' => $this->uri,
             'detailKecelakaan' => $detailKecelakaan,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($detailKecelakaan['id_berita'], $detailKecelakaan['kategori_id']),
             'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
@@ -882,13 +951,15 @@ class Admin extends BaseController
         $beritaKecelakaan = $this->beritaModel->getBeritaBySlug($slug);
 
         $data = [
-            'title' => 'Edit Berita Kecelakaan',
+            'title' => 'My Admin | Edit Berita Kecelakaan',
             'uri' => $this->uri,
             'beritaKecelakaan' => $beritaKecelakaan,
             'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($beritaKecelakaan['id_berita'], $beritaKecelakaan['kategori_id']),
             'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
@@ -966,6 +1037,32 @@ class Admin extends BaseController
             ->where($where)
             ->update();
 
+        $data_berita = $this->beritaModel->getBeritaByJudul($this->request->getVar('judul_berita'));
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags = $this->taglineModel->getTaglineByName($tags);
+
+            if (empty($data_tags)) {
+                $this->taglineModel->save([
+                    'nama_tags' => $tags,
+                    'kategori_id' => $data_berita['kategori_id'],
+                    'banyak_digunakan' => 1
+                ]);
+            }
+        }
+
+        $this->tagsBeritaModel->delete_tags($data_berita['id_berita']);
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags_berita = $this->taglineModel->getTaglineByName($tags);
+            foreach ($data_tags_berita as $data_tag) {
+                $this->tagsBeritaModel->save([
+                    'berita_id' => $data_berita['id_berita'],
+                    'tags_id' => $data_tag['id_tags']
+                ]);
+            }
+        }
+
         session()->setFlashdata('success', 'Data Berhasil Diedit.');
 
         return redirect()->to('/admin/data_kecelakaan');
@@ -974,6 +1071,14 @@ class Admin extends BaseController
     public function hapus_kecelakaan($slug)
     {
         $beritaKecelakaan = $this->beritaModel->getBeritaBySlug($slug);
+
+        $data_tags_berita = $this->tagsBeritaModel->getTagsById($beritaKecelakaan['id_berita']);
+
+        foreach ($data_tags_berita as $value) {
+            if ($beritaKecelakaan['id_berita'] == $value['berita_id']) {
+                $this->tagsBeritaModel->hapus_tags($value['id_tags_berita']);
+            }
+        }
 
         unlink('assets/images/resource_berita/' . $beritaKecelakaan['gambar_berita']);
 
@@ -987,9 +1092,10 @@ class Admin extends BaseController
     public function create_berita_politik()
     {
         $data = [
-            'title' => 'Create Berita Politik',
+            'title' => 'My Admin | Create Berita Politik',
             'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
@@ -1059,6 +1165,46 @@ class Admin extends BaseController
             'tanggal_buat' => date('Y-m-d')
         ]);
 
+        $data_berita = $this->beritaModel->getBeritaByJudul($this->request->getVar('judul_berita'));
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags = $this->taglineModel->getTaglineByName($tags);
+
+            if (empty($data_tags)) {
+                $this->taglineModel->save([
+                    'nama_tags' => $tags,
+                    'kategori_id' => $data_berita['kategori_id'],
+                    'banyak_digunakan' => 1
+                ]);
+            }
+
+
+            foreach ($data_tags as $datatag) {
+                $builder = $this->taglineModel->table('tags');
+
+                $data = [
+                    'banyak_digunakan' => $datatag['banyak_digunakan'] + 1,
+                ];
+
+                $where = ['id_tags' => $datatag['id_tags']];
+
+                $builder->set($data)
+                    ->where($where)
+                    ->update();
+            }
+        }
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags_berita = $this->taglineModel->getTaglineByName($tags);
+
+            foreach ($data_tags_berita as $data_tag) {
+                $this->tagsBeritaModel->save([
+                    'berita_id' => $data_berita['id_berita'],
+                    'tags_id' => $data_tag['id_tags']
+                ]);
+            }
+        }
+
         session()->setFlashdata('success', 'Data Berhasil Disimpan.');
 
         return redirect()->to('/admin/data_politik');
@@ -1069,12 +1215,13 @@ class Admin extends BaseController
         $detailPolitik = $this->beritaModel->getBeritaBySlug($slug);
 
         $data = [
-            'title' => 'Detail Berita Politik',
+            'title' => $detailPolitik['judul_berita'],
             'uri' => $this->uri,
             'detailPolitik' => $detailPolitik,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($detailPolitik['id_berita'], $detailPolitik['kategori_id']),
             'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
@@ -1086,13 +1233,15 @@ class Admin extends BaseController
         $beritaPolitik = $this->beritaModel->getBeritaBySlug($slug);
 
         $data = [
-            'title' => 'Edit Berita Politik',
+            'title' => 'My Admin | Edit Berita Politik',
             'beritaPolitik' => $beritaPolitik,
             'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($beritaPolitik['id_berita'], $beritaPolitik['kategori_id']),
             'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
@@ -1170,6 +1319,32 @@ class Admin extends BaseController
             ->where($where)
             ->update();
 
+        $data_berita = $this->beritaModel->getBeritaByJudul($this->request->getVar('judul_berita'));
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags = $this->taglineModel->getTaglineByName($tags);
+
+            if (empty($data_tags)) {
+                $this->taglineModel->save([
+                    'nama_tags' => $tags,
+                    'kategori_id' => $data_berita['kategori_id'],
+                    'banyak_digunakan' => 1
+                ]);
+            }
+        }
+
+        $this->tagsBeritaModel->delete_tags($data_berita['id_berita']);
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags_berita = $this->taglineModel->getTaglineByName($tags);
+            foreach ($data_tags_berita as $data_tag) {
+                $this->tagsBeritaModel->save([
+                    'berita_id' => $data_berita['id_berita'],
+                    'tags_id' => $data_tag['id_tags']
+                ]);
+            }
+        }
+
         session()->setFlashdata('success', 'Data Berhasil Diedit.');
 
         return redirect()->to('/admin/data_politik');
@@ -1178,6 +1353,14 @@ class Admin extends BaseController
     public function hapus_politik($slug)
     {
         $beritaPolitik = $this->beritaModel->getBeritaBySlug($slug);
+
+        $data_tags_berita = $this->tagsBeritaModel->getTagsById($beritaPolitik['id_berita']);
+
+        foreach ($data_tags_berita as $value) {
+            if ($beritaPolitik['id_berita'] == $value['berita_id']) {
+                $this->tagsBeritaModel->hapus_tags($value['id_tags_berita']);
+            }
+        }
 
         unlink('assets/images/resource_berita/' . $beritaPolitik['gambar_berita']);
 
@@ -1191,9 +1374,10 @@ class Admin extends BaseController
     public function create_berita_ekonomi()
     {
         $data = [
-            'title' => 'Create Berita Ekonomi',
+            'title' => 'My Admin | Create Berita Ekonomi',
             'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
@@ -1264,6 +1448,46 @@ class Admin extends BaseController
             'tanggal_buat' => date('Y-m-d')
         ]);
 
+        $data_berita = $this->beritaModel->getBeritaByJudul($this->request->getVar('judul_berita'));
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags = $this->taglineModel->getTaglineByName($tags);
+
+            if (empty($data_tags)) {
+                $this->taglineModel->save([
+                    'nama_tags' => $tags,
+                    'kategori_id' => $data_berita['kategori_id'],
+                    'banyak_digunakan' => 1
+                ]);
+            }
+
+
+            foreach ($data_tags as $datatag) {
+                $builder = $this->taglineModel->table('tags');
+
+                $data = [
+                    'banyak_digunakan' => $datatag['banyak_digunakan'] + 1,
+                ];
+
+                $where = ['id_tags' => $datatag['id_tags']];
+
+                $builder->set($data)
+                    ->where($where)
+                    ->update();
+            }
+        }
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags_berita = $this->taglineModel->getTaglineByName($tags);
+
+            foreach ($data_tags_berita as $data_tag) {
+                $this->tagsBeritaModel->save([
+                    'berita_id' => $data_berita['id_berita'],
+                    'tags_id' => $data_tag['id_tags']
+                ]);
+            }
+        }
+
         session()->setFlashdata('success', 'Data Berhasil Disimpan.');
 
         return redirect()->to('/admin/data_ekonomi');
@@ -1274,12 +1498,13 @@ class Admin extends BaseController
         $detailEkonomi = $this->beritaModel->getBeritaBySlug($slug);
 
         $data = [
-            'title' => 'Detail Berita Ekonomi',
+            'title' => $detailEkonomi['judul_berita'],
             'uri' => $this->uri,
             'detailEkonomi' => $detailEkonomi,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($detailEkonomi['id_berita'], $detailEkonomi['kategori_id']),
             'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
@@ -1291,13 +1516,15 @@ class Admin extends BaseController
         $beritaEkonomi = $this->beritaModel->getBeritaBySlug($slug);
 
         $data = [
-            'title' => 'Edit Berita Ekonomi',
+            'title' => 'My Admin | Edit Berita Ekonomi',
             'beritaEkonomi' => $beritaEkonomi,
             'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($beritaEkonomi['id_berita'], $beritaEkonomi['kategori_id']),
             'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
@@ -1375,6 +1602,32 @@ class Admin extends BaseController
             ->where($where)
             ->update();
 
+        $data_berita = $this->beritaModel->getBeritaByJudul($this->request->getVar('judul_berita'));
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags = $this->taglineModel->getTaglineByName($tags);
+
+            if (empty($data_tags)) {
+                $this->taglineModel->save([
+                    'nama_tags' => $tags,
+                    'kategori_id' => $data_berita['kategori_id'],
+                    'banyak_digunakan' => 1
+                ]);
+            }
+        }
+
+        $this->tagsBeritaModel->delete_tags($data_berita['id_berita']);
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags_berita = $this->taglineModel->getTaglineByName($tags);
+            foreach ($data_tags_berita as $data_tag) {
+                $this->tagsBeritaModel->save([
+                    'berita_id' => $data_berita['id_berita'],
+                    'tags_id' => $data_tag['id_tags']
+                ]);
+            }
+        }
+
         session()->setFlashdata('success', 'Data Berhasil Diedit.');
 
         return redirect()->to('/admin/data_ekonomi');
@@ -1383,6 +1636,14 @@ class Admin extends BaseController
     public function hapus_ekonomi($slug)
     {
         $beritaEkonomi = $this->beritaModel->getBeritaBySlug($slug);
+
+        $data_tags_berita = $this->tagsBeritaModel->getTagsById($beritaEkonomi['id_berita']);
+
+        foreach ($data_tags_berita as $value) {
+            if ($beritaEkonomi['id_berita'] == $value['berita_id']) {
+                $this->tagsBeritaModel->hapus_tags($value['id_tags_berita']);
+            }
+        }
 
         unlink('assets/images/resource_berita/' . $beritaEkonomi['gambar_berita']);
 
@@ -1396,9 +1657,10 @@ class Admin extends BaseController
     public function create_berita_olahraga()
     {
         $data = [
-            'title' => 'Create Berita Olahraga',
+            'title' => 'My Admin | Create Berita Olahraga',
             'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
@@ -1469,6 +1731,46 @@ class Admin extends BaseController
             'tanggal_buat' => date('Y-m-d')
         ]);
 
+        $data_berita = $this->beritaModel->getBeritaByJudul($this->request->getVar('judul_berita'));
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags = $this->taglineModel->getTaglineByName($tags);
+
+            if (empty($data_tags)) {
+                $this->taglineModel->save([
+                    'nama_tags' => $tags,
+                    'kategori_id' => $data_berita['kategori_id'],
+                    'banyak_digunakan' => 1
+                ]);
+            }
+
+
+            foreach ($data_tags as $datatag) {
+                $builder = $this->taglineModel->table('tags');
+
+                $data = [
+                    'banyak_digunakan' => $datatag['banyak_digunakan'] + 1,
+                ];
+
+                $where = ['id_tags' => $datatag['id_tags']];
+
+                $builder->set($data)
+                    ->where($where)
+                    ->update();
+            }
+        }
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags_berita = $this->taglineModel->getTaglineByName($tags);
+
+            foreach ($data_tags_berita as $data_tag) {
+                $this->tagsBeritaModel->save([
+                    'berita_id' => $data_berita['id_berita'],
+                    'tags_id' => $data_tag['id_tags']
+                ]);
+            }
+        }
+
         session()->setFlashdata('success', 'Data Berhasil Disimpan.');
 
         return redirect()->to('/admin/data_olahraga');
@@ -1479,12 +1781,13 @@ class Admin extends BaseController
         $detailOlahraga = $this->beritaModel->getBeritaBySlug($slug);
 
         $data = [
-            'title' => 'Detail Berita Olahraga',
+            'title' => $detailOlahraga['judul_berita'],
             'uri' => $this->uri,
             'detailOlahraga' => $detailOlahraga,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($detailOlahraga['id_berita'], $detailOlahraga['kategori_id']),
             'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
@@ -1496,13 +1799,15 @@ class Admin extends BaseController
         $beritaOlahraga = $this->beritaModel->getBeritaBySlug($slug);
 
         $data = [
-            'title' => 'Edit Berita Olahraga',
+            'title' => 'My Admin | Edit Berita Olahraga',
             'beritaOlahraga' => $beritaOlahraga,
             'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'data_tagline' => $this->taglineModel->getTaglineByIdBerita($beritaOlahraga['id_berita'], $beritaOlahraga['kategori_id']),
             'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
         ];
 
@@ -1580,6 +1885,32 @@ class Admin extends BaseController
             ->where($where)
             ->update();
 
+        $data_berita = $this->beritaModel->getBeritaByJudul($this->request->getVar('judul_berita'));
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags = $this->taglineModel->getTaglineByName($tags);
+
+            if (empty($data_tags)) {
+                $this->taglineModel->save([
+                    'nama_tags' => $tags,
+                    'kategori_id' => $data_berita['kategori_id'],
+                    'banyak_digunakan' => 1
+                ]);
+            }
+        }
+
+        $this->tagsBeritaModel->delete_tags($data_berita['id_berita']);
+
+        foreach ($this->request->getVar('tagline[]') as $tags) {
+            $data_tags_berita = $this->taglineModel->getTaglineByName($tags);
+            foreach ($data_tags_berita as $data_tag) {
+                $this->tagsBeritaModel->save([
+                    'berita_id' => $data_berita['id_berita'],
+                    'tags_id' => $data_tag['id_tags']
+                ]);
+            }
+        }
+
         session()->setFlashdata('success', 'Data Berhasil Diedit.');
 
         return redirect()->to('/admin/data_olahraga');
@@ -1588,6 +1919,14 @@ class Admin extends BaseController
     public function hapus_olahraga($slug)
     {
         $beritaOlahraga = $this->beritaModel->getBeritaBySlug($slug);
+
+        $data_tags_berita = $this->tagsBeritaModel->getTagsById($beritaOlahraga['id_berita']);
+
+        foreach ($data_tags_berita as $value) {
+            if ($beritaOlahraga['id_berita'] == $value['berita_id']) {
+                $this->tagsBeritaModel->hapus_tags($value['id_tags_berita']);
+            }
+        }
 
         unlink('assets/images/resource_berita/' . $beritaOlahraga['gambar_berita']);
 
@@ -1601,6 +1940,14 @@ class Admin extends BaseController
     public function gagal_moderasi($slug)
     {
         $beritaGagalModerasi = $this->beritaModel->getBeritaBySlug($slug);
+
+        $data_tags_berita = $this->tagsBeritaModel->getTagsById($beritaGagalModerasi['id_berita']);
+
+        foreach ($data_tags_berita as $value) {
+            if ($beritaGagalModerasi['id_berita'] == $value['berita_id']) {
+                $this->tagsBeritaModel->hapus_tags($value['id_tags_berita']);
+            }
+        }
 
         unlink('assets/images/resource_berita/' . $beritaGagalModerasi['gambar_berita']);
 
@@ -1625,7 +1972,7 @@ class Admin extends BaseController
         helper(['tanggal_helper']);
 
         $data = [
-            'title' => 'Data Komentar',
+            'title' => 'My Admin | Data Komentar',
             'uri' => $this->uri,
             'data_komentar' => $this->komentarModel->orderBy('id_komentar', 'DESC')->paginate(10, 'tb_komentar'),
             'pager' => $this->komentarModel->pager,
@@ -1644,7 +1991,7 @@ class Admin extends BaseController
         helper(['tanggal_helper']);
 
         $data = [
-            'title' => 'Data Balas Komentar',
+            'title' => 'My Admin | Data Balas Komentar',
             'uri' => $this->uri,
             'balasKomentar' => $this->balasModel->getBalasKomentarByKomentarId($id_komentar),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
@@ -1699,7 +2046,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Data Pembayaran',
+            'title' => 'My Admin | Data Pembayaran',
             'uri' => $this->uri,
             'data_pembayaran' => $this->pembayaranModel->orderBy('id_pembayaran', 'DESC')->where('status_pembayaran', 'pending')->orWhere('status_pembayaran', 'expire')->paginate(10, 'tb_pembayaran'),
             'pager' => $this->pembayaranModel->pager,
@@ -1798,7 +2145,7 @@ class Admin extends BaseController
         }
 
         $data = [
-            'title' => 'Data Invoice',
+            'title' => 'My Admin | Data Invoice',
             'uri' => $this->uri,
             'data_invoice' => $this->invoiceModel->orderBy('id_invoice', 'DESC')->paginate(10, 'tb_invoice'),
             'pager' => $this->invoiceModel->pager,
@@ -1831,7 +2178,7 @@ class Admin extends BaseController
     public function create_data_admin()
     {
         $data = [
-            'title' => 'Create Data Admin',
+            'title' => 'My Admin | Create Data Admin',
             'uri' => $this->uri,
             'validation' => \Config\Services::validation(),
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
@@ -2052,5 +2399,379 @@ class Admin extends BaseController
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
         $dompdf->stream($filename);
+    }
+
+    public function kategori_berita()
+    {
+        $data = [
+            'title' => 'My Admin | Kategori Berita',
+            'uri' => $this->uri,
+            'data_kategori' => $this->kategoriModel->paginate(10, 'kategori_berita'),
+            'currentPage' => $this->request->getVar('page_kategori_berita') ? $this->request->getVar('page_kategori_berita') : 1,
+            'pager' => $this->kategoriModel->pager,
+            'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
+        ];
+
+        return view('/admin/data_kategori', $data);
+    }
+
+    public function hapus_kategori($id_kategori)
+    {
+        $this->kategoriModel->delete_kategori($id_kategori);
+
+        session()->setFlashdata('success', 'Kategori Berita Berhasil Dihapus.');
+
+        return redirect()->to('/admin/kategori_berita');
+    }
+
+    public function jenis_langganan()
+    {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->jenisLanggananModel->searchDataLangganan($keyword);
+        } else {
+            $data_langganan = $this->jenisLanggananModel;
+        }
+
+        $data = [
+            'title' => 'My Admin | Jenis Langganan',
+            'uri' => $this->uri,
+            'data_jenis_langganan' => $this->jenisLanggananModel->paginate(10, 'jenis_langganan'),
+            'currentPage' => $this->request->getVar('page_jenis_langganan') ? $this->request->getVar('page_jenis_langganan') : 1,
+            'pager' => $this->jenisLanggananModel->pager,
+            'keyword' => $keyword,
+            'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
+        ];
+
+        return view('/admin/data_jenis_langganan', $data);
+    }
+
+    public function create_jenis_langganan()
+    {
+        $data = [
+            'title' => 'My Admin | Create Jenis Langganan',
+            'uri' => $this->uri,
+            'validation' => \Config\Services::validation(),
+            'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
+        ];
+
+        return view('/admin/create_jenis_langganan', $data);
+    }
+
+    public function proses_create_jenis_langganan()
+    {
+        if (!$this->validate([
+            'nama_langganan'   => [
+                'label' => 'Nama Langganan',
+                'rules'  => 'required|is_unique[jenis_langganan.nama_langganan]|max_length[8]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'is_unique' => '{field} Tersebut Sudah Digunakan!',
+                    'max_length' => '{field} Maksimal 8 Karakter!'
+                ]
+            ],
+            'jenis_langganan'   => [
+                'label' => 'Jenis Langganan',
+                'rules'  => 'required|max_length[30]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'max_length' => '{field} Maksimal 30 Karakter!'
+                ]
+            ],
+            'waktu_langganan'   => [
+                'label' => 'Waktu Langganan',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                ]
+            ],
+            'harga_langganan'   => [
+                'label' => 'Harga Langganan',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                ]
+            ],
+        ])) {
+            return redirect()->to('/admin/create_jenis_langganan')->withInput();
+        }
+
+        $waktuLangganan = explode('Hari', $this->request->getVar('waktu_langganan'));
+
+        $this->jenisLanggananModel->save([
+            'nama_langganan'   => $this->request->getVar('nama_langganan'),
+            'jenis_langganan'  => $this->request->getVar('jenis_langganan'),
+            'waktu_langganan'  => $waktuLangganan[0],
+            'harga_langganan'  => $this->request->getVar('harga_langganan'),
+        ]);
+
+        session()->setFlashdata('success', 'Data Berhasil Disimpan.');
+
+        return redirect()->to('/admin/jenis_langganan');
+    }
+
+    public function hapus_jenis_langganan($id_langganan)
+    {
+        $this->jenisLanggananModel->delete_jenis_langganan($id_langganan);
+
+        session()->setFlashdata('success', 'Jenis Langganan Berhasil Dihapus.');
+
+        return redirect()->to('/admin/jenis_langganan');
+    }
+
+    public function edit_jenis_langganan($id_langganan)
+    {
+        $data = [
+            'title' => 'My Admin | Edit Jenis Langganan',
+            'jenisLangganan' => $this->jenisLanggananModel->getDataLanggananById($id_langganan),
+            'uri' => $this->uri,
+            'validation' => \Config\Services::validation(),
+            'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
+        ];
+
+        return view('/admin/edit_jenis_langganan', $data);
+    }
+
+    public function proses_edit_jenis_langganan($id_langganan)
+    {
+        if (!$this->validate([
+            'nama_langganan'   => [
+                'label' => 'Nama Langganan',
+                'rules'  => 'required|max_length[8]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'max_length' => '{field} Maksimal 8 Karakter!'
+                ]
+            ],
+            'jenis_langganan'   => [
+                'label' => 'Jenis Langganan',
+                'rules'  => 'required|max_length[30]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'max_length' => '{field} Maksimal 30 Karakter!'
+                ]
+            ],
+            'waktu_langganan'   => [
+                'label' => 'Waktu Langganan',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                ]
+            ],
+            'harga_langganan'   => [
+                'label' => 'Harga Langganan',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                ]
+            ],
+        ])) {
+            return redirect()->to('/admin/edit_jenis_langganan/' . $id_langganan)->withInput();
+        }
+
+        $waktuLangganan = explode('Hari', $this->request->getVar('waktu_langganan'));
+
+        $builder = $this->jenisLanggananModel->table('jenis_langganan');
+
+        $data = [
+            'nama_langganan'   => $this->request->getVar('nama_langganan'),
+            'jenis_langganan'  => $this->request->getVar('jenis_langganan'),
+            'waktu_langganan'  => $waktuLangganan[0],
+            'harga_langganan'  => $this->request->getVar('harga_langganan'),
+        ];
+
+        $where = ['id_langganan' => $id_langganan];
+
+        $builder->set($data)
+            ->where($where)
+            ->update();
+
+        session()->setFlashdata('success', 'Data Berhasil Diedit.');
+
+        return redirect()->to('/admin/jenis_langganan');
+    }
+
+    public function laporan_masyarakat()
+    {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->laporanModel->searchDataLaporan($keyword);
+        } else {
+            $data_laporan = $this->laporanModel;
+        }
+
+        $data = [
+            'title' => 'My Admin | Laporan Masyarakat',
+            'uri' => $this->uri,
+            'data_laporan' => $this->laporanModel->where('status_laporan', 1)->orderBy('id_laporan', 'DESC')->paginate(10, 'tb_laporan_masyarakat'),
+            'currentPage' => $this->request->getVar('page_tb_laporan_masyarakat') ? $this->request->getVar('page_tb_laporan_masyarakat') : 1,
+            'pager' => $this->laporanModel->pager,
+            'keyword' => $keyword,
+            'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
+        ];
+
+        return view('/admin/data_laporan', $data);
+    }
+
+    public function hapus_laporan($id_laporan)
+    {
+        $this->laporanModel->delete_laporan($id_laporan);
+
+        session()->setFlashdata('success', 'Data Berhasil Dihapus.');
+
+        return redirect()->to('/admin/laporan_masyarakat');
+    }
+
+    public function tagline()
+    {
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $this->taglineModel->searchDataTagline($keyword);
+        } else {
+            $data_tagline = $this->taglineModel;
+        }
+
+        $data = [
+            'title' => 'My Admin | Tagline Berita',
+            'uri' => $this->uri,
+            'data_tagline' => $this->taglineModel->orderBy('id_tags', 'DESC')->paginate(10, 'tags'),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
+            'currentPage' => $this->request->getVar('page_tags') ? $this->request->getVar('page_tags') : 1,
+            'pager' => $this->taglineModel->pager,
+            'keyword' => $keyword,
+            'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
+        ];
+
+        return view('/admin/data_tagline', $data);
+    }
+
+    public function create_tagline()
+    {
+        $data = [
+            'title' => 'My Admin | Create Tagline Berita',
+            'uri' => $this->uri,
+            'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
+            'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
+        ];
+
+        return view('/admin/create_tagline_berita', $data);
+    }
+
+    public function proses_create_tagline_berita()
+    {
+        if (!$this->validate([
+            'nama_tags'   => [
+                'label' => 'Nama Tagline',
+                'rules'  => 'required|is_unique[tags.nama_tags]|max_length[50]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'is_unique' => '{field} Tersebut Sudah Digunakan!',
+                    'max_length' => '{field} Maksimal 50 Karakter!'
+                ]
+            ],
+        ])) {
+            return redirect()->to('/admin/create_tagline')->withInput();
+        }
+
+        $this->taglineModel->save([
+            'nama_tags'   => $this->request->getVar('nama_tags'),
+            'kategori_id'  => $this->request->getVar('kategori_id'),
+        ]);
+
+        session()->setFlashdata('success', 'Data Berhasil Disimpan.');
+
+        return redirect()->to('/admin/tagline');
+    }
+
+    public function edit_tagline($id_tags)
+    {
+        $data = [
+            'title' => 'My Admin | Edit Tagline Berita',
+            'data_tagline' => $this->taglineModel->getTaglineById($id_tags),
+            'uri' => $this->uri,
+            'validation' => \Config\Services::validation(),
+            'kategoriBerita' => $this->kategoriModel->findAll(),
+            'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
+            'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
+            'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
+        ];
+
+        return view('/admin/edit_tagline_berita', $data);
+    }
+
+    public function proses_edit_tagline_berita($id_tags)
+    {
+        if (!$this->validate([
+            'nama_tags'   => [
+                'label' => 'Nama Tagline',
+                'rules'  => 'required|max_length[20]',
+                'errors' => [
+                    'required' => '{field} Tidak Boleh Kosong!',
+                    'max_length' => '{field} Maksimal 20 Karakter!'
+                ]
+            ],
+        ])) {
+            return redirect()->to('/admin/edit_tagline/' . $id_tags)->withInput();
+        }
+
+        $builder = $this->taglineModel->table('tags');
+
+        $data = [
+            'nama_tags'   => $this->request->getVar('nama_tags'),
+            'kategori_id' => $this->request->getVar('kategori_id'),
+        ];
+
+        $where = ['id_tags' => $id_tags];
+
+        $builder->set($data)
+            ->where($where)
+            ->update();
+
+        session()->setFlashdata('success', 'Data Berhasil Diedit.');
+
+        return redirect()->to('/admin/tagline');
+    }
+
+    public function hapus_tagline($id_tags)
+    {
+        $data_tags_berita = $this->tagsBeritaModel->getTagsByTagId($id_tags);
+
+        foreach ($data_tags_berita as $value) {
+            if ($value['tags_id'] == $id_tags) {
+                $this->tagsBeritaModel->hapus_tags($value['id_tags_berita']);
+            }
+        }
+
+        $this->taglineModel->delete_tagline($id_tags);
+
+        session()->setFlashdata('success', 'Data Berhasil Dihapus.');
+
+        return redirect()->to('/admin/tagline');
     }
 }

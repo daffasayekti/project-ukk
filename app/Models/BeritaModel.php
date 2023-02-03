@@ -15,7 +15,7 @@ class BeritaModel extends Model
 
     public function getBeritaBySlug($slug)
     {
-        $sql = "SELECT * FROM tb_berita WHERE slug = '$slug'";
+        $sql = "SELECT tb_berita.*, kategori_berita.* FROM tb_berita INNER JOIN kategori_berita ON tb_berita.kategori_id = kategori_berita.id_kategori WHERE slug = '$slug'";
 
         $execute = $this->db->query($sql);
 
@@ -52,6 +52,15 @@ class BeritaModel extends Model
     public function getBeritaTerbaruKecelakaan()
     {
         $sql = "SELECT * FROM tb_berita WHERE kategori_id = '1'AND status_berita = '1' ORDER BY id_berita DESC LIMIT 1";
+
+        $execute = $this->db->query($sql);
+
+        return $execute->getRowArray();
+    }
+
+    public function getBeritaByJudul($judul)
+    {
+        $sql = "SELECT * FROM tb_berita WHERE judul_berita = '$judul'";
 
         $execute = $this->db->query($sql);
 

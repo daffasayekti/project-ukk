@@ -12,6 +12,23 @@
             </li>
             <li class="menu-header">Kelola Data</li>
             <li class="nav-item dropdown">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-server"></i> <span>Master Data</span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="nav-link" href="<?= base_url('/admin/kategori_berita'); ?>">Kategori Berita</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="<?= base_url('/admin/jenis_langganan'); ?>">Jenis Langganan</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="<?= base_url('/admin/laporan_masyarakat'); ?>">Laporan Masyarakat</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="<?= base_url('/admin/tagline'); ?>">Tagline Berita</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-newspaper"></i> <span>Data Berita</span></a>
                 <ul class="dropdown-menu">
                     <li class="nav-item <?= $uri->getPath() == '/admin/data_kecelakaan' ? 'active' : ''; ?>">

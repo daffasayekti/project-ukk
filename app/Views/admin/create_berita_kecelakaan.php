@@ -38,12 +38,18 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Kategori Berita</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <select class="form-control selectric" name="kategori_id">
-                                            <option value="1" selected>Kecelakaan</option>
-                                            <option value="2">Ekonomi</option>
-                                            <option value="3">Politik</option>
-                                            <option value="4">Olahraga</option>
+                                        <select class="form-control selectric" name="kategori_id" id="kategori_id">
+                                            <option selected>Pilih Kategori Berita</option>
+                                            <?php foreach ($kategoriBerita as $value) : ?>
+                                                <option value="<?= $value['id_kategori']; ?>"><?= $value['nama_kategori']; ?></option>
+                                            <?php endforeach; ?>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-4">
+                                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Tagline Berita</label>
+                                    <div class="col-sm-12 col-md-7" id="field-tagline" style="color: black;">
+                                        <input type="text" class="form-control" id="tagline" placeholder="Pilih Tagline Berita" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-4">
@@ -103,5 +109,25 @@
             imgProfile.src = e.target.result;
         }
     }
+
+    document.querySelector('#kategori_id').addEventListener('change', function() {
+        var kategoriBerita = document.querySelector('#kategori_id').value;
+
+        $.ajax({
+            url: '/admin/getTagline/' + kategoriBerita,
+            method: 'POST',
+            success: function(data) {
+                document.querySelector('#field-tagline').innerHTML = `
+                    <select class="js-example-basic-multiple form-control" name="tagline[]" multiple="multiple" id="tagline">
+                    ${data.map(item => `<option value="${item.nama_tags}">#${item.nama_tags}</option>`).join('')}
+                    </select>
+                `;
+
+                $('.js-example-basic-multiple').select2({
+                    tags: true
+                });
+            }
+        })
+    });
 </script>
 <?= $this->endSection(); ?>
