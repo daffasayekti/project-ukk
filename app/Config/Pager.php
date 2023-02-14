@@ -43,6 +43,7 @@ class Pager extends BaseConfig
         'pagination_data_tagline' => 'App\Views\Pagers\pagination_data_tagline',
         'pagination_data_laporan' => 'App\Views\Pagers\pagination_data_laporan',
         'pagination_history_pembayaran' => 'App\Views\Pagers\pagination_history_pembayaran',
+        'pagination_history_pembayaran_expired' => 'App\Views\Pagers\pagination_history_pembayaran_expired',
     ];
 
     /**

@@ -24,6 +24,8 @@ use App\Models\TagsBeritaModel;
 
 use App\Models\InvoiceModel;
 
+use App\Models\PembayaranModel;
+
 class Home extends BaseController
 {
     use ResponseTrait;
@@ -37,6 +39,7 @@ class Home extends BaseController
     protected $balasModel;
     protected $akunModel;
     protected $tagsBeritaModel;
+    protected $pembayaranModel;
     protected $invoiceModel;
     protected $helpers = ['tanggal_helper', 'auth'];
 
@@ -52,6 +55,7 @@ class Home extends BaseController
         $this->invoiceModel  = new InvoiceModel();
         $this->laporanModel  = new LaporanModel();
         $this->balasModel = new BalasModel();
+        $this->pembayaranModel = new PembayaranModel();
         $this->akunModel = new AkunModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
     }

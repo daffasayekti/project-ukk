@@ -2048,7 +2048,7 @@ class Admin extends BaseController
         $data = [
             'title' => 'My Admin | Data Pembayaran',
             'uri' => $this->uri,
-            'data_pembayaran' => $this->pembayaranModel->orderBy('id_pembayaran', 'DESC')->where('status_pembayaran', 'pending')->orWhere('status_pembayaran', 'expire')->paginate(10, 'tb_pembayaran'),
+            'data_pembayaran' => $this->pembayaranModel->orderBy('id_pembayaran', 'DESC')->where('status_pembayaran', 'pending')->paginate(10, 'tb_pembayaran'),
             'pager' => $this->pembayaranModel->pager,
             'keyword' => $keyword,
             'notifikasi_berita' => $this->beritaModel->getNotifikasiBerita(),
@@ -2058,15 +2058,6 @@ class Admin extends BaseController
         ];
 
         return view('/admin/data_pembayaran', $data);
-    }
-
-    public function hapus_data_pembayaran($order_id)
-    {
-        $this->pembayaranModel->delete_pembayaran($order_id);
-
-        session()->setFlashdata('success', 'Data Pembayaran Berhasil Dihapus.');
-
-        return redirect()->to('/admin/data_pembayaran');
     }
 
     public function check_status_pembayaran($order_id)
@@ -2125,6 +2116,12 @@ class Admin extends BaseController
             $builderUsers->set($dataUpdateUsers)
                 ->where($where_id)
                 ->update();
+
+            session()->setFlashdata('success', 'Status Pembayaran Berhasil Diubah.');
+
+            return redirect()->to('/admin/data_pembayaran');
+        } else if ($status->transaction_status == 'expire') {
+            $this->pembayaranModel->delete_pembayaran($order_id);
 
             session()->setFlashdata('success', 'Status Pembayaran Berhasil Diubah.');
 

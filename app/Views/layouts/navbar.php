@@ -33,9 +33,13 @@
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Edit Profile
                                     </a>
-                                    <a class="dropdown-item mb-3" href="<?= base_url('/home/pilih_langganan'); ?>">
+                                    <a class="dropdown-item" href="<?= base_url('/home/pilih_langganan'); ?>">
                                         <i class="fas fa-money-bill fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Langganan
+                                    </a>
+                                    <a href="/home/history_pembayaran" class="dropdown-item">
+                                        <i class="fa-solid fa-history fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        History
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="<?= base_url('/logout'); ?>">

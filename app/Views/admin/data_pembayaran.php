@@ -54,9 +54,6 @@
                                         <?php if ($value['status_pembayaran'] == 'pending') : ?>
                                             <a href="/admin/check_status_pembayaran/<?= $value['order_id']; ?>" class="btn btn-success btn-sm mr-1"><i class="fas fa-eye"></i></a>
                                         <?php endif; ?>
-                                        <?php if ($value['status_pembayaran'] == 'expire') : ?>
-                                            <a href="/admin/hapus_data_pembayaran/<?= $value['order_id']; ?>" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
