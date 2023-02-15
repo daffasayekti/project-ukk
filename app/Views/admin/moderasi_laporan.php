@@ -51,8 +51,8 @@
                                         <?= $value['nama_pengirim']; ?>
                                     </td>
                                     <td class="text-center">
-                                        <a href="/admin/proses_moderasi_laporan/<?= $value['id_laporan']; ?>" class="btn btn-success ml-1 btn-sm"><i class="fas fa-check-circle"></i></a>
-                                        <a href="/admin/gagal_moderasi_laporan/<?= $value['id_laporan']; ?>" class="btn btn-danger ml-1 btn-sm"><i class="fa-sharp fa-solid fa-circle-xmark" onclick="return confirm('Apakah Anda Yakin Ingin Menggagalkan Moderasi Laporan Tersebut ?');"></i></a>
+                                        <a href="/admin/proses_moderasi_laporan/<?= $value['id_laporan']; ?>" class="btn btn-success ml-1 btn-sm setuju-moderasi-laporan"><i class="fas fa-check-circle"></i></a>
+                                        <a href="/admin/gagal_moderasi_laporan/<?= $value['id_laporan']; ?>" class="btn btn-danger ml-1 btn-sm gagal-moderasi-laporan"><i class="fa-sharp fa-solid fa-circle-xmark"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -70,4 +70,49 @@
         </div>
     </section>
 </div>
+<script>
+    const setujuModerasiLaporan = document.querySelectorAll(".setuju-moderasi-laporan")
+
+    for (let i = 0; i < setujuModerasiLaporan.length; i++) {
+        setujuModerasiLaporan[i].addEventListener('click', function(e) {
+            e.preventDefault()
+            const href = $(this).attr('href')
+            Swal.fire({
+                title: 'Apakah Anda Yakin',
+                text: "Ingin Menyetujui Moderasi Laporan Tersebut ?",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Setujui'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = href;
+                }
+            })
+        })
+    }
+
+    const gagalModerasiLaporan = document.querySelectorAll(".gagal-moderasi-laporan")
+
+    for (let i = 0; i < gagalModerasiLaporan.length; i++) {
+        gagalModerasiLaporan[i].addEventListener('click', function(e) {
+            e.preventDefault()
+            const href = $(this).attr('href')
+            Swal.fire({
+                title: 'Apakah Anda Yakin',
+                text: "Ingin Menggagalkan Moderasi Laporan Tersebut ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Gagalkan'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = href;
+                }
+            })
+        })
+    }
+</script>
 <?= $this->endSection(); ?>

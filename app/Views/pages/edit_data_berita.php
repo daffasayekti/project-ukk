@@ -39,7 +39,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control <?= ($validation->hasError('judul_berita')) ? 'is-invalid' : ''; ?>" id="judul_berita" name="judul_berita" value="<?= (old('judul_berita')) ? old('judul_berita') : $data_berita['judul_berita'] ?>" placeholder="Judul Berita *" autofocus autocomplete="off" />
+                                                    <input type="text" class="form-control <?= ($validation->hasError('judul_berita')) ? 'is-invalid' : ''; ?>" id="judul_berita" name="judul_berita" value="<?= (old('judul_berita')) ? old('judul_berita') : $data_berita['judul_berita'] ?>" placeholder="Judul Berita *" autocomplete="off" />
                                                     <div class="invalid-feedback">
                                                         <?= $validation->getError('judul_berita'); ?>
                                                     </div>

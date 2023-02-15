@@ -60,7 +60,7 @@
                                     <td class="text-center"><?= $value['banyak_digunakan']; ?> Berita</td>
                                     <td style="width: 15%;" class="text-center">
                                         <a href="/admin/edit_tagline/<?= $value['id_tags']; ?>" class="btn btn-warning btn-sm ml-1"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="/admin/hapus_tagline/<?= $value['id_tags']; ?>" class="btn btn-danger btn-sm ml-1" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Tagline Tersebut ?');"><i class="fas fa-trash"></i></a>
+                                        <a href="/admin/hapus_tagline/<?= $value['id_tags']; ?>" class="btn btn-danger btn-sm ml-1 hapus-tagline"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -77,4 +77,28 @@
         </div>
     </section>
 </div>
+
+<script>
+    const hapusTagline = document.querySelectorAll(".hapus-tagline")
+
+    for (let i = 0; i < hapusTagline.length; i++) {
+        hapusTagline[i].addEventListener('click', function(e) {
+            e.preventDefault()
+            const href = $(this).attr('href')
+            Swal.fire({
+                title: 'Apakah Anda Yakin',
+                text: "Ingin Menghapus Tagline Tersebut ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = href;
+                }
+            })
+        })
+    }
+</script>
 <?= $this->endSection(); ?>

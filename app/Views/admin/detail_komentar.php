@@ -38,7 +38,7 @@
                                         <div class="card-header">
                                             <h4>Ditulis Oleh : <?= $value['penulis_komentar']; ?></h4>
                                             <div class="card-header-action">
-                                                <a href="/admin/hapus_balas_komentar/<?= $value['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Balas Komentar Tersebut ?');"><i class="fas fa-trash"></i></a>
+                                                <a href="/admin/hapus_balas_komentar/<?= $value['id']; ?>" class="btn btn-danger btn-sm hapus-balas-komentar-admin"><i class="fas fa-trash"></i></a>
                                             </div>
                                         </div>
                                         <div class="card-body">
@@ -53,4 +53,28 @@
             </div>
     </section>
 </div>
+
+<script>
+    const hapusBalasKomentarAdmin = document.querySelectorAll(".hapus-balas-komentar-admin")
+
+    for (let i = 0; i < hapusBalasKomentarAdmin.length; i++) {
+        hapusBalasKomentarAdmin[i].addEventListener('click', function(e) {
+            e.preventDefault()
+            const href = $(this).attr('href')
+            Swal.fire({
+                title: 'Apakah Anda Yakin',
+                text: "Ingin Menghapus Balasan Komentar Tersebut ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = href;
+                }
+            })
+        })
+    }
+</script>
 <?= $this->endSection(); ?>

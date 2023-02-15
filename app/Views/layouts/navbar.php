@@ -26,8 +26,8 @@
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" style="margin-top: 7px;">
                                     <div class="text-center mb-2">
                                         <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="50"><br>
-                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
-                                        <span class="badge badge-pill badge-warning mt-2 text-white">User Free</span>
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small" style="font-family: Arial;"><b><?= user()->username; ?></b></span><br>
+                                        <span class="badge badge-pill badge-warning mt-2 text-white" style="font-family: Arial;">User Free</span>
                                     </div>
                                     <a href="/home/edit_profile" class="dropdown-item">
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -51,8 +51,8 @@
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" style="margin-top: 7px;">
                                     <div class="text-center mb-3 mt-3">
                                         <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="50"><br>
-                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
-                                        <span class="badge badge-pill badge-success mt-2 text-white">User Premium</span>
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small" style="font-family: Arial;"><b><?= user()->username; ?></b></span><br>
+                                        <span class="badge badge-pill badge-success mt-2 text-white" style="font-family: Arial">User Premium</span>
                                     </div>
                                     <a href="/home/edit_profile" class="dropdown-item">
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -76,8 +76,8 @@
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" style="margin-top: 7px;">
                                     <div class="text-center mb-3 mt-3">
                                         <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/<?= user()->profile_img; ?>" width="50"><br>
-                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b><?= user()->username; ?></b></span><br>
-                                        <span class="badge badge-pill badge-primary mt-2 text-white">Admin</span>
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small" style="font-family: Arial;"><b><?= user()->username; ?></b></span><br>
+                                        <span class="badge badge-pill badge-primary mt-2 text-white" style="font-family: Arial;">Admin</span>
                                     </div>
                                     <a href="/home/edit_profile" class="dropdown-item">
                                         <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -97,7 +97,7 @@
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" style="margin-top: 7px;">
                                     <div class="text-center mb-3 mt-3">
                                         <img class="img-profile rounded-circle mb-2" src="/assets/images/profile_users/default.png" width="40"><br>
-                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b>Guest</b></span>
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small" style="font-family: Arial;"><b>Akun Guest</b></span>
                                     </div>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="<?= base_url('/login'); ?>">

@@ -68,7 +68,7 @@
                                     </td>
                                     <td class="text-center">
                                         <?php if ($date_expired == $date_now || $date_expired < $date_now) : ?>
-                                            <a href="/admin/hapus_users_premium/<?= $value['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Akun Tersebut ?');"><i class="fas fa-trash"></i></a>
+                                            <a href="/admin/hapus_users_premium/<?= $value['id']; ?>" class="btn btn-sm btn-danger hapus-user-premium"><i class="fas fa-trash"></i></a>
                                         <?php else : ?>
                                             -
                                         <?php endif; ?>
@@ -89,4 +89,28 @@
         </div>
     </section>
 </div>
+
+<script>
+    const hapusUserPremium = document.querySelectorAll(".hapus-user-premium")
+
+    for (let i = 0; i < hapusUserPremium.length; i++) {
+        hapusUserPremium[i].addEventListener('click', function(e) {
+            e.preventDefault()
+            const href = $(this).attr('href')
+            Swal.fire({
+                title: 'Apakah Anda Yakin',
+                text: "Ingin Menghapus Akun User Yang Expired Tersebut ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = href;
+                }
+            })
+        })
+    }
+</script>
 <?= $this->endSection(); ?>

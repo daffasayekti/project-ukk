@@ -41,7 +41,7 @@
                                     <td class="text-center"><?= tgl_indo_sekarang(date($value['tanggal_komentar'])); ?></td>
                                     <td style="width: 15%;" class="text-center">
                                         <a href="/admin/detail_balas_komentar/<?= $value['id_komentar']; ?>" class="btn btn-success btn-sm ml-1"><i class="fas fa-eye"></i></a>
-                                        <a href="/admin/hapus_komentar/<?= $value['id_komentar']; ?>" class="btn btn-danger btn-sm ml-1" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Komentar Tersebut ?');"><i class="fas fa-trash"></i></a>
+                                        <a href="/admin/hapus_komentar/<?= $value['id_komentar']; ?>" class="btn btn-danger btn-sm ml-1 hapus-komentar-admin"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -59,4 +59,28 @@
         </div>
     </section>
 </div>
+
+<script>
+    const hapusKomentarAdmin = document.querySelectorAll(".hapus-komentar-admin")
+
+    for (let i = 0; i < hapusKomentarAdmin.length; i++) {
+        hapusKomentarAdmin[i].addEventListener('click', function(e) {
+            e.preventDefault()
+            const href = $(this).attr('href')
+            Swal.fire({
+                title: 'Apakah Anda Yakin',
+                text: "Ingin Menghapus Komentar Tersebut ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = href;
+                }
+            })
+        })
+    }
+</script>
 <?= $this->endSection(); ?>

@@ -52,7 +52,7 @@
                                     <td class="text-center">Rp. <?= number_format($value['total_pembayaran'], 0, ",", "."); ?></td>
                                     <td class="text-center">
                                         <?php if ($value['status_pembayaran'] == 'pending') : ?>
-                                            <a href="/admin/check_status_pembayaran/<?= $value['order_id']; ?>" class="btn btn-success btn-sm mr-1"><i class="fas fa-eye"></i></a>
+                                            <a href="/admin/check_status_pembayaran/<?= $value['order_id']; ?>" class="btn btn-success btn-sm mr-1 cek-status-pembayaran"><i class="fas fa-eye"></i></a>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -71,4 +71,28 @@
         </div>
     </section>
 </div>
+
+<script>
+    const cekStatusPembayaran = document.querySelectorAll(".cek-status-pembayaran")
+
+    for (let i = 0; i < cekStatusPembayaran.length; i++) {
+        cekStatusPembayaran[i].addEventListener('click', function(e) {
+            e.preventDefault()
+            const href = $(this).attr('href')
+            Swal.fire({
+                title: 'Apakah Anda Yakin',
+                text: "Ingin Mengecek Status Pembayaran Tersebut ?",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Check'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = href;
+                }
+            })
+        })
+    }
+</script>
 <?= $this->endSection(); ?>

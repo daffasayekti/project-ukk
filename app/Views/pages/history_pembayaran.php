@@ -26,18 +26,9 @@
             <div class="col-sm-12">
                 <div class="card" data-aos="fade-up">
                     <div class="card-body">
-                        <h1 class="mt-3 text-center mb-5">
+                        <h2 class="mt-3 text-center mb-5">
                             History Pembayaran
-                        </h1>
-
-                        <form action="" method="get" autocomplete="off" style="display:flex">
-                            <div class="float-left mb-4">
-                                <input type="text" name="keyword" value="<?= $keyword; ?>" class="form-control" placeholder="Masukkan Nama Pelanggan" autocomplete="off" style="margin-right: 100px;">
-                            </div>
-                            <div class="">
-                                <button type="submit" class="btn btn-primary" style="height: 51px"><i class="fas fa-search"></i></button>
-                            </div>
-                        </form>
+                        </h2>
                         <div class="table-responsive">
                             <table class="table table-bordered table-md table-striped">
                                 <tr class="text-center">

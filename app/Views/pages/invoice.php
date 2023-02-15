@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Time | Data Invoice</title>
+    <title>World Time | Detail Invoice</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="shortcut icon" href="/assets/images/favicon.png" />
@@ -229,12 +229,12 @@
                                     <div class="col company-details">
                                         <h2 class="name">
                                             <a target="" href="" style="text-decoration: none;">
-                                                Daffa Pratama A.S
+                                                World Time
                                             </a>
                                         </h2>
-                                        <div>Jalan Randupadangan Blok C No.10</div>
+                                        <div>Jln. Randu Padangan Blok C No. 2C</div>
                                         <div>0895-8012-19804</div>
-                                        <div>daffasayekti0206@gmail.com</div>
+                                        <div>worldtime@gmail.com</div>
                                     </div>
                                 </div>
                             </header>
@@ -263,7 +263,7 @@
                                         <?= $data_invoice['jenis_langganan']; ?>
                                     </td>
                                     <td>
-                                        Midtrans
+                                        E-Wallet
                                     </td>
                                     <td>Rp. <?= number_format($data_invoice['total_pembayaran'], 0, ",", "."); ?></td>
                                 </tr>
@@ -271,8 +271,8 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="2"></td>
-                                    <td colspan="2">Total Harga :</td>
-                                    <td>Rp. <?= number_format($data_invoice['total_pembayaran'], 0, ",", "."); ?></td>
+                                    <td colspan="2" class="text-dark"><b>Subtotal :</b></td>
+                                    <td class="text-danger"><b>Rp. <?= number_format($data_invoice['total_pembayaran'], 0, ",", "."); ?></b></td>
                                 </tr>
                             </tfoot>
                         </table>

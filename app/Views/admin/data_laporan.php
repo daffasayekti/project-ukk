@@ -55,7 +55,7 @@
                                         <?= tgl_indo_model_2(date($value['tanggal_laporan'])); ?>
                                     </td>
                                     <td class="text-center">
-                                        <a href="/admin/hapus_laporan/<?= $value['id_laporan']; ?>" class="btn btn-danger ml-1 btn-sm" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data Laporan Tersebut ?');"><i class="fas fa-trash"></i></a>
+                                        <a href="/admin/hapus_laporan/<?= $value['id_laporan']; ?>" class="btn btn-danger ml-1 btn-sm hapus-laporan-masyarakat"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -73,4 +73,28 @@
         </div>
     </section>
 </div>
+
+<script>
+    const hapusLaporanMasyarakat = document.querySelectorAll(".hapus-laporan-masyarakat")
+
+    for (let i = 0; i < hapusLaporanMasyarakat.length; i++) {
+        hapusLaporanMasyarakat[i].addEventListener('click', function(e) {
+            e.preventDefault()
+            const href = $(this).attr('href')
+            Swal.fire({
+                title: 'Apakah Anda Yakin',
+                text: "Ingin Menghapus Laporan Masyarakat Tersebut ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = href;
+                }
+            })
+        })
+    }
+</script>
 <?= $this->endSection(); ?>

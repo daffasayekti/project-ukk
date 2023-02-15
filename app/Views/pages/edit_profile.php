@@ -27,9 +27,9 @@
                 <div class="card" data-aos="fade-up">
                     <div class="card-body">
                         <div class="aboutus-wrapper">
-                            <h1 class="mt-3 text-center mb-3">
+                            <h2 class="mt-3 text-center mb-3">
                                 Edit Profile
-                            </h1>
+                            </h2>
                             <form action="/home/proses_edit_profile/<?= user()->id; ?>" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="profile_lama" value="<?= user()->profile_img; ?>">
                                 <div class="col-sm-4 grid-margin mx-auto">
@@ -61,7 +61,7 @@
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control <?= ($validation->hasError('fullname')) ? 'is-invalid' : ''; ?> mt-3" id="fullname" name="fullname" placeholder="Nama Lengkap *" autocomplete="off" value="<?= (old('fullname')) ? old('fullname') : user()->fullname ?>" autofocus />
+                                                    <input type="text" class="form-control <?= ($validation->hasError('fullname')) ? 'is-invalid' : ''; ?> mt-3" id="fullname" name="fullname" placeholder="Nama Lengkap *" autocomplete="off" value="<?= (old('fullname')) ? old('fullname') : user()->fullname ?>" />
                                                     <div class="invalid-feedback">
                                                         <?= $validation->getError('fullname'); ?>
                                                     </div>

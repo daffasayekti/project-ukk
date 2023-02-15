@@ -54,7 +54,7 @@
                                         } ?>
                                     </td>
                                     <td style="width: 15%;" class="text-center">
-                                        <a href="/admin/hapus_users_free/<?= $value['id']; ?>" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                        <a href="/admin/hapus_users_free/<?= $value['id']; ?>" class="btn btn-danger btn-sm hapus-user-free"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -72,4 +72,27 @@
         </div>
     </section>
 </div>
+<script>
+    const hapusUserFree = document.querySelectorAll(".hapus-user-free")
+
+    for (let i = 0; i < hapusUserFree.length; i++) {
+        hapusUserFree[i].addEventListener('click', function(e) {
+            e.preventDefault()
+            const href = $(this).attr('href')
+            Swal.fire({
+                title: 'Apakah Anda Yakin',
+                text: "Ingin Menghapus Akun User Tersebut ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = href;
+                }
+            })
+        })
+    }
+</script>
 <?= $this->endSection(); ?>

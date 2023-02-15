@@ -26,9 +26,9 @@
             <div class="col-sm-12">
                 <div class="card" data-aos="fade-up">
                     <div class="card-body">
-                        <h1 class="mt-3 text-center mb-5">
+                        <h2 class="mt-3 text-center mb-5">
                             Kelola Postingan Berita
-                        </h1>
+                        </h2>
 
                         <form action="" method="get" autocomplete="off" style="display:flex">
                             <div class="float-left mb-4">
@@ -80,7 +80,7 @@
                                         </td>
                                         <td class="text-center">
                                             <a href="/home/edit_data_berita/<?= $value['slug']; ?>" class="btn btn-warning btn-sm ml-1"><i class="fas fa-pencil-alt text-white"></i></a>
-                                            <a href="/home/hapus_berita/<?= $value['slug']; ?>" class="btn btn-danger btn-sm ml-1" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Berita Tersebut ?');"><i class="fas fa-trash"></i></a>
+                                            <a href="/home/hapus_berita/<?= $value['slug']; ?>" class="btn btn-danger btn-sm ml-1 hapus-berita-user-premium"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -98,4 +98,27 @@
         </div>
     </div>
 </div>
+<script>
+    const hapusBeritaUserPremium = document.querySelectorAll(".hapus-berita-user-premium")
+
+    for (let i = 0; i < hapusBeritaUserPremium.length; i++) {
+        hapusBeritaUserPremium[i].addEventListener('click', function(e) {
+            e.preventDefault()
+            const href = $(this).attr('href')
+            Swal.fire({
+                title: 'Apakah Anda Yakin',
+                text: "Ingin Menghapus Berita Tersebut ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = href;
+                }
+            })
+        })
+    }
+</script>
 <?= $this->endSection(); ?>

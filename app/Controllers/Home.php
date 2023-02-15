@@ -865,21 +865,12 @@ class Home extends BaseController
 
     public function history_pembayaran()
     {
-        $keyword = $this->request->getVar('keyword');
-
-        if ($keyword) {
-            $this->invoiceModel->searchDataInvoice($keyword);
-        } else {
-            $data_invoice = $this->invoiceModel;
-        }
-
         $data = [
             'title' => 'World Time | History Pembayaran',
             'data_pembayaran' => $this->invoiceModel->where('nama_pelanggan', user()->username)->orderBy('id_invoice', 'DESC')->paginate(10, 'tb_invoice'),
             'data_laporan' => $this->laporanModel->getDataLaporan(),
             'pager' => $this->invoiceModel->pager,
             'uri' => $this->uri,
-            'keyword' => $keyword,
             'berita_ekonomi_terbaru' => $this->beritaModel->getBeritaEkonomiTerbaru(),
         ];
 

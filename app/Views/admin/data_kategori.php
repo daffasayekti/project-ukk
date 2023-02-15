@@ -36,7 +36,7 @@
                                     <td class="text-center"><?= $no++; ?></td>
                                     <td><?= $value['nama_kategori']; ?></td>
                                     <td class="text-center">
-                                        <a href="/admin/hapus_kategori/<?= $value['id_kategori']; ?>" class="btn btn-danger btn-sm ml-1" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Kategori Tersebut ?');"><i class="fas fa-trash"></i></a>
+                                        <a href="/admin/hapus_kategori/<?= $value['id_kategori']; ?>" class="btn btn-danger btn-sm ml-1 hapus-kategori"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -53,4 +53,27 @@
         </div>
     </section>
 </div>
+<script>
+    const hapusKategori = document.querySelectorAll(".hapus-kategori")
+
+    for (let i = 0; i < hapusKategori.length; i++) {
+        hapusKategori[i].addEventListener('click', function(e) {
+            e.preventDefault()
+            const href = $(this).attr('href')
+            Swal.fire({
+                title: 'Apakah Anda Yakin',
+                text: "Ingin Menghapus Kategori Tersebut ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.location.href = href;
+                }
+            })
+        })
+    }
+</script>
 <?= $this->endSection(); ?>

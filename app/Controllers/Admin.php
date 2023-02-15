@@ -2123,10 +2123,12 @@ class Admin extends BaseController
         } else if ($status->transaction_status == 'expire') {
             $this->pembayaranModel->delete_pembayaran($order_id);
 
-            session()->setFlashdata('success', 'Status Pembayaran Berhasil Diubah.');
+            session()->setFlashdata('success', 'Token Pembayaran Telah Expired');
 
             return redirect()->to('/admin/data_pembayaran');
         } else {
+            session()->setFlashdata('success', 'User Belum Melakukan Pembayaran');
+
             return redirect()->to('/admin/data_pembayaran');
         }
     }

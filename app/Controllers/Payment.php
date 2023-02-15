@@ -169,6 +169,8 @@ class Payment extends BaseController
 
     public function cetak_pdf($order_id)
     {
+        helper(['tanggal_helper']);
+
         $data_invoice = $this->invoiceModel->getInvoiceByOrderId($order_id);
 
         $filename = 'Laporan Invoice Order-ID #' . $order_id;
