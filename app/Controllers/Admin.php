@@ -368,7 +368,7 @@ class Admin extends BaseController
 
         session()->setFlashdata('success', 'Akun Berhasil Dihapus.');
 
-        return redirect()->to('/admin/users_free');
+        return redirect()->to('/admin/user_free');
     }
 
     public function user_premium()
