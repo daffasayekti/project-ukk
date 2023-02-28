@@ -58,7 +58,7 @@ $routes->get('/home/edit_profile', 'Home::edit_profile', ['filter' => 'role:Admi
 $routes->get('/home/edit_post', 'Home::edit_post', ['filter' => 'role:User']);
 $routes->get('/home/pilih_langganan', 'Home::pilih_langganan', ['filter' => 'role:User']);
 $routes->get('/home/history_pembayaran', 'Home::history_pembayaran', ['filter' => 'role:User']);
-$routes->get('/home/olahraga', 'Home::history_pembayaran', ['filter' => 'role:User']);
+$routes->get('/home/olahraga', 'Home::olahraga', ['filter' => 'role:User,Admin']);
 
 /*
  * --------------------------------------------------------------------
