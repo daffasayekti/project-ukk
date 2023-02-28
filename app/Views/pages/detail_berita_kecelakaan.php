@@ -29,40 +29,38 @@
                                 <?php endforeach; ?>
                             </div>
                             <div class="post-comment-section">
-                                <?php if (in_groups('User') || in_groups('Admin')) : ?>
-                                    <div class="testimonial">
-                                        <div class="d-lg-flex justify-content-between align-items-center">
-                                            <div class="d-flex align-items-center mb-3">
-                                                <img src="/assets/images/profile_users/<?= $detailKecelakaan['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
-                                                <div>
-                                                    <p class="fs-12 mb-1 line-height-xs">
-                                                        Penulis Berita
-                                                    </p>
-                                                    <p class="fs-16 font-weight-600 mb-0 line-height-xs">
-                                                        <?= $detailKecelakaan['username']; ?>
-                                                    </p>
-                                                </div>
+                                <div class="testimonial">
+                                    <div class="d-lg-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <img src="/assets/images/profile_users/<?= $detailKecelakaan['profile_img']; ?>" alt="banner" class="img-fluid img-rounded mr-3" />
+                                            <div>
+                                                <p class="fs-12 mb-1 line-height-xs">
+                                                    Penulis Berita
+                                                </p>
+                                                <p class="fs-16 font-weight-600 mb-0 line-height-xs">
+                                                    <?= $detailKecelakaan['username']; ?>
+                                                </p>
                                             </div>
-                                            <ul class="social-media mb-3">
-                                                <li>
-                                                    <a href="https: //www.facebook.com/daffa.sayekti.733/" target="_blank">
-                                                        <i class="mdi mdi-facebook"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://www.youtube.com/channel/UCFlbmXEPFLh68zA4oLORovw" target="_blank">
-                                                        <i class="mdi mdi-youtube"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://github.com/daffasayekti" target="_blank">
-                                                        <i class="mdi mdi-github-circle"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
                                         </div>
+                                        <ul class="social-media mb-3">
+                                            <li>
+                                                <a href="https: //www.facebook.com/daffa.sayekti.733/" target="_blank">
+                                                    <i class="mdi mdi-facebook"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://www.youtube.com/channel/UCFlbmXEPFLh68zA4oLORovw" target="_blank">
+                                                    <i class="mdi mdi-youtube"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://github.com/daffasayekti" target="_blank">
+                                                    <i class="mdi mdi-github-circle"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                <?php endif; ?>
+                                </div>
                                 <div class="comment-section">
                                     <?php if (in_groups('User') || in_groups('Admin')) : ?>
                                         <h5 class="font-weight-600">Kolom Komentar</h5>
@@ -82,6 +80,8 @@
                                                 <button class="btn btn-primary" id="komentarKecelakaan">Kirim</button>
                                             </div>
                                         </div>
+                                    <?php else : ?>
+                                        <h5 class="font-weight-600">Kolom Komentar</h5>
                                     <?php endif; ?>
                                     <div id="comments">
                                         <?php foreach ($komentarKecelakaan as $i => $value) { ?>

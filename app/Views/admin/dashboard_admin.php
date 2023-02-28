@@ -178,7 +178,7 @@
                             foreach ($data_users_login as $value) :
                             ?>
                                 <tr class="text-center">
-                                    <td><?= $no++; ?>.</td>
+                                    <td><?= $no++; ?></td>
                                     <td><?= $value['email']; ?></td>
                                     <td><?= tgl_indo_model_1(date($value['date'])); ?></td>
                                 </tr>
