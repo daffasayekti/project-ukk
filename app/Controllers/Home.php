@@ -583,7 +583,7 @@ class Home extends BaseController
             'title' => 'World Time | Kelola Postingan Berita',
             'data_laporan' => $this->laporanModel->getDataLaporan(),
             'uri' => $this->uri,
-            'data_postku' => $this->beritaModel->where('created_by', user()->username)->where('status_berita', 1)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
+            'data_postku' => $this->beritaModel->where('created_by', user()->username)->where('status_berita', 1)->orWhere('status_berita', 0)->orWhere('status_berita', 2)->orderBy('id_berita', 'DESC')->paginate(10, 'tb_berita'),
             'pager' => $this->beritaModel->pager,
             'keyword' => $keyword,
             'currentPage' => $this->request->getVar('page_tb_berita') ? $this->request->getVar('page_tb_berita') : 1,

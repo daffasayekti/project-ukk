@@ -56,8 +56,8 @@
                                 <tr class="text-center">
                                     <th scope="col">No.</th>
                                     <th scope="col">Judul Berita</th>
-                                    <th scope="col">Penulis Berita</th>
                                     <th scope="col">Kategori Berita</th>
+                                    <th scope="col">Status Berita</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                                 <?php
@@ -66,7 +66,6 @@
                                     <tr>
                                         <td class="text-center"><?= $no++; ?></td>
                                         <td><?= $value['judul_berita']; ?></td>
-                                        <td class="text-center"><?= $value['created_by']; ?></td>
                                         <td class="text-center">
                                             <?php if ($value['kategori_id'] == 1) {
                                                 echo 'Kecelakaan';
@@ -79,8 +78,25 @@
                                             } ?>
                                         </td>
                                         <td class="text-center">
-                                            <a href="/home/edit_data_berita/<?= $value['slug']; ?>" class="btn btn-warning btn-sm ml-1"><i class="fas fa-pencil-alt text-white"></i></a>
-                                            <a href="/home/hapus_berita/<?= $value['slug']; ?>" class="btn btn-danger btn-sm ml-1 hapus-berita-user-premium"><i class="fas fa-trash"></i></a>
+                                            <?php if ($value['status_berita'] == 1) {
+                                                echo 'Tayang';
+                                            } elseif ($value['status_berita'] == 0) {
+                                                echo 'Pending';
+                                            } elseif ($value['status_berita'] == 2) {
+                                                echo 'Ditolak';
+                                            }
+                                            ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php if ($value['status_berita'] == 0) : ?>
+                                                <a href="/home/edit_data_berita/<?= $value['slug']; ?>" class="btn btn-warning btn-sm ml-1"><i class="fas fa-pencil-alt text-white"></i></a>
+                                                <a href="/home/hapus_berita/<?= $value['slug']; ?>" class="btn btn-danger btn-sm ml-1 hapus-berita-user-premium"><i class="fas fa-trash"></i></a>
+                                            <?php elseif ($value['status_berita'] == 1) : ?>
+                                                <a href="/home/edit_data_berita/<?= $value['slug']; ?>" class="btn btn-warning btn-sm ml-1"><i class="fas fa-pencil-alt text-white"></i></a>
+                                                <a href="/home/hapus_berita/<?= $value['slug']; ?>" class="btn btn-danger btn-sm ml-1 hapus-berita-user-premium"><i class="fas fa-trash"></i></a>
+                                            <?php elseif ($value['status_berita'] == 2) : ?>
+                                                <a href="/home/hapus_berita/<?= $value['slug']; ?>" class="btn btn-danger btn-sm ml-1 hapus-berita-user-premium"><i class="fas fa-trash"></i></a>
+                                            <?php endif ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

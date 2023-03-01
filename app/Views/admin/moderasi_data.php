@@ -23,20 +23,19 @@
                 <div class="card-header justify-content-end">
                     <form action="" method="get" autocomplete="off">
                         <div class="float-left">
-                            <input type="text" name="keyword" value="<?= $keyword; ?>" class="form-control" style="width:159pt" placeholder="Masukkan Judul Berita" autocomplete="off">
+                            <input type="text" name="keyword" class="form-control" style="width:159pt" placeholder="Masukkan Keyword" autocomplete="off">
                         </div>
                         <div class="float-right ml-2">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            <button type="submit" class="btn btn-primary" id="searchs"><i class="fas fa-search"></i></button>
                         </div>
                     </form>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive-sm table-striped">
-                        <table class="table table-bordered table-md" id="table">
-                            <tr class="text-center">
+                        <table class="table table-bordered table-md">
+                            <tr class=" text-center">
                                 <th>No.</th>
                                 <th>Judul Berita</th>
-                                <th>Status Berita</th>
                                 <th>Kategori Berita</th>
                                 <th>Aksi</th>
                             </tr>
@@ -48,13 +47,6 @@
                                 <tr>
                                     <td class="text-center"><?= $no++; ?></td>
                                     <td><?= $value['judul_berita']; ?></td>
-                                    <td class="text-center">
-                                        <?php
-                                        if ($value['status_berita'] == 0) {
-                                            echo 'Belum Aktif';
-                                        }
-                                        ?>
-                                    </td>
                                     <td class="text-center">
                                         <?php
                                         if ($value['kategori_id'] == 1) {
@@ -121,12 +113,12 @@
             const href = $(this).attr('href')
             Swal.fire({
                 title: 'Apakah Anda Yakin',
-                text: "Ingin Menggagalkan Moderasi Berita Tersebut ?",
+                text: "Ingin Menolak Moderasi Berita Tersebut ?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Gagalkan'
+                confirmButtonText: 'Ya, Tolak'
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.location.href = href;

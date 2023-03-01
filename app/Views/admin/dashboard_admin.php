@@ -80,6 +80,11 @@
                         <canvas id="myChart2"></canvas>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="mb-4 mt-3">
+                        <canvas id="myChart3"></canvas>
+                    </div>
+                </div>
             </div>
 
             <script>
@@ -134,6 +139,45 @@
                                 'rgba(223, 199, 15, 1)',
                                 'rgba(248, 0, 0, 0.8)',
                                 'rgba(36, 176, 9, 1)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                    }
+                });
+
+                var ctx = document.getElementById("myChart3").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["Januari", "Februari", "Maret", "April", "Mei", "Juni"],
+                        datasets: [{
+                            label: 'Pendapatan Bulanan',
+                            data: [<?= $januari[0]['total'] ?>, <?= $februari[0]['total'] ?>, <?= $maret[0]['total'] ?>, <?= $april[0]['total'] ?>, <?= $mei[0]['total'] ?>, <?= $juni[0]['total'] ?>],
+                            backgroundColor: [
+                                'rgba(248, 0, 0, 0.8)',
+                                'rgba(18, 9, 176, 1)',
+                                'rgba(223, 199, 15, 1)',
+                                'rgba(36, 176, 9, 1)',
+                                'rgba(248, 0, 0, 0.8)',
+                                'rgba(18, 9, 176, 1)',
+
+                            ],
+                            borderColor: [
+                                'rgba(248, 0, 0, 0.8)',
+                                'rgba(18, 9, 176, 1)',
+                                'rgba(223, 199, 15, 1)',
+                                'rgba(36, 176, 9, 1)',
+                                'rgba(248, 0, 0, 0.8)',
+                                'rgba(18, 9, 176, 1)',
                             ],
                             borderWidth: 1
                         }]

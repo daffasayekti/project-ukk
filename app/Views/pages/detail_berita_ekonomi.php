@@ -59,6 +59,7 @@
                                         </ul>
                                     </div>
                                 </div>
+                                <h5 class="font-weight-600">Jumlah View : <?= $detailEkonomi['banyak_dilihat']; ?></h5>
                                 <div class="comment-section">
                                     <?php if (in_groups('User') || in_groups('Admin')) : ?>
                                         <h5 class="font-weight-600">Kolom Komentar</h5>

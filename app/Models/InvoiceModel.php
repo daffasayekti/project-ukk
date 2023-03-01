@@ -24,6 +24,14 @@ class InvoiceModel extends Model
         return $this->table('tb_invoice')->like('nama_pelanggan', $keyword);
     }
 
+    public function getPendapatanBulanan($bulan)
+    {
+        $total = "SELECT SUM(total_pembayaran) AS total FROM tb_invoice WHERE MONTH(tanggal_pembayaran) = '$bulan'";
+        $execute = $this->db->query($total);
+        $count = $execute->getResultArray();
+        return $count;
+    }
+
     public function getDataInvoiceExport($tanggal)
     {
         $sql = "SELECT * FROM tb_invoice WHERE tanggal_pembayaran = '$tanggal' ORDER BY id_invoice DESC";

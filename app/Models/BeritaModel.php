@@ -262,6 +262,11 @@ class BeritaModel extends Model
         return $this->table('tb_berita')->like('judul_berita', $keyword);
     }
 
+    public function searchDataBeritaModerasi($keyword)
+    {
+        return $this->table('tb_berita')->where('status_berita', 0)->like('judul_berita', $keyword)->orLike('kategori_id', $keyword);
+    }
+
     public function searchDataBeritaKecelakaan($keyword)
     {
         return $this->table('tb_berita')->like('judul_berita', $keyword);

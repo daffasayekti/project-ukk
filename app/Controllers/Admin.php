@@ -118,7 +118,13 @@ class Admin extends BaseController
             'total_pendapatan' => $this->invoiceModel->getTotalPendapatan(),
             'notifikasi_pembayaran' => $this->pembayaranModel->getNotifikasiPembayaran(),
             'notifikasi_laporan' => $this->laporanModel->getNotifikasiLaporan(),
-            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s'))
+            'notifikasi_akun_premium' => $this->akunModel->getUsersPremium(date('Y-m-d H:i:s')),
+            'januari' => $this->invoiceModel->getPendapatanBulanan('01'),
+            'februari' => $this->invoiceModel->getPendapatanBulanan('02'),
+            'maret' => $this->invoiceModel->getPendapatanBulanan('03'),
+            'april' => $this->invoiceModel->getPendapatanBulanan('04'),
+            'mei' => $this->invoiceModel->getPendapatanBulanan('05'),
+            'juni' => $this->invoiceModel->getPendapatanBulanan('06'),
         ];
 
         return view('/admin/dashboard_admin', $data);
@@ -128,8 +134,18 @@ class Admin extends BaseController
     {
         $keyword = $this->request->getVar('keyword');
 
+        if ($keyword == 'Ekonomi') {
+            $keyword = 2;
+        } else if ($keyword == 'Kecelakaan') {
+            $keyword = 1;
+        } else if ($keyword == 'Politik') {
+            $keyword = 3;
+        } else if ($keyword == 'Olahraga') {
+            $keyword = 4;
+        }
+
         if ($keyword) {
-            $this->beritaModel->searchDataBerita($keyword);
+            $this->beritaModel->searchDataBeritaModerasi($keyword);
         } else {
             $data_berita_moderasi = $this->beritaModel;
         }
@@ -1941,19 +1957,19 @@ class Admin extends BaseController
     {
         $beritaGagalModerasi = $this->beritaModel->getBeritaBySlug($slug);
 
-        $data_tags_berita = $this->tagsBeritaModel->getTagsById($beritaGagalModerasi['id_berita']);
+        $builder = $this->beritaModel->table('tb_berita');
 
-        foreach ($data_tags_berita as $value) {
-            if ($beritaGagalModerasi['id_berita'] == $value['berita_id']) {
-                $this->tagsBeritaModel->hapus_tags($value['id_tags_berita']);
-            }
-        }
+        $data = [
+            'status_berita' => 2
+        ];
 
-        unlink('assets/images/resource_berita/' . $beritaGagalModerasi['gambar_berita']);
+        $where = ['id_berita' => $beritaGagalModerasi['id_berita']];
 
-        $this->beritaModel->delete_berita($slug);
+        $builder->set($data)
+            ->where($where)
+            ->update();
 
-        session()->setFlashdata('success', 'Data Berita Gagal Dimoderasi.');
+        session()->setFlashdata('success', 'Moderasi Data Berita Ditolak');
 
         return redirect()->to('/admin/moderasi_berita');
     }
