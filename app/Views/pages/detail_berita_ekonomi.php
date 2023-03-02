@@ -13,7 +13,8 @@
                                     <?= $detailEkonomi['judul_berita']; ?>
                                 </h1>
                                 <p class="fs-13 text-muted mb-0 mt-2">
-                                    <span class="mr-2"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_2(date($detailEkonomi['tanggal_buat'])); ?>
+                                    <span class="mr-1"><i class="fa-solid fa-clock"></i> </span><?= tgl_indo_model_2(date($detailEkonomi['tanggal_buat'])); ?>
+                                    <span class="mr-1 ml-1"><i class="fas fa-eye"></i> </span><?= $detailEkonomi['banyak_dilihat']; ?> Views
                                 </p>
                                 <img src="/assets/images/resource_berita/<?= $detailEkonomi['gambar_berita']; ?>" alt="banner" class="img-fluid mt-4 mb-4" />
                                 <div style="text-align: justify; line-height: 1.7;">
@@ -59,7 +60,6 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <h5 class="font-weight-600">Jumlah View : <?= $detailEkonomi['banyak_dilihat']; ?></h5>
                                 <div class="comment-section">
                                     <?php if (in_groups('User') || in_groups('Admin')) : ?>
                                         <h5 class="font-weight-600">Kolom Komentar</h5>
